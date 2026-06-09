@@ -2,6 +2,7 @@ import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Info } from "lucide-react";
 import GarenaHeader from "@/components/GarenaHeader";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 export const Route = createFileRoute("/idplayer")({
   head: () => ({
@@ -14,6 +15,7 @@ export const Route = createFileRoute("/idplayer")({
 });
 
 function IdPlayerPage() {
+  useFunnelTracking("idplayer");
   const [playerId, setPlayerId] = useState("");
   const navigate = useNavigate();
 
