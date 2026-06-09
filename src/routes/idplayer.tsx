@@ -1,0 +1,82 @@
+import { useState } from "react";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { Info } from "lucide-react";
+import GarenaHeader from "@/components/GarenaHeader";
+
+export const Route = createFileRoute("/idplayer")({
+  head: () => ({
+    meta: [
+      { title: "Identificar cuenta — Free Fire" },
+      { name: "description", content: "Ingresa tu ID de jugador de Free Fire para validar tu cuenta." },
+    ],
+  }),
+  component: IdPlayerPage,
+});
+
+function IdPlayerPage() {
+  const [playerId, setPlayerId] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (playerId.trim()) {
+      navigate({ to: "/recharge" });
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-[#f0f2f5]">
+      <main className="container py-6 md:py-10">
+        <div className="max-w-lg mx-auto">
+          <GarenaHeader />
+
+          <div className="bg-card rounded-2xl shadow-lg p-6 mb-4">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-8 h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold">
+                1
+              </div>
+              <h2 className="text-lg font-bold text-foreground">Ingresar</h2>
+            </div>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <div className="flex items-center justify-between mb-2">
+                  <label className="text-sm text-foreground">ID de jugador</label>
+                  <Info className="w-4 h-4 text-muted-foreground" />
+                </div>
+                <input
+                  type="text"
+                  value={playerId}
+                  onChange={(e) => setPlayerId(e.target.value)}
+                  placeholder="Introduce el ID del jugador."
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full text-lg font-semibold py-3 px-6 rounded-xl bg-primary text-primary-foreground hover:brightness-110 transition-all duration-200"
+              >
+                Iniciar
+              </button>
+            </form>
+          </div>
+
+          <div className="bg-blue-50 border border-blue-100 rounded-2xl p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <span>📊</span>
+              <h3 className="font-bold text-foreground">Resultado del análisis de cuenta</h3>
+            </div>
+            <p className="text-sm text-muted-foreground">
+              Según tu perfil como jugador, tu cuenta califica para bonos variables en recargas (hasta 65%).
+            </p>
+            <p className="text-sm text-muted-foreground mt-2">
+              Para continuar con el proceso de evaluación, ingresa tu ID de Free Fire.
+            </p>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}

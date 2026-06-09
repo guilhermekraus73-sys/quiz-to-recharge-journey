@@ -9,38 +9,135 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RechargeRouteImport } from './routes/recharge'
+import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as IdplayerRouteImport } from './routes/idplayer'
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout-success'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CheckoutPlanIdRouteImport } from './routes/checkout.$planId'
 
+const RechargeRoute = RechargeRouteImport.update({
+  id: '/recharge',
+  path: '/recharge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdplayerRoute = IdplayerRouteImport.update({
+  id: '/idplayer',
+  path: '/idplayer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout-success',
+  path: '/checkout-success',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CheckoutPlanIdRoute = CheckoutPlanIdRouteImport.update({
+  id: '/checkout/$planId',
+  path: '/checkout/$planId',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/checkout-success': typeof CheckoutSuccessRoute
+  '/idplayer': typeof IdplayerRoute
+  '/quiz': typeof QuizRoute
+  '/recharge': typeof RechargeRoute
+  '/checkout/$planId': typeof CheckoutPlanIdRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/checkout-success': typeof CheckoutSuccessRoute
+  '/idplayer': typeof IdplayerRoute
+  '/quiz': typeof QuizRoute
+  '/recharge': typeof RechargeRoute
+  '/checkout/$planId': typeof CheckoutPlanIdRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/checkout-success': typeof CheckoutSuccessRoute
+  '/idplayer': typeof IdplayerRoute
+  '/quiz': typeof QuizRoute
+  '/recharge': typeof RechargeRoute
+  '/checkout/$planId': typeof CheckoutPlanIdRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/checkout-success'
+    | '/idplayer'
+    | '/quiz'
+    | '/recharge'
+    | '/checkout/$planId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/checkout-success'
+    | '/idplayer'
+    | '/quiz'
+    | '/recharge'
+    | '/checkout/$planId'
+  id:
+    | '__root__'
+    | '/'
+    | '/checkout-success'
+    | '/idplayer'
+    | '/quiz'
+    | '/recharge'
+    | '/checkout/$planId'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CheckoutSuccessRoute: typeof CheckoutSuccessRoute
+  IdplayerRoute: typeof IdplayerRoute
+  QuizRoute: typeof QuizRoute
+  RechargeRoute: typeof RechargeRoute
+  CheckoutPlanIdRoute: typeof CheckoutPlanIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/recharge': {
+      id: '/recharge'
+      path: '/recharge'
+      fullPath: '/recharge'
+      preLoaderRoute: typeof RechargeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/idplayer': {
+      id: '/idplayer'
+      path: '/idplayer'
+      fullPath: '/idplayer'
+      preLoaderRoute: typeof IdplayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout-success': {
+      id: '/checkout-success'
+      path: '/checkout-success'
+      fullPath: '/checkout-success'
+      preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -48,22 +145,24 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/checkout/$planId': {
+      id: '/checkout/$planId'
+      path: '/checkout/$planId'
+      fullPath: '/checkout/$planId'
+      preLoaderRoute: typeof CheckoutPlanIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CheckoutSuccessRoute: CheckoutSuccessRoute,
+  IdplayerRoute: IdplayerRoute,
+  QuizRoute: QuizRoute,
+  RechargeRoute: RechargeRoute,
+  CheckoutPlanIdRoute: CheckoutPlanIdRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

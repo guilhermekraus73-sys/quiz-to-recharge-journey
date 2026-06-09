@@ -1,0 +1,32 @@
+import { useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import QuizLanding from "@/components/QuizLanding";
+import QuizQuestions from "@/components/QuizQuestions";
+import QuizResult from "@/components/QuizResult";
+
+type QuizStep = "landing" | "questions" | "result";
+
+export const Route = createFileRoute("/quiz")({
+  head: () => ({
+    meta: [
+      { title: "Quiz Free Fire — Califica tu cuenta" },
+      { name: "description", content: "Descubre si tu cuenta Free Fire califica para hasta 70% de descuento en diamantes." },
+    ],
+  }),
+  component: QuizPage,
+});
+
+function QuizPage() {
+  const [step, setStep] = useState<QuizStep>("landing");
+  return (
+    <div className="min-h-screen bg-background">
+      <main className="container py-8 md:py-12">
+        <div className="max-w-md mx-auto">
+          {step === "landing" && <QuizLanding onStart={() => setStep("questions")} />}
+          {step === "questions" && <QuizQuestions onComplete={() => setStep("result")} />}
+          {step === "result" && <QuizResult />}
+        </div>
+      </main>
+    </div>
+  );
+}
