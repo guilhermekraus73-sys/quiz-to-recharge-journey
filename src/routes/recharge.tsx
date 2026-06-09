@@ -5,6 +5,7 @@ import GarenaHeader from "@/components/GarenaHeader";
 import LiveViewersBadge from "@/components/LiveViewersBadge";
 import SocialProofToasts from "@/components/SocialProofToasts";
 import diamondIcon from "@/assets/diamond-icon.png";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 const packages = [
   { diamonds: "5,600", price: "US$ 9.00", bonus: "1,120" },
@@ -23,6 +24,7 @@ export const Route = createFileRoute("/recharge")({
 });
 
 function RechargePage() {
+  useFunnelTracking("recharge");
   const [selectedPkg, setSelectedPkg] = useState(0);
   const navigate = useNavigate();
 
