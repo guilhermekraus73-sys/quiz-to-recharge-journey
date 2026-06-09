@@ -18,6 +18,7 @@ export const Route = createFileRoute("/quiz")({
 });
 
 function QuizPage() {
+  useFunnelTracking("quiz");
   const [step, setStep] = useState<QuizStep>("landing");
   return (
     <div className="min-h-screen bg-background">
