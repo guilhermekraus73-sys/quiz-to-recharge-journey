@@ -14,7 +14,165 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      funnel_events: {
+        Row: {
+          country: string | null
+          country_code: string | null
+          created_at: string
+          event_type: string
+          id: string
+          ip: string | null
+          metadata: Json | null
+          referrer: string | null
+          session_id: string
+          source: string | null
+          step: string
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+        }
+        Insert: {
+          country?: string | null
+          country_code?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          ip?: string | null
+          metadata?: Json | null
+          referrer?: string | null
+          session_id: string
+          source?: string | null
+          step: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Update: {
+          country?: string | null
+          country_code?: string | null
+          created_at?: string
+          event_type?: string
+          id?: string
+          ip?: string | null
+          metadata?: Json | null
+          referrer?: string | null
+          session_id?: string
+          source?: string | null
+          step?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          amount: number
+          bump_amount: number
+          bump_selected: boolean
+          country: string | null
+          created_at: string
+          currency: string
+          customer_name: string | null
+          delivered: boolean
+          delivered_at: string | null
+          document: string | null
+          email: string
+          id: string
+          ip: string | null
+          plan_id: string
+          plan_name: string
+          player_id: string | null
+          sck: string | null
+          src: string | null
+          status: string
+          stripe_payment_intent_id: string | null
+          stripe_session_id: string | null
+          updated_at: string
+          user_agent: string | null
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
+          utmify_sent_paid: boolean
+          utmify_sent_waiting: boolean
+        }
+        Insert: {
+          amount: number
+          bump_amount?: number
+          bump_selected?: boolean
+          country?: string | null
+          created_at?: string
+          currency?: string
+          customer_name?: string | null
+          delivered?: boolean
+          delivered_at?: string | null
+          document?: string | null
+          email: string
+          id?: string
+          ip?: string | null
+          plan_id: string
+          plan_name: string
+          player_id?: string | null
+          sck?: string | null
+          src?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          utmify_sent_paid?: boolean
+          utmify_sent_waiting?: boolean
+        }
+        Update: {
+          amount?: number
+          bump_amount?: number
+          bump_selected?: boolean
+          country?: string | null
+          created_at?: string
+          currency?: string
+          customer_name?: string | null
+          delivered?: boolean
+          delivered_at?: string | null
+          document?: string | null
+          email?: string
+          id?: string
+          ip?: string | null
+          plan_id?: string
+          plan_name?: string
+          player_id?: string | null
+          sck?: string | null
+          src?: string | null
+          status?: string
+          stripe_payment_intent_id?: string | null
+          stripe_session_id?: string | null
+          updated_at?: string
+          user_agent?: string | null
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
+          utmify_sent_paid?: boolean
+          utmify_sent_waiting?: boolean
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
