@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import QuizLanding from "@/components/QuizLanding";
 import QuizQuestions from "@/components/QuizQuestions";
 import QuizResult from "@/components/QuizResult";
+import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 type QuizStep = "landing" | "questions" | "result";
 
