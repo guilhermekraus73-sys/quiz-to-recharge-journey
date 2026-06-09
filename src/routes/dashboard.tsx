@@ -1,0 +1,729 @@
+import { useEffect, useMemo, useState } from "react";
+import { createFileRoute } from "@tanstack/react-router";
+import { supabase } from "@/integrations/supabase/client";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Badge } from "@/components/ui/badge";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import {
+  Activity,
+  DollarSign,
+  Globe2,
+  Lock,
+  ShoppingCart,
+  TrendingUp,
+  Users,
+} from "lucide-react";
+
+const DASH_AUTH_KEY = "dashboard_authed";
+const DASH_PASSWORD = "admin123";
+
+export const Route = createFileRoute("/dashboard")({
+  head: () => ({ meta: [{ title: "Dashboard — Funil" }] }),
+  component: Dashboard,
+});
+
+type FunnelEvent = {
+  id: string;
+  session_id: string;
+  step: string;
+  event_type: string;
+  country: string | null;
+  country_code: string | null;
+  source: string | null;
+  utm_source: string | null;
+  created_at: string;
+};
+
+type Order = {
+  id: string;
+  email: string;
+  customer_name: string | null;
+  amount: number;
+  currency: string;
+  status: string;
+  country: string | null;
+  plan_name: string;
+  created_at: string;
+  utm_source: string | null;
+  src: string | null;
+};
+
+type DateRange = "today" | "yesterday" | "7d" | "30d" | "custom";
+
+const FUNNEL_STEPS = [
+  { key: "quiz", label: "Quiz" },
+  { key: "idplayer", label: "ID Jugador" },
+  { key: "recharge", label: "Recarga" },
+  { key: "checkout", label: "Checkout" },
+  { key: "checkout-success", label: "Compra ✓" },
+];
+
+const ONLINE_WINDOW_MS = 60_000;
+
+const formatMoney = (cents: number, currency = "USD") =>
+  new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: currency.toUpperCase(),
+  }).format(cents / 100);
+
+const startOfToday = () => {
+  const d = new Date();
+  d.setHours(0, 0, 0, 0);
+  return d;
+};
+
+const getRange = (range: DateRange, customStart?: string, customEnd?: string) => {
+  const now = new Date();
+  const today = startOfToday();
+  switch (range) {
+    case "today":
+      return { from: today, to: now };
+    case "yesterday": {
+      const from = new Date(today);
+      from.setDate(from.getDate() - 1);
+      const to = new Date(today);
+      to.setMilliseconds(-1);
+      return { from, to };
+    }
+    case "7d": {
+      const from = new Date(today);
+      from.setDate(from.getDate() - 6);
+      return { from, to: now };
+    }
+    case "30d": {
+      const from = new Date(today);
+      from.setDate(from.getDate() - 29);
+      return { from, to: now };
+    }
+    case "custom": {
+      const from = customStart ? new Date(customStart) : today;
+      const to = customEnd ? new Date(customEnd + "T23:59:59") : now;
+      return { from, to };
+    }
+  }
+};
+
+const PasswordGate = ({ onAuth }: { onAuth: () => void }) => {
+  const [pwd, setPwd] = useState("");
+  const [error, setError] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (pwd === DASH_PASSWORD) {
+      sessionStorage.setItem(DASH_AUTH_KEY, "1");
+      onAuth();
+    } else {
+      setError(true);
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <Card className="w-full max-w-sm">
+        <CardHeader>
+          <div className="flex items-center gap-2">
+            <Lock className="h-5 w-5 text-primary" />
+            <CardTitle>Dashboard</CardTitle>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit} className="space-y-3">
+            <Input
+              type="password"
+              placeholder="Senha"
+              value={pwd}
+              onChange={(e) => {
+                setPwd(e.target.value);
+                setError(false);
+              }}
+              autoFocus
+            />
+            {error && <p className="text-destructive text-sm">Senha incorreta</p>}
+            <Button type="submit" className="w-full">
+              Entrar
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  );
+};
+
+function Dashboard() {
+  const [authed, setAuthed] = useState(
+    typeof window !== "undefined" && sessionStorage.getItem(DASH_AUTH_KEY) === "1",
+  );
+  const [range, setRange] = useState<DateRange>("today");
+  const [customStart, setCustomStart] = useState("");
+  const [customEnd, setCustomEnd] = useState("");
+
+  const [events, setEvents] = useState<FunnelEvent[]>([]);
+  const [orders, setOrders] = useState<Order[]>([]);
+  const [recentEvents, setRecentEvents] = useState<FunnelEvent[]>([]);
+  const [now, setNow] = useState(Date.now());
+
+  const { from, to } = useMemo(
+    () => getRange(range, customStart, customEnd),
+    [range, customStart, customEnd],
+  );
+
+  useEffect(() => {
+    const t = setInterval(() => setNow(Date.now()), 5_000);
+    return () => clearInterval(t);
+  }, []);
+
+  useEffect(() => {
+    if (!authed) return;
+    let cancelled = false;
+    const load = async () => {
+      const [{ data: ev }, { data: ord }, { data: recent }] = await Promise.all([
+        supabase
+          .from("funnel_events")
+          .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
+          .gte("created_at", from.toISOString())
+          .lte("created_at", to.toISOString())
+          .order("created_at", { ascending: false })
+          .limit(10000),
+        supabase
+          .from("orders")
+          .select("id, email, customer_name, amount, currency, status, country, plan_name, created_at, utm_source, src")
+          .gte("created_at", from.toISOString())
+          .lte("created_at", to.toISOString())
+          .neq("email", "pending@checkout.local")
+          .order("created_at", { ascending: false })
+          .limit(500),
+        supabase
+          .from("funnel_events")
+          .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
+          .gte("created_at", new Date(Date.now() - 5 * 60_000).toISOString())
+          .order("created_at", { ascending: false })
+          .limit(200),
+      ]);
+      if (cancelled) return;
+      setEvents((ev as FunnelEvent[]) || []);
+      setOrders((ord as Order[]) || []);
+      setRecentEvents((recent as FunnelEvent[]) || []);
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [authed, from, to]);
+
+  useEffect(() => {
+    if (!authed) return;
+    const channel = supabase
+      .channel("dashboard-realtime")
+      .on(
+        "postgres_changes",
+        { event: "INSERT", schema: "public", table: "funnel_events" },
+        (payload) => {
+          const ev = payload.new as FunnelEvent;
+          setRecentEvents((prev) => [ev, ...prev].slice(0, 200));
+          const evDate = new Date(ev.created_at);
+          if (evDate >= from && evDate <= to) {
+            setEvents((prev) => [ev, ...prev]);
+          }
+        },
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "orders" },
+        (payload) => {
+          const ord = payload.new as Order;
+          if (!ord) return;
+          const ordDate = new Date(ord.created_at);
+          if (ordDate >= from && ordDate <= to) {
+            setOrders((prev) => {
+              const idx = prev.findIndex((o) => o.id === ord.id);
+              if (idx >= 0) {
+                const copy = [...prev];
+                copy[idx] = ord;
+                return copy;
+              }
+              return [ord, ...prev];
+            });
+          }
+        },
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [authed, from, to]);
+
+  const onlinePerStep = useMemo(() => {
+    const map: Record<string, Set<string>> = {};
+    FUNNEL_STEPS.forEach((s) => (map[s.key] = new Set()));
+    const cutoff = now - ONLINE_WINDOW_MS;
+    for (const ev of recentEvents) {
+      if (new Date(ev.created_at).getTime() >= cutoff && map[ev.step]) {
+        map[ev.step].add(ev.session_id);
+      }
+    }
+    return map;
+  }, [recentEvents, now]);
+
+  const totalOnline = useMemo(() => {
+    const all = new Set<string>();
+    Object.values(onlinePerStep).forEach((set) => set.forEach((id) => all.add(id)));
+    return all.size;
+  }, [onlinePerStep]);
+
+  const stepStats = useMemo(() => {
+    const sessionsByStep: Record<string, Set<string>> = {};
+    FUNNEL_STEPS.forEach((s) => (sessionsByStep[s.key] = new Set()));
+    for (const ev of events) {
+      if (ev.event_type === "view" && sessionsByStep[ev.step]) {
+        sessionsByStep[ev.step].add(ev.session_id);
+      }
+    }
+    return FUNNEL_STEPS.map((s) => ({
+      key: s.key,
+      label: s.label,
+      count: sessionsByStep[s.key].size,
+      online: onlinePerStep[s.key]?.size || 0,
+    }));
+  }, [events, onlinePerStep]);
+
+  const topStep = Math.max(...stepStats.map((s) => s.count), 1);
+
+  const paidOrders = orders.filter((o) => o.status === "paid");
+  const revenue = paidOrders.reduce((sum, o) => sum + o.amount, 0);
+  const avgTicket = paidOrders.length > 0 ? revenue / paidOrders.length : 0;
+
+  const salesByCountry = useMemo(() => {
+    const map = new Map<string, { count: number; revenue: number }>();
+    for (const o of paidOrders) {
+      const key = o.country || "Desconhecido";
+      const existing = map.get(key) || { count: 0, revenue: 0 };
+      existing.count += 1;
+      existing.revenue += o.amount;
+      map.set(key, existing);
+    }
+    return [...map.entries()]
+      .map(([country, v]) => ({ country, ...v }))
+      .sort((a, b) => b.revenue - a.revenue);
+  }, [paidOrders]);
+
+  const visitorsBySource = useMemo(() => {
+    const map = new Map<string, Set<string>>();
+    for (const ev of events) {
+      if (ev.event_type !== "view") continue;
+      const key = ev.source || ev.utm_source || "direct";
+      if (!map.has(key)) map.set(key, new Set());
+      map.get(key)!.add(ev.session_id);
+    }
+    return [...map.entries()]
+      .map(([source, sessions]) => ({ source, count: sessions.size }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+  }, [events]);
+
+  const salesBySource = useMemo(() => {
+    const map = new Map<string, { count: number; revenue: number }>();
+    for (const o of paidOrders) {
+      const key = o.utm_source || o.src || "direct";
+      const existing = map.get(key) || { count: 0, revenue: 0 };
+      existing.count += 1;
+      existing.revenue += o.amount;
+      map.set(key, existing);
+    }
+    return [...map.entries()]
+      .map(([source, v]) => ({ source, ...v }))
+      .sort((a, b) => b.revenue - a.revenue);
+  }, [paidOrders]);
+
+  const visitorsByCountry = useMemo(() => {
+    const map = new Map<string, Set<string>>();
+    for (const ev of events) {
+      if (ev.event_type !== "view") continue;
+      const key = ev.country || ev.country_code || "Desconhecido";
+      if (!map.has(key)) map.set(key, new Set());
+      map.get(key)!.add(ev.session_id);
+    }
+    return [...map.entries()]
+      .map(([country, sessions]) => ({ country, count: sessions.size }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10);
+  }, [events]);
+
+  const conversionRate =
+    stepStats[0].count > 0
+      ? ((paidOrders.length / stepStats[0].count) * 100).toFixed(2)
+      : "0.00";
+
+  const handleLogout = () => {
+    sessionStorage.removeItem(DASH_AUTH_KEY);
+    setAuthed(false);
+  };
+
+  if (!authed) return <PasswordGate onAuth={() => setAuthed(true)} />;
+
+  return (
+    <div className="min-h-screen bg-background">
+      <header className="border-b bg-card">
+        <div className="container py-4 flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
+            <p className="text-sm text-muted-foreground">
+              Acompanhamento do funil em tempo real
+            </p>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/30">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success" />
+              </span>
+              <span className="text-sm font-semibold text-success">{totalOnline} online</span>
+            </div>
+            <Button variant="outline" size="sm" onClick={handleLogout}>
+              Sair
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      <main className="container py-6 space-y-6">
+        <Card>
+          <CardContent className="pt-6">
+            <div className="flex flex-wrap items-end gap-3">
+              <Tabs value={range} onValueChange={(v) => setRange(v as DateRange)}>
+                <TabsList>
+                  <TabsTrigger value="today">Hoje</TabsTrigger>
+                  <TabsTrigger value="yesterday">Ontem</TabsTrigger>
+                  <TabsTrigger value="7d">7 dias</TabsTrigger>
+                  <TabsTrigger value="30d">30 dias</TabsTrigger>
+                  <TabsTrigger value="custom">Personalizado</TabsTrigger>
+                </TabsList>
+              </Tabs>
+              {range === "custom" && (
+                <div className="flex gap-2 items-end">
+                  <div>
+                    <label className="text-xs text-muted-foreground block mb-1">De</label>
+                    <Input
+                      type="date"
+                      value={customStart}
+                      onChange={(e) => setCustomStart(e.target.value)}
+                      className="w-auto"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-xs text-muted-foreground block mb-1">Até</label>
+                    <Input
+                      type="date"
+                      value={customEnd}
+                      onChange={(e) => setCustomEnd(e.target.value)}
+                      className="w-auto"
+                    />
+                  </div>
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Receita</CardTitle>
+              <DollarSign className="h-4 w-4 text-success" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{formatMoney(revenue)}</div>
+              <p className="text-xs text-muted-foreground">{paidOrders.length} vendas</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Ticket médio</CardTitle>
+              <TrendingUp className="h-4 w-4 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{formatMoney(avgTicket)}</div>
+              <p className="text-xs text-muted-foreground">Por venda aprovada</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Visitantes</CardTitle>
+              <Users className="h-4 w-4 text-primary" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{stepStats[0].count}</div>
+              <p className="text-xs text-muted-foreground">Sessões únicas</p>
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Conversão</CardTitle>
+              <Activity className="h-4 w-4 text-success" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{conversionRate}%</div>
+              <p className="text-xs text-muted-foreground">Visita → Compra</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <Activity className="h-5 w-5 text-primary" />
+              Funil em tempo real
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {stepStats.map((stat, idx) => {
+              const pct = (stat.count / topStep) * 100;
+              const prevCount = idx > 0 ? stepStats[idx - 1].count : stat.count;
+              const dropoff =
+                idx > 0 && prevCount > 0 ? ((stat.count / prevCount) * 100).toFixed(1) : null;
+              return (
+                <div key={stat.key} className="space-y-1.5">
+                  <div className="flex items-center justify-between text-sm">
+                    <div className="flex items-center gap-2">
+                      <span className="font-medium text-foreground">
+                        {idx + 1}. {stat.label}
+                      </span>
+                      {stat.online > 0 && (
+                        <Badge
+                          variant="outline"
+                          className="border-success/40 bg-success/10 text-success gap-1.5 px-2"
+                        >
+                          <span className="relative flex h-2 w-2">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
+                          </span>
+                          {stat.online} online
+                        </Badge>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 text-muted-foreground">
+                      {dropoff && <span className="text-xs">{dropoff}%</span>}
+                      <span className="font-bold text-foreground">{stat.count}</span>
+                    </div>
+                  </div>
+                  <div className="h-3 rounded-full bg-muted overflow-hidden">
+                    <div
+                      className="h-full bg-gradient-to-r from-primary to-success transition-all duration-500"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Globe2 className="h-5 w-5 text-primary" />
+                Vendas por país
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {salesByCountry.length === 0 ? (
+                <p className="text-sm text-muted-foreground">Sem vendas no período</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>País</TableHead>
+                      <TableHead className="text-right">Vendas</TableHead>
+                      <TableHead className="text-right">Receita</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {salesByCountry.map((row) => (
+                      <TableRow key={row.country}>
+                        <TableCell className="font-medium">{row.country}</TableCell>
+                        <TableCell className="text-right">{row.count}</TableCell>
+                        <TableCell className="text-right text-success font-semibold">
+                          {formatMoney(row.revenue)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <TrendingUp className="h-5 w-5 text-primary" />
+                Vendas por fonte
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {salesBySource.length === 0 ? (
+                <p className="text-sm text-muted-foreground">Sem vendas no período</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Fonte</TableHead>
+                      <TableHead className="text-right">Vendas</TableHead>
+                      <TableHead className="text-right">Receita</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {salesBySource.map((row) => (
+                      <TableRow key={row.source}>
+                        <TableCell className="font-medium">{row.source}</TableCell>
+                        <TableCell className="text-right">{row.count}</TableCell>
+                        <TableCell className="text-right text-success font-semibold">
+                          {formatMoney(row.revenue)}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5 text-primary" />
+                Visitantes por país
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {visitorsByCountry.length === 0 ? (
+                <p className="text-sm text-muted-foreground">Sem visitantes no período</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>País</TableHead>
+                      <TableHead className="text-right">Sessões</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {visitorsByCountry.map((row) => (
+                      <TableRow key={row.country}>
+                        <TableCell className="font-medium">{row.country}</TableCell>
+                        <TableCell className="text-right">{row.count}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Globe2 className="h-5 w-5 text-primary" />
+                Visitantes por fonte
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {visitorsBySource.length === 0 ? (
+                <p className="text-sm text-muted-foreground">Sem visitantes no período</p>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Fonte</TableHead>
+                      <TableHead className="text-right">Sessões</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {visitorsBySource.map((row) => (
+                      <TableRow key={row.source}>
+                        <TableCell className="font-medium">{row.source}</TableCell>
+                        <TableCell className="text-right">{row.count}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </div>
+
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2">
+              <ShoppingCart className="h-5 w-5 text-primary" />
+              Vendas recentes
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            {orders.length === 0 ? (
+              <p className="text-sm text-muted-foreground">Sem vendas no período</p>
+            ) : (
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Quando</TableHead>
+                    <TableHead>Cliente</TableHead>
+                    <TableHead>País</TableHead>
+                    <TableHead>Plano</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead className="text-right">Valor</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {orders.slice(0, 50).map((o) => (
+                    <TableRow key={o.id}>
+                      <TableCell className="text-xs text-muted-foreground">
+                        {new Date(o.created_at).toLocaleString("pt-BR")}
+                      </TableCell>
+                      <TableCell>
+                        <div className="font-medium text-foreground">{o.customer_name || "—"}</div>
+                        <div className="text-xs text-muted-foreground">{o.email}</div>
+                      </TableCell>
+                      <TableCell>{o.country || "—"}</TableCell>
+                      <TableCell className="text-xs">{o.plan_name}</TableCell>
+                      <TableCell>
+                        <Badge
+                          variant="outline"
+                          className={
+                            o.status === "paid"
+                              ? "border-success/40 bg-success/10 text-success"
+                              : o.status === "failed"
+                                ? "border-destructive/40 bg-destructive/10 text-destructive"
+                                : "border-muted-foreground/30 bg-muted text-muted-foreground"
+                          }
+                        >
+                          {o.status === "paid"
+                            ? "Pago"
+                            : o.status === "failed"
+                              ? "Falhou"
+                              : "Pendente"}
+                        </Badge>
+                      </TableCell>
+                      <TableCell className="text-right font-semibold">
+                        {formatMoney(o.amount, o.currency)}
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            )}
+          </CardContent>
+        </Card>
+      </main>
+    </div>
+  );
+}

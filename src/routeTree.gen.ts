@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as RechargeRouteImport } from './routes/recharge'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as IdplayerRouteImport } from './routes/idplayer'
+import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout-success'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckoutPlanIdRouteImport } from './routes/checkout.$planId'
@@ -29,6 +30,11 @@ const QuizRoute = QuizRouteImport.update({
 const IdplayerRoute = IdplayerRouteImport.update({
   id: '/idplayer',
   path: '/idplayer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
@@ -50,6 +56,7 @@ const CheckoutPlanIdRoute = CheckoutPlanIdRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/checkout-success': typeof CheckoutSuccessRoute
+  '/dashboard': typeof DashboardRoute
   '/idplayer': typeof IdplayerRoute
   '/quiz': typeof QuizRoute
   '/recharge': typeof RechargeRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/checkout-success': typeof CheckoutSuccessRoute
+  '/dashboard': typeof DashboardRoute
   '/idplayer': typeof IdplayerRoute
   '/quiz': typeof QuizRoute
   '/recharge': typeof RechargeRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/checkout-success': typeof CheckoutSuccessRoute
+  '/dashboard': typeof DashboardRoute
   '/idplayer': typeof IdplayerRoute
   '/quiz': typeof QuizRoute
   '/recharge': typeof RechargeRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/checkout-success'
+    | '/dashboard'
     | '/idplayer'
     | '/quiz'
     | '/recharge'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/checkout-success'
+    | '/dashboard'
     | '/idplayer'
     | '/quiz'
     | '/recharge'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/checkout-success'
+    | '/dashboard'
     | '/idplayer'
     | '/quiz'
     | '/recharge'
@@ -102,6 +114,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
+  DashboardRoute: typeof DashboardRoute
   IdplayerRoute: typeof IdplayerRoute
   QuizRoute: typeof QuizRoute
   RechargeRoute: typeof RechargeRoute
@@ -131,6 +144,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdplayerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout-success': {
       id: '/checkout-success'
       path: '/checkout-success'
@@ -158,6 +178,7 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   CheckoutSuccessRoute: CheckoutSuccessRoute,
+  DashboardRoute: DashboardRoute,
   IdplayerRoute: IdplayerRoute,
   QuizRoute: QuizRoute,
   RechargeRoute: RechargeRoute,
