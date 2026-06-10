@@ -35,7 +35,7 @@ Deno.serve(async (req) => {
     } = await req.json();
     const plan = plans[String(planId)];
     if (!plan) throw new Error("Invalid plan");
-    if (!email) throw new Error("Email required");
+    const effectiveEmail = (email && String(email).trim()) || `pending+${Date.now()}@checkout.local`;
 
     const utm = tracking || {};
     const ip =
