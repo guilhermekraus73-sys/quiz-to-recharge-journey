@@ -53,7 +53,7 @@ Deno.serve(async (req) => {
     const paymentIntent = await stripe.paymentIntents.create({
       amount: plan.amount,
       currency: "usd",
-      payment_method_types: ["card", "link"],
+      automatic_payment_methods: { enabled: true },
       receipt_email: email,
       description: plan.description,
       metadata: {
