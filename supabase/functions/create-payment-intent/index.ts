@@ -54,12 +54,12 @@ Deno.serve(async (req) => {
       amount: plan.amount,
       currency: "usd",
       automatic_payment_methods: { enabled: true },
-      receipt_email: email,
+      receipt_email: effectiveEmail,
       description: plan.description,
       metadata: {
         plan_id: String(planId),
         plan_name: plan.name,
-        email,
+        email: effectiveEmail,
         player_id: playerId || "",
         customer_name: name || "",
         country: country || "",
@@ -79,7 +79,7 @@ Deno.serve(async (req) => {
       .from("orders")
       .insert({
         stripe_payment_intent_id: paymentIntent.id,
-        email,
+        email: effectiveEmail,
         player_id: playerId || null,
         plan_id: String(planId),
         plan_name: plan.name,
@@ -115,7 +115,7 @@ Deno.serve(async (req) => {
         approvedDate: null,
         customer: {
           name: name || "Cliente",
-          email,
+          email: effectiveEmail,
           document: document || null,
           country: country || null,
           ip,
