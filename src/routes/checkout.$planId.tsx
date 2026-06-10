@@ -247,12 +247,12 @@ function CheckoutPage() {
   }, []);
 
   const formValid = email.trim().length > 3 && name.trim().length > 1;
-  const emailReady = isLikelyValidEmail(email);
 
+  // Initialize PaymentIntent on mount so Apple Pay / Google Pay / Link / card
+  // are all available without requiring the user to type an email first.
   useEffect(() => {
-    if (!emailReady) return;
     if (initKeyRef.current) return;
-    initKeyRef.current = email.trim().toLowerCase();
+    initKeyRef.current = "init";
     setCreatingPaymentIntent(true);
     setInitError(null);
 
@@ -264,8 +264,8 @@ function CheckoutPage() {
         const { data, error } = await supabase.functions.invoke("create-payment-intent", {
           body: {
             planId: plan.id,
-            email: email.trim(),
-            name: name.trim(),
+            email: "",
+            name: "",
             country,
             tracking,
           },
@@ -287,7 +287,9 @@ function CheckoutPage() {
         setCreatingPaymentIntent(false);
       }
     })();
-  }, [emailReady, country, email, name, plan.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plan.id]);
+
 
   const pendingSyncRef = useRef<Promise<unknown> | null>(null);
 
