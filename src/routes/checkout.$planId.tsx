@@ -247,12 +247,12 @@ function CheckoutPage() {
   }, []);
 
   const formValid = email.trim().length > 3 && name.trim().length > 1;
-  const emailReady = isLikelyValidEmail(email);
 
+  // Initialize PaymentIntent on mount so Apple Pay / Google Pay / Link / card
+  // are all available without requiring the user to type an email first.
   useEffect(() => {
-    if (!emailReady) return;
     if (initKeyRef.current) return;
-    initKeyRef.current = email.trim().toLowerCase();
+    initKeyRef.current = "init";
     setCreatingPaymentIntent(true);
     setInitError(null);
 
@@ -264,8 +264,8 @@ function CheckoutPage() {
         const { data, error } = await supabase.functions.invoke("create-payment-intent", {
           body: {
             planId: plan.id,
-            email: email.trim(),
-            name: name.trim(),
+            email: "",
+            name: "",
             country,
             tracking,
           },
@@ -287,7 +287,9 @@ function CheckoutPage() {
         setCreatingPaymentIntent(false);
       }
     })();
-  }, [emailReady, country, email, name, plan.id]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [plan.id]);
+
 
   const pendingSyncRef = useRef<Promise<unknown> | null>(null);
 
@@ -383,7 +385,47 @@ function CheckoutPage() {
           </div>
 
           <div className="bg-card rounded-2xl shadow-lg p-6 space-y-6">
-            <div className="space-y-4">
+            <div>
+              <h3 className="text-base font-semibold text-foreground mb-4">Forma de pago</h3>
+
+              {initError && (
+                <p className="text-sm text-destructive bg-destructive/10 border border-destructive/30 rounded-lg px-3 py-2">
+                  {initError}
+                </p>
+              )}
+
+              {!clientSecret && !initError && (
+                <div className="space-y-3 animate-pulse">
+                  <div className="h-12 rounded-xl bg-muted" />
+                  <div className="h-12 rounded-xl bg-muted" />
+                  <div className="h-12 rounded-xl bg-muted" />
+                  {creatingPaymentIntent && (
+                    <p className="text-xs text-muted-foreground">Preparando pago seguro...</p>
+                  )}
+                </div>
+              )}
+
+              {clientSecret && stripePromise && paymentIntentId && (
+                <Elements stripe={stripePromise} options={elementsOptions}>
+                  <PaymentSection
+                    displayPrice={displayPrice}
+                    paymentIntentId={paymentIntentId}
+                    email={email}
+                    name={name}
+                    formValid={formValid}
+                    ensureAmountSynced={ensureAmountSynced}
+                  />
+                </Elements>
+              )}
+
+              {clientSecret && !formValid && (
+                <p className="mt-3 text-xs text-muted-foreground">
+                  Completa tu correo y nombre abajo para pagar con tarjeta. Apple Pay, Google Pay y Link ya están disponibles.
+                </p>
+              )}
+            </div>
+
+            <div className="border-t border-border pt-6 space-y-4">
               <h3 className="text-base font-semibold text-foreground">Tus datos</h3>
 
               <div>
@@ -465,53 +507,8 @@ function CheckoutPage() {
                 </div>
               </div>
             </button>
-
-            <div className="border-t border-border pt-6">
-              <h3 className="text-base font-semibold text-foreground mb-4">Forma de pago</h3>
-
-              {initError && (
-                <p className="text-sm text-destructive bg-destructive/10 border border-destructive/30 rounded-lg px-3 py-2">
-                  {initError}
-                </p>
-              )}
-
-              {!emailReady && !clientSecret && !initError && (
-                <p className="text-sm text-muted-foreground bg-muted/60 border border-border rounded-lg px-3 py-3">
-                  Ingresa tu correo para ver Apple Pay, Google Pay y tarjetas.
-                </p>
-              )}
-
-              {emailReady && !clientSecret && !initError && (
-                <div className="space-y-3 animate-pulse">
-                  <div className="h-12 rounded-xl bg-muted" />
-                  <div className="h-12 rounded-xl bg-muted" />
-                  <div className="h-12 rounded-xl bg-muted" />
-                  {creatingPaymentIntent && (
-                    <p className="text-xs text-muted-foreground">Preparando pago seguro...</p>
-                  )}
-                </div>
-              )}
-
-              {clientSecret && stripePromise && paymentIntentId && (
-                <Elements stripe={stripePromise} options={elementsOptions}>
-                  <PaymentSection
-                    displayPrice={displayPrice}
-                    paymentIntentId={paymentIntentId}
-                    email={email}
-                    name={name}
-                    formValid={formValid}
-                    ensureAmountSynced={ensureAmountSynced}
-                  />
-                </Elements>
-              )}
-
-              {clientSecret && !formValid && (
-                <p className="mt-3 text-xs text-muted-foreground">
-                  Completa tu nombre para activar el botón de pago con tarjeta.
-                </p>
-              )}
-            </div>
           </div>
+
         </div>
       </main>
 
