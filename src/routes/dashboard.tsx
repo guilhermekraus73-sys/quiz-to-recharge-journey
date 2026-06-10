@@ -477,55 +477,152 @@ function Dashboard() {
           </Card>
         </div>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Activity className="h-5 w-5 text-primary" />
-              Funil em tempo real
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {stepStats.map((stat, idx) => {
-              const pct = (stat.count / topStep) * 100;
-              const prevCount = idx > 0 ? stepStats[idx - 1].count : stat.count;
-              const dropoff =
-                idx > 0 && prevCount > 0 ? ((stat.count / prevCount) * 100).toFixed(1) : null;
-              return (
-                <div key={stat.key} className="space-y-1.5">
-                  <div className="flex items-center justify-between text-sm">
-                    <div className="flex items-center gap-2">
-                      <span className="font-medium text-foreground">
-                        {idx + 1}. {stat.label}
-                      </span>
-                      {stat.online > 0 && (
-                        <Badge
-                          variant="outline"
-                          className="border-success/40 bg-success/10 text-success gap-1.5 px-2"
+        {(() => {
+          const STEP_COLORS = [
+            { dot: "bg-sky-400", text: "text-sky-400", glow: "shadow-sky-500/30" },
+            { dot: "bg-violet-400", text: "text-violet-400", glow: "shadow-violet-500/30" },
+            { dot: "bg-pink-400", text: "text-pink-400", glow: "shadow-pink-500/30" },
+            { dot: "bg-amber-400", text: "text-amber-400", glow: "shadow-amber-500/30" },
+            { dot: "bg-emerald-400", text: "text-emerald-400", glow: "shadow-emerald-500/30" },
+          ];
+          return (
+            <>
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex flex-wrap items-center gap-2">
+                    <span className="relative flex h-2.5 w-2.5">
+                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
+                      <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success" />
+                    </span>
+                    Comportamento do cliente em tempo real
+                    <span className="text-xs font-semibold text-success/80 tracking-widest">
+                      AO VIVO · 90S
+                    </span>
+                    <span className="ml-auto text-xs text-muted-foreground rounded-full border px-3 py-1">
+                      Últimos 90s
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="relative pt-2">
+                    {/* connecting line */}
+                    <div className="absolute left-[10%] right-[10%] top-[34px] h-px bg-border" />
+                    <div className="relative grid grid-cols-5 gap-2">
+                      {stepStats.map((stat, idx) => {
+                        const c = STEP_COLORS[idx];
+                        const active = stat.online > 0;
+                        return (
+                          <div key={stat.key} className="flex flex-col items-center gap-2">
+                            <div
+                              className={`relative h-16 w-16 rounded-full grid place-items-center transition-all ${
+                                active
+                                  ? `bg-gradient-to-br from-background to-card ring-2 ring-offset-2 ring-offset-background shadow-lg ${c.glow}`
+                                  : "bg-muted/40"
+                              }`}
+                              style={
+                                active
+                                  ? { boxShadow: `0 0 24px -4px currentColor` }
+                                  : undefined
+                              }
+                            >
+                              {active && (
+                                <span
+                                  className={`absolute inset-0 rounded-full ${c.dot} opacity-20 animate-ping`}
+                                />
+                              )}
+                              <span
+                                className={`relative text-2xl font-black ${
+                                  active ? c.text : "text-muted-foreground/60"
+                                }`}
+                              >
+                                {stat.online}
+                              </span>
+                            </div>
+                            <span className="text-xs sm:text-sm text-muted-foreground text-center">
+                              {stat.label}
+                            </span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center justify-between gap-2">
+                    <span className="flex items-center gap-2">
+                      <Users className="h-5 w-5 text-primary" />
+                      Acessos por etapa
+                    </span>
+                    <span className="text-xs font-normal text-muted-foreground">
+                      sessões únicas
+                    </span>
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3">
+                    {stepStats.map((stat, idx) => {
+                      const c = STEP_COLORS[idx];
+                      return (
+                        <div
+                          key={stat.key}
+                          className="rounded-xl border bg-card/60 px-4 py-3 flex flex-col gap-2"
                         >
-                          <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-success" />
+                          <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                            <span className={`h-2 w-2 rounded-full ${c.dot}`} />
+                            {stat.label}
+                          </div>
+                          <div className="text-3xl font-black text-foreground">{stat.count}</div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card>
+                <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                    <Activity className="h-5 w-5 text-primary" />
+                    Funil de conversão
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {stepStats.map((stat, idx) => {
+                    const pct = (stat.count / topStep) * 100;
+                    const prevCount = idx > 0 ? stepStats[idx - 1].count : stat.count;
+                    const dropoff =
+                      idx > 0 && prevCount > 0
+                        ? ((stat.count / prevCount) * 100).toFixed(1)
+                        : null;
+                    return (
+                      <div key={stat.key} className="space-y-1.5">
+                        <div className="flex items-center justify-between text-sm">
+                          <span className="font-medium text-foreground">
+                            {idx + 1}. {stat.label}
                           </span>
-                          {stat.online} online
-                        </Badge>
-                      )}
-                    </div>
-                    <div className="flex items-center gap-3 text-muted-foreground">
-                      {dropoff && <span className="text-xs">{dropoff}%</span>}
-                      <span className="font-bold text-foreground">{stat.count}</span>
-                    </div>
-                  </div>
-                  <div className="h-3 rounded-full bg-muted overflow-hidden">
-                    <div
-                      className="h-full bg-gradient-to-r from-primary to-success transition-all duration-500"
-                      style={{ width: `${pct}%` }}
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </CardContent>
-        </Card>
+                          <div className="flex items-center gap-3 text-muted-foreground">
+                            {dropoff && <span className="text-xs">{dropoff}%</span>}
+                            <span className="font-bold text-foreground">{stat.count}</span>
+                          </div>
+                        </div>
+                        <div className="h-3 rounded-full bg-muted overflow-hidden">
+                          <div
+                            className="h-full bg-gradient-to-r from-primary to-success transition-all duration-500"
+                            style={{ width: `${pct}%` }}
+                          />
+                        </div>
+                      </div>
+                    );
+                  })}
+                </CardContent>
+              </Card>
+            </>
+          );
+        })()}
+
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <Card>
