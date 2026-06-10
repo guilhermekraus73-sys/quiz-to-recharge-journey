@@ -68,7 +68,7 @@ const FUNNEL_STEPS = [
   { key: "checkout-success", label: "Compra ✓" },
 ];
 
-const ONLINE_WINDOW_MS = 60_000;
+const ONLINE_WINDOW_MS = 90_000;
 
 const formatMoney = (cents: number, currency = "USD") =>
   new Intl.NumberFormat("en-US", {
@@ -178,9 +178,31 @@ function Dashboard() {
   );
 
   useEffect(() => {
-    const t = setInterval(() => setNow(Date.now()), 5_000);
+    const t = setInterval(() => setNow(Date.now()), 2_000);
     return () => clearInterval(t);
   }, []);
+
+  // Poll recent events every 10s so the "real-time" window stays accurate
+  // even if realtime drops an insert.
+  useEffect(() => {
+    if (!authed) return;
+    let cancelled = false;
+    const fetchRecent = async () => {
+      const { data } = await supabase
+        .from("funnel_events")
+        .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
+        .gte("created_at", new Date(Date.now() - 2 * 60_000).toISOString())
+        .order("created_at", { ascending: false })
+        .limit(500);
+      if (cancelled) return;
+      setRecentEvents((data as FunnelEvent[]) || []);
+    };
+    const t = setInterval(fetchRecent, 10_000);
+    return () => {
+      cancelled = true;
+      clearInterval(t);
+    };
+  }, [authed]);
 
   useEffect(() => {
     if (!authed) return;
