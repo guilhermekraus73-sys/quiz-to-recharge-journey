@@ -68,7 +68,7 @@ const FUNNEL_STEPS = [
   { key: "checkout-success", label: "Compra ✓" },
 ];
 
-const ONLINE_WINDOW_MS = 60_000;
+const ONLINE_WINDOW_MS = 90_000;
 
 const formatMoney = (cents: number, currency = "USD") =>
   new Intl.NumberFormat("en-US", {
