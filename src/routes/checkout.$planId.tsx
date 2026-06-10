@@ -355,38 +355,38 @@ function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="bg-destructive text-destructive-foreground py-3">
-        <div className="container flex items-center justify-center gap-3">
-          <span className="text-2xl md:text-3xl font-bold font-mono">{formatTime(timeLeft)}</span>
-          <Clock className="w-5 h-5" />
-          <span className="font-medium text-sm md:text-base">PROMOCIÓN SOLO HOY</span>
+      <div className="bg-destructive text-destructive-foreground py-2.5 sm:py-3 sticky top-0 z-30">
+        <div className="container flex items-center justify-center gap-2 sm:gap-3">
+          <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
+          <span className="text-xl sm:text-3xl font-bold font-mono leading-none">{formatTime(timeLeft)}</span>
+          <span className="font-medium text-xs sm:text-base">PROMOCIÓN SOLO HOY</span>
         </div>
       </div>
 
-      <main className="container py-6 md:py-10">
+      <main className="container py-4 sm:py-6 md:py-10">
         <div className="max-w-lg mx-auto">
-          <img src={membershipsBanner} alt="Membresías Free Fire" className="w-full rounded-xl mb-6 shadow-md" />
-          <LiveViewersBadge className="mb-4" />
+          <img src={membershipsBanner} alt="Membresías Free Fire" className="w-full rounded-xl mb-4 sm:mb-6 shadow-md" />
+          <LiveViewersBadge className="mb-3 sm:mb-4" />
 
-          <div className="bg-card rounded-2xl shadow-lg p-6 mb-6">
-            <div className="flex items-start gap-4">
-              <img src={diamondIcon} alt="Diamantes" className="w-14 h-14 object-contain" />
-              <div className="flex-1">
-                <h2 className="text-lg font-bold text-foreground">Bono de Diamantes - Free Fire</h2>
-                <p className="text-muted-foreground text-sm">
+          <div className="bg-card rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+            <div className="flex items-start gap-3 sm:gap-4">
+              <img src={diamondIcon} alt="Diamantes" className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0" />
+              <div className="flex-1 min-w-0">
+                <h2 className="text-base sm:text-lg font-bold text-foreground leading-tight">Bono de Diamantes - Free Fire</h2>
+                <p className="text-muted-foreground text-xs sm:text-sm mt-0.5">
                   {plan.diamonds} + {plan.bonus} Bonus
                 </p>
                 {bumpSelected && (
-                  <p className="text-success text-sm font-medium mt-1">+ 1,000 diamantes extras 🎁</p>
+                  <p className="text-success text-xs sm:text-sm font-medium mt-1">+ 1,000 diamantes extras 🎁</p>
                 )}
-                <p className="text-success font-bold text-lg mt-1">Total: $ {displayPrice} USD</p>
+                <p className="text-success font-bold text-base sm:text-lg mt-1">Total: $ {displayPrice} USD</p>
               </div>
             </div>
           </div>
 
-          <div className="bg-card rounded-2xl shadow-lg p-6 space-y-6">
+          <div className="bg-card rounded-2xl shadow-lg p-4 sm:p-6 space-y-5 sm:space-y-6">
             <div>
-              <h3 className="text-base font-semibold text-foreground mb-4">Forma de pago</h3>
+              <h3 className="text-sm sm:text-base font-semibold text-foreground mb-3 sm:mb-4">Forma de pago</h3>
 
               {initError && (
                 <p className="text-sm text-destructive bg-destructive/10 border border-destructive/30 rounded-lg px-3 py-2">
@@ -419,14 +419,14 @@ function CheckoutPage() {
               )}
 
               {clientSecret && !formValid && (
-                <p className="mt-3 text-xs text-muted-foreground">
+                <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
                   Completa tu correo y nombre abajo para pagar con tarjeta. Apple Pay, Google Pay y Link ya están disponibles.
                 </p>
               )}
             </div>
 
-            <div className="border-t border-border pt-6 space-y-4">
-              <h3 className="text-base font-semibold text-foreground">Tus datos</h3>
+            <div className="border-t border-border pt-5 sm:pt-6 space-y-4">
+              <h3 className="text-sm sm:text-base font-semibold text-foreground">Tus datos</h3>
 
               <div>
                 <label className="block text-sm font-medium text-foreground mb-1">
@@ -434,10 +434,12 @@ function CheckoutPage() {
                 </label>
                 <input
                   type="email"
+                  inputMode="email"
+                  autoComplete="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="Ingresa tu correo"
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                   required
                 />
               </div>
@@ -446,10 +448,11 @@ function CheckoutPage() {
                 <label className="block text-sm font-medium text-foreground mb-1">Nombre completo</label>
                 <input
                   type="text"
+                  autoComplete="name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   placeholder="Ingresa tu nombre"
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground text-base placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                   required
                 />
               </div>
@@ -459,7 +462,7 @@ function CheckoutPage() {
                 <select
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
-                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground text-base focus:outline-none focus:ring-2 focus:ring-primary/50"
                 >
                   {countries.map((c) => (
                     <option key={c.name} value={c.name}>
