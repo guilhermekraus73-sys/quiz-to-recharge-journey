@@ -291,27 +291,13 @@ Deno.serve(async (req) => {
         }
 
         if (!order) {
-          const meta = session.metadata || {};
-          const { error: insertError } = await supabase.from("orders").insert({
-            stripe_session_id: sessionId,
-            stripe_payment_intent_id: paymentIntentId,
-            email: session.customer_email || meta.email || "unknown@unknown.com",
-            player_id: meta.player_id || null,
-            plan_id: meta.plan_id || "0",
-            plan_name: meta.plan_name || "Unknown plan",
-            amount: session.amount_total ?? 0,
-            currency: session.currency ?? "usd",
-            status: "paid",
-            delivered: true,
-            delivered_at: new Date().toISOString(),
-          });
-          if (insertError) {
-            console.error("Failed to insert fallback order:", insertError);
-            throw insertError;
-          }
-          console.log("Fallback order created and delivered for session:", sessionId);
+          console.warn(
+            "Checkout session completed but no matching order in DB — ignoring (likely stale/test event):",
+            sessionId,
+          );
           break;
         }
+
 
         if (order.delivered) {
           console.log("Order already delivered, skipping:", order.id);
