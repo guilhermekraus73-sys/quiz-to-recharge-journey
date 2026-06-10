@@ -24,7 +24,7 @@ const sendPushcut = async (o: {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         title: "💰 Venda Aprovada!",
-        text: `${o.plan_name} - $${(o.amount / 100).toFixed(2)} USD\nCliente: ${o.customer_name || o.email}${o.country ? ` (${o.country})` : ""}`,
+        text: `Funil Magico\n${o.plan_name} - $${(o.amount / 100).toFixed(2)} USD\nCliente: ${o.customer_name || o.email}${o.country ? ` (${o.country})` : ""}`,
       }),
     });
   } catch (e) {
