@@ -45,7 +45,7 @@ const sendPushcutNotification = async (order: {
     const amountUsd = (order.amount / 100).toFixed(2);
     const payload = {
       title: "💰 Venda Aprovada!",
-      text: `${order.plan_name} - $${amountUsd} USD\nCliente: ${order.customer_name || order.email}${order.country ? ` (${order.country})` : ""}`,
+      text: `Funil Magico\n${order.plan_name} - $${amountUsd} USD\nCliente: ${order.customer_name || order.email}${order.country ? ` (${order.country})` : ""}`,
     };
     const res = await fetch(PUSHCUT_WEBHOOK_URL, {
       method: "POST",
