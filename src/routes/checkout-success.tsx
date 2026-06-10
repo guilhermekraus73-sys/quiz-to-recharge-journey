@@ -110,9 +110,9 @@ function CheckoutSuccess() {
 
   return (
     <div className="min-h-screen bg-background">
-      <main className="container py-10 md:py-16">
+      <main className="container py-6 sm:py-10 md:py-16">
         <div className="max-w-lg mx-auto">
-          <div className="bg-card rounded-2xl shadow-lg p-8 text-center mb-6">
+          <div className="bg-card rounded-2xl shadow-lg p-6 sm:p-8 text-center mb-4 sm:mb-6">
             {state === "loading" && (
               <>
                 <Loader2 className="w-16 h-16 text-primary mx-auto mb-4 animate-spin" />
