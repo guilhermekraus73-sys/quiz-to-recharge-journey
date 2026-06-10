@@ -80,6 +80,17 @@ function CheckoutSuccess() {
       } else {
         setState("pending");
       }
+
+      // Fallback: ask Stripe directly if the webhook hasn't landed yet
+      if (paymentIntentId) {
+        try {
+          await supabase.functions.invoke("confirm-payment", {
+            body: { paymentIntentId },
+          });
+        } catch (e) {
+          console.warn("confirm-payment fallback failed:", e);
+        }
+      }
       return false;
     };
 
