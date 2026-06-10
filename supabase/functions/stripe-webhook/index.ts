@@ -181,54 +181,13 @@ Deno.serve(async (req) => {
         const approvedAt = new Date();
 
         if (!order) {
-          const bumpSelected = meta.bump_selected === "true";
-          const bumpAmount = Number(meta.bump_amount || "0") || 0;
-          const { data: inserted, error: insertError } = await supabase
-            .from("orders")
-            .insert({
-              stripe_payment_intent_id: pi.id,
-              email: pi.receipt_email || meta.email || "unknown@unknown.com",
-              player_id: meta.player_id || null,
-              plan_id: meta.plan_id || "0",
-              plan_name: meta.plan_name || "Unknown plan",
-              amount: pi.amount,
-              currency: pi.currency,
-              status: "paid",
-              delivered: true,
-              delivered_at: approvedAt.toISOString(),
-              customer_name: meta.customer_name || null,
-              country: meta.country || null,
-              document: meta.document || null,
-              utm_source: meta.utm_source || null,
-              utm_medium: meta.utm_medium || null,
-              utm_campaign: meta.utm_campaign || null,
-              utm_content: meta.utm_content || null,
-              utm_term: meta.utm_term || null,
-              src: meta.src || null,
-              sck: meta.sck || null,
-              utmify_sent_paid: false,
-              bump_selected: bumpSelected,
-              bump_amount: bumpAmount,
-            })
-            .select(ORDER_COLUMNS)
-            .maybeSingle<OrderRow>();
-          if (insertError) {
-            console.error("Failed to insert fallback PI order:", insertError);
-            throw insertError;
-          }
-          console.log("Fallback order created and delivered for PI:", pi.id);
-          if (inserted) {
-            await sendPushcutNotification(inserted);
-            const ok = await sendUtmifyForOrder(inserted, "paid", approvedAt);
-            if (ok) {
-              await supabase
-                .from("orders")
-                .update({ utmify_sent_paid: true })
-                .eq("id", inserted.id);
-            }
-          }
+          console.warn(
+            "PI succeeded but no matching order in DB — ignoring (likely stale/test event):",
+            pi.id,
+          );
           break;
         }
+
 
         if (order.delivered && order.utmify_sent_paid) {
           console.log("Order already delivered & reported, skipping:", order.id);
