@@ -164,7 +164,7 @@ function CheckoutSuccess() {
           </div>
 
           {order && (
-            <div className="bg-card rounded-2xl shadow-lg p-6 mb-6">
+            <div className="bg-card rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
               <h2 className="text-lg font-bold text-foreground mb-4">Detalles del pedido</h2>
 
               <div className="flex items-start gap-4 mb-5 pb-5 border-b border-border">
