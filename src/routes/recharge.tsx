@@ -93,7 +93,7 @@ function RechargePage() {
 
           <button
             onClick={() => navigate({ to: "/checkout/$planId", params: { planId: String(selectedPkg + 1) } })}
-            className="w-full text-lg font-semibold py-4 px-6 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110 transition-all duration-200"
+            className="go-to-checkout w-full text-lg font-semibold py-4 px-6 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110 transition-all duration-200"
           >
             Continuar
           </button>
