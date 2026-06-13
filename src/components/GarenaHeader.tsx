@@ -1,5 +1,5 @@
 import garenaLogo from "@/assets/garena-logo.png";
-import membershipsBanner from "@/assets/memberships-banner.jpg";
+import membershipsBanner from "@/assets/memberships-banner.webp";
 import freefireCharacter from "@/assets/freefire-character.png";
 import freefireBanner from "@/assets/freefire-banner.jpg";
 
