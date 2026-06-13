@@ -102,6 +102,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
     ],
+    scripts: [
+      {
+        src: "https://cdn.utmify.com.br/scripts/utms/latest.js",
+        async: true,
+        defer: true,
+        "data-utmify-prevent-xcod-sck": "",
+        "data-utmify-prevent-subids": "",
+      },
+      {
+        children: 'window.pixelId = "69aa175a67f54164ee4168e0";',
+      },
+      {
+        src: "https://cdn.utmify.com.br/scripts/pixel/pixel.js",
+        async: true,
+        defer: true,
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
