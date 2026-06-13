@@ -102,6 +102,23 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
     ],
+    scripts: [
+      {
+        src: "https://cdn.utmify.com.br/scripts/utms/latest.js",
+        async: true,
+        defer: true,
+        "data-utmify-prevent-xcod-sck": "",
+        "data-utmify-prevent-subids": "",
+      },
+      {
+        children: 'window.pixelId = "69aa175a67f54164ee4168e0";',
+      },
+      {
+        src: "https://cdn.utmify.com.br/scripts/pixel/pixel.js",
+        async: true,
+        defer: true,
+      },
+    ],
   }),
   shellComponent: RootShell,
   component: RootComponent,
@@ -125,33 +142,6 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-
-  useEffect(() => {
-    if (typeof window === "undefined" || typeof document === "undefined") return;
-
-    // UTMify script
-    if (!document.querySelector('script[src="https://cdn.utmify.com.br/scripts/utms/latest.js"]')) {
-      const s1 = document.createElement("script");
-      s1.src = "https://cdn.utmify.com.br/scripts/utms/latest.js";
-      s1.async = true;
-      s1.defer = true;
-      s1.setAttribute("data-utmify-prevent-xcod-sck", "");
-      s1.setAttribute("data-utmify-prevent-subids", "");
-      document.head.appendChild(s1);
-    }
-
-    // UTMify pixel
-    if (!window.pixelId) {
-      window.pixelId = "69aa175a67f54164ee4168e0";
-    }
-    if (!document.querySelector('script[src="https://cdn.utmify.com.br/scripts/pixel/pixel.js"]')) {
-      const s2 = document.createElement("script");
-      s2.src = "https://cdn.utmify.com.br/scripts/pixel/pixel.js";
-      s2.async = true;
-      s2.defer = true;
-      document.head.appendChild(s2);
-    }
-  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
