@@ -15,7 +15,7 @@ import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import { resolveTracking } from "@/lib/tracking";
 import SocialProofToasts from "@/components/SocialProofToasts";
 import LiveViewersBadge from "@/components/LiveViewersBadge";
-import membershipsBanner from "@/assets/memberships-banner.jpg";
+import membershipsBanner from "@/assets/memberships-banner.webp";
 import diamondIcon from "@/assets/diamond-icon.png";
 
 const BUMP_PRICE_USD = 2.99;
