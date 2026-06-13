@@ -87,5 +87,31 @@ export const resolveTracking = (search: URLSearchParams | string): TrackingParam
     const v = (fromUrl && fromUrl.trim()) || stored[key] || undefined;
     if (v) out[key] = v;
   }
+
+  // Fallback: when no utm_source was passed, derive one from the referrer
+  // so Utmify always receives a meaningful traffic source (e.g. "instagram",
+  // "facebook", "direct") instead of an empty value.
+  if (!out.utm_source && typeof document !== "undefined") {
+    const referrer = document.referrer || "";
+    let derived = "direct";
+    if (referrer) {
+      try {
+        const host = new URL(referrer).hostname.replace(/^www\./, "").toLowerCase();
+        if (host.includes("instagram")) derived = "instagram";
+        else if (host.includes("facebook") || host === "m.facebook.com" || host === "l.facebook.com") derived = "facebook";
+        else if (host.includes("tiktok")) derived = "tiktok";
+        else if (host.includes("youtube") || host === "youtu.be") derived = "youtube";
+        else if (host.includes("google")) derived = "google";
+        else if (host.includes("bing")) derived = "bing";
+        else if (host.includes("twitter") || host === "t.co" || host === "x.com") derived = "twitter";
+        else derived = host || "direct";
+      } catch {
+        derived = "direct";
+      }
+    }
+    out.utm_source = derived;
+    if (!out.utm_medium) out.utm_medium = derived === "direct" ? "none" : "social";
+  }
+
   return out;
 };
