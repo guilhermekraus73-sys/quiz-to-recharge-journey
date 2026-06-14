@@ -202,18 +202,35 @@ Deno.serve(async (req) => {
           order.amount !== pi.amount ||
           order.bump_selected !== piBumpSelected ||
           order.bump_amount !== piBumpAmount;
+        const hasTrackingBackfill =
+          (!order.utm_source && meta.utm_source) ||
+          (!order.utm_medium && meta.utm_medium) ||
+          (!order.utm_campaign && meta.utm_campaign) ||
+          (!order.utm_content && meta.utm_content) ||
+          (!order.utm_term && meta.utm_term) ||
+          (!order.src && meta.src) ||
+          (!order.sck && meta.sck);
 
+        const updatePayload: Record<string, unknown> = {};
         if (!order.delivered) {
-          const updatePayload: Record<string, unknown> = {
-            status: "paid",
-            delivered: true,
-            delivered_at: approvedAt.toISOString(),
-          };
-          if (needsAmountSync) {
-            updatePayload.amount = pi.amount;
-            updatePayload.bump_selected = piBumpSelected;
-            updatePayload.bump_amount = piBumpAmount;
-          }
+          updatePayload.status = "paid";
+          updatePayload.delivered = true;
+          updatePayload.delivered_at = approvedAt.toISOString();
+        }
+        if (needsAmountSync) {
+          updatePayload.amount = pi.amount;
+          updatePayload.bump_selected = piBumpSelected;
+          updatePayload.bump_amount = piBumpAmount;
+        }
+        if (!order.utm_source && meta.utm_source) updatePayload.utm_source = meta.utm_source;
+        if (!order.utm_medium && meta.utm_medium) updatePayload.utm_medium = meta.utm_medium;
+        if (!order.utm_campaign && meta.utm_campaign) updatePayload.utm_campaign = meta.utm_campaign;
+        if (!order.utm_content && meta.utm_content) updatePayload.utm_content = meta.utm_content;
+        if (!order.utm_term && meta.utm_term) updatePayload.utm_term = meta.utm_term;
+        if (!order.src && meta.src) updatePayload.src = meta.src;
+        if (!order.sck && meta.sck) updatePayload.sck = meta.sck;
+
+        if (Object.keys(updatePayload).length > 0) {
           const { error: updateError } = await supabase
             .from("orders")
             .update(updatePayload)
@@ -224,13 +241,9 @@ Deno.serve(async (req) => {
             throw updateError;
           }
 
-          // Reflect synced values locally so Utmify gets the right total
-          if (needsAmountSync) {
-            order.amount = pi.amount;
-            order.bump_selected = piBumpSelected;
-            order.bump_amount = piBumpAmount;
-          }
+          Object.assign(order, updatePayload);
 
+          // Reflect synced values locally so Utmify gets the right total
           await sendPushcutNotification(order);
         }
 
