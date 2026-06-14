@@ -19,10 +19,15 @@ function IdPlayerPage() {
   const [playerId, setPlayerId] = useState("");
   const navigate = useNavigate();
 
+  const preserveSearch = () =>
+    typeof window !== "undefined" && window.location.search
+      ? Object.fromEntries(new URLSearchParams(window.location.search).entries())
+      : undefined;
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (playerId.trim()) {
-      navigate({ to: "/recharge" });
+      navigate({ to: "/recharge", search: preserveSearch() });
     }
   };
 
