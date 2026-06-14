@@ -151,7 +151,9 @@ Deno.serve(async (req) => {
       if (ok) {
         await supabase.from("orders").update({ utmify_sent_paid: true }).eq("id", order.id);
       }
-      await sendPushcut(order);
+      // Pushcut is sent exclusively from stripe-webhook to avoid duplicate
+      // notifications (this client-triggered confirm can fire in addition
+      // to the Stripe webhook).
     }
 
     return new Response(
