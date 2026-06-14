@@ -26,7 +26,7 @@ Deno.serve(async (req) => {
     const stripeKey = Deno.env.get("STRIPE_SECRET_KEY");
     if (!stripeKey) throw new Error("STRIPE_SECRET_KEY not configured");
 
-    const { paymentIntentId, email, name, country, bumpSelected } = await req.json();
+    const { paymentIntentId, email, name, country, bumpSelected, tracking } = await req.json();
     if (!paymentIntentId) throw new Error("paymentIntentId required");
 
     const stripe = new Stripe(stripeKey, { apiVersion: "2023-10-16" });
@@ -42,11 +42,19 @@ Deno.serve(async (req) => {
     const cleanName = (name || "").trim();
     const cleanCountry = (country || "").trim();
     const wantsBump = bumpSelected === true;
+    const utm = tracking || {};
 
     const mergedMetadata: Record<string, string> = { ...(current.metadata || {}) };
     if (cleanEmail) mergedMetadata.email = cleanEmail;
     if (cleanName) mergedMetadata.customer_name = cleanName;
     if (cleanCountry) mergedMetadata.country = cleanCountry;
+    if (utm.utm_source) mergedMetadata.utm_source = String(utm.utm_source);
+    if (utm.utm_medium) mergedMetadata.utm_medium = String(utm.utm_medium);
+    if (utm.utm_campaign) mergedMetadata.utm_campaign = String(utm.utm_campaign);
+    if (utm.utm_content) mergedMetadata.utm_content = String(utm.utm_content);
+    if (utm.utm_term) mergedMetadata.utm_term = String(utm.utm_term);
+    if (utm.src) mergedMetadata.src = String(utm.src);
+    if (utm.sck) mergedMetadata.sck = String(utm.sck);
 
     // Compute the correct amount based on plan + bump selection. Always
     // recompute from the base plan price so toggling bump on/off works.
@@ -82,6 +90,13 @@ Deno.serve(async (req) => {
     if (cleanEmail) orderUpdate.email = cleanEmail;
     if (cleanName) orderUpdate.customer_name = cleanName;
     if (cleanCountry) orderUpdate.country = cleanCountry;
+    if (utm.utm_source) orderUpdate.utm_source = String(utm.utm_source);
+    if (utm.utm_medium) orderUpdate.utm_medium = String(utm.utm_medium);
+    if (utm.utm_campaign) orderUpdate.utm_campaign = String(utm.utm_campaign);
+    if (utm.utm_content) orderUpdate.utm_content = String(utm.utm_content);
+    if (utm.utm_term) orderUpdate.utm_term = String(utm.utm_term);
+    if (utm.src) orderUpdate.src = String(utm.src);
+    if (utm.sck) orderUpdate.sck = String(utm.sck);
 
     await supabase
       .from("orders")

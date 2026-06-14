@@ -28,6 +28,11 @@ function RechargePage() {
   const [selectedPkg, setSelectedPkg] = useState(0);
   const navigate = useNavigate();
 
+  const preserveSearch = () =>
+    typeof window !== "undefined" && window.location.search
+      ? Object.fromEntries(new URLSearchParams(window.location.search).entries())
+      : undefined;
+
   return (
     <div className="min-h-screen bg-[#f0f2f5]">
       <main className="container py-4 sm:py-6 md:py-10">
@@ -92,7 +97,13 @@ function RechargePage() {
           </div>
 
           <button
-            onClick={() => navigate({ to: "/checkout/$planId", params: { planId: String(selectedPkg + 1) } })}
+            onClick={() =>
+              navigate({
+                to: "/checkout/$planId",
+                params: { planId: String(selectedPkg + 1) },
+                search: preserveSearch(),
+              })
+            }
             className="go-to-checkout w-full text-base sm:text-lg font-semibold py-3.5 sm:py-4 px-6 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110 transition-all duration-200"
           >
             Continuar

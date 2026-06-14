@@ -295,9 +295,10 @@ function CheckoutPage() {
 
   const runSync = () => {
     if (!paymentIntentId) return Promise.resolve();
+    const tracking = resolveTracking(new URLSearchParams(window.location.search));
     const p = supabase.functions
       .invoke("update-payment-intent", {
-        body: { paymentIntentId, email, name, country, bumpSelected },
+        body: { paymentIntentId, email, name, country, bumpSelected, tracking },
       })
       .catch((err) => console.warn("update-payment-intent failed", err))
       .finally(() => {
