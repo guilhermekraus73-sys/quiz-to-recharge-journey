@@ -10,6 +10,7 @@ const plans: Record<string, { name: string; description: string; amount: number 
   "1": { name: "5,600 Diamantes + 1,120 Bonus", description: "Free Fire - Bono de Diamantes", amount: 900 },
   "2": { name: "11,200 Diamantes + 2,240 Bonus", description: "Free Fire - Bono de Diamantes", amount: 1590 },
   "3": { name: "22,400 Diamantes + 4,480 Bonus", description: "Free Fire - Bono de Diamantes", amount: 1900 },
+  "4": { name: "29,500 Diamantes + 5,900 Bonus", description: "Free Fire - Bono de Diamantes", amount: 2500 },
 };
 
 Deno.serve(async (req) => {
