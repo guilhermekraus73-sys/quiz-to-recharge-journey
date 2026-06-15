@@ -11,6 +11,7 @@ const PLAN_BASE_AMOUNTS: Record<string, number> = {
   "1": 900,
   "2": 1590,
   "3": 1900,
+  "4": 2500,
 };
 
 // Order bump: +1,000 diamantes for +US$ 2.99
