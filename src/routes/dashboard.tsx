@@ -414,29 +414,59 @@ function Dashboard() {
   if (!authed) return <PasswordGate onAuth={() => setAuthed(true)} />;
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b bg-card">
-        <div className="container py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-sm text-muted-foreground">
-              Acompanhamento do funil em tempo real
-            </p>
-          </div>
+    <div className={`${isDark ? "dark" : ""} min-h-screen bg-background text-foreground relative`}>
+      <div className="tech-grid absolute inset-0 pointer-events-none opacity-40" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-70" />
+      <header className="relative border-b border-border/60 bg-card/60 backdrop-blur-xl">
+        <div className="container py-4 flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center tech-glow">
+              <Activity className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-mono">
+                {"// DASHBOARD"}
+              </h1>
+              <p className="text-xs text-muted-foreground font-mono">
+                funil · tempo_real · v2.0
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/30">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success" />
               </span>
-              <span className="text-sm font-semibold text-success">{totalOnline} online</span>
+              <span className="text-sm font-semibold text-success font-mono">{totalOnline} online</span>
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleReload}
+              disabled={reloading}
+              className="gap-2"
+              title="Recarregar dados"
+            >
+              <RefreshCw className={`h-4 w-4 ${reloading ? "animate-spin" : ""}`} />
+              <span className="hidden sm:inline">Recarregar</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+              className="gap-2"
+              title={isDark ? "Modo claro" : "Modo escuro"}
+            >
+              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
             <Button variant="outline" size="sm" onClick={handleLogout}>
               Sair
             </Button>
           </div>
         </div>
       </header>
+
 
       <main className="container py-6 space-y-6">
         <Card>
