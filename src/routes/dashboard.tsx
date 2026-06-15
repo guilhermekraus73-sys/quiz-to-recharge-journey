@@ -220,43 +220,48 @@ function Dashboard() {
     };
   }, [authed]);
 
+  const loadAll = useCallback(async () => {
+    const [{ data: ev }, { data: ord }, { data: recent }] = await Promise.all([
+      supabase
+        .from("funnel_events")
+        .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
+        .gte("created_at", from.toISOString())
+        .lte("created_at", to.toISOString())
+        .order("created_at", { ascending: false })
+        .limit(10000),
+      supabase
+        .from("orders")
+        .select("id, email, customer_name, amount, currency, status, country, plan_name, created_at, utm_source, src")
+        .gte("created_at", from.toISOString())
+        .lte("created_at", to.toISOString())
+        .neq("email", "pending@checkout.local")
+        .order("created_at", { ascending: false })
+        .limit(500),
+      supabase
+        .from("funnel_events")
+        .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
+        .gte("created_at", new Date(Date.now() - 5 * 60_000).toISOString())
+        .order("created_at", { ascending: false })
+        .limit(200),
+    ]);
+    setEvents((ev as FunnelEvent[]) || []);
+    setOrders((ord as Order[]) || []);
+    setRecentEvents((recent as FunnelEvent[]) || []);
+  }, [from, to]);
+
   useEffect(() => {
     if (!authed) return;
-    let cancelled = false;
-    const load = async () => {
-      const [{ data: ev }, { data: ord }, { data: recent }] = await Promise.all([
-        supabase
-          .from("funnel_events")
-          .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
-          .gte("created_at", from.toISOString())
-          .lte("created_at", to.toISOString())
-          .order("created_at", { ascending: false })
-          .limit(10000),
-        supabase
-          .from("orders")
-          .select("id, email, customer_name, amount, currency, status, country, plan_name, created_at, utm_source, src")
-          .gte("created_at", from.toISOString())
-          .lte("created_at", to.toISOString())
-          .neq("email", "pending@checkout.local")
-          .order("created_at", { ascending: false })
-          .limit(500),
-        supabase
-          .from("funnel_events")
-          .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
-          .gte("created_at", new Date(Date.now() - 5 * 60_000).toISOString())
-          .order("created_at", { ascending: false })
-          .limit(200),
-      ]);
-      if (cancelled) return;
-      setEvents((ev as FunnelEvent[]) || []);
-      setOrders((ord as Order[]) || []);
-      setRecentEvents((recent as FunnelEvent[]) || []);
-    };
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, [authed, from, to]);
+    loadAll();
+  }, [authed, loadAll]);
+
+  const handleReload = useCallback(async () => {
+    setReloading(true);
+    try {
+      await loadAll();
+    } finally {
+      setTimeout(() => setReloading(false), 400);
+    }
+  }, [loadAll]);
 
   useEffect(() => {
     if (!authed) return;
