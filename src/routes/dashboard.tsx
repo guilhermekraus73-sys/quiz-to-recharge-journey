@@ -468,7 +468,7 @@ function Dashboard() {
       </header>
 
 
-      <main className="container py-6 space-y-6">
+      <main className="container py-6 space-y-6 relative">
         <Card>
           <CardContent className="pt-6">
             <div className="flex flex-wrap items-end gap-3">
