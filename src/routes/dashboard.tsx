@@ -176,6 +176,17 @@ function Dashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [recentEvents, setRecentEvents] = useState<FunnelEvent[]>([]);
   const [now, setNow] = useState(Date.now());
+  const [reloading, setReloading] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window === "undefined") return "dark";
+    return (localStorage.getItem(DASH_THEME_KEY) as "light" | "dark") || "dark";
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(DASH_THEME_KEY, theme);
+  }, [theme]);
+  const isDark = theme === "dark";
 
   const { from, to } = useMemo(
     () => getRange(range, customStart, customEnd),
