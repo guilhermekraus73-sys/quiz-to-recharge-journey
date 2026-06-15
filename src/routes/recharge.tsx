@@ -11,6 +11,7 @@ const packages = [
   { diamonds: "5,600", price: "US$ 9.00", bonus: "1,120" },
   { diamonds: "11,200", price: "US$ 15.90", bonus: "2,240" },
   { diamonds: "22,400", price: "US$ 19.00", bonus: "4,480" },
+  { diamonds: "29,500", price: "US$ 25.00", bonus: "5,900" },
 ];
 
 export const Route = createFileRoute("/recharge")({
