@@ -386,47 +386,7 @@ function CheckoutPage() {
           </div>
 
           <div className="bg-card rounded-2xl shadow-lg p-4 sm:p-6 space-y-5 sm:space-y-6">
-            <div>
-              <h3 className="text-sm sm:text-base font-semibold text-foreground mb-3 sm:mb-4">Forma de pago</h3>
-
-              {initError && (
-                <p className="text-sm text-destructive bg-destructive/10 border border-destructive/30 rounded-lg px-3 py-2">
-                  {initError}
-                </p>
-              )}
-
-              {!clientSecret && !initError && (
-                <div className="space-y-3 animate-pulse">
-                  <div className="h-12 rounded-xl bg-muted" />
-                  <div className="h-12 rounded-xl bg-muted" />
-                  <div className="h-12 rounded-xl bg-muted" />
-                  {creatingPaymentIntent && (
-                    <p className="text-xs text-muted-foreground">Preparando pago seguro...</p>
-                  )}
-                </div>
-              )}
-
-              {clientSecret && stripePromise && paymentIntentId && (
-                <Elements stripe={stripePromise} options={elementsOptions}>
-                  <PaymentSection
-                    displayPrice={displayPrice}
-                    paymentIntentId={paymentIntentId}
-                    email={email}
-                    name={name}
-                    formValid={formValid}
-                    ensureAmountSynced={ensureAmountSynced}
-                  />
-                </Elements>
-              )}
-
-              {clientSecret && !formValid && (
-                <p className="mt-3 text-xs text-muted-foreground leading-relaxed">
-                  Completa tu correo y nombre abajo para pagar con tarjeta. Apple Pay, Google Pay y Link ya están disponibles.
-                </p>
-              )}
-            </div>
-
-            <div className="border-t border-border pt-5 sm:pt-6 space-y-4">
+            <div className="space-y-4">
               <h3 className="text-sm sm:text-base font-semibold text-foreground">Tus datos</h3>
 
               <div>
@@ -472,6 +432,40 @@ function CheckoutPage() {
                   ))}
                 </select>
               </div>
+            </div>
+
+            <div className="border-t border-border pt-5 sm:pt-6">
+              <h3 className="text-sm sm:text-base font-semibold text-foreground mb-3 sm:mb-4">Forma de pago</h3>
+
+              {initError && (
+                <p className="text-sm text-destructive bg-destructive/10 border border-destructive/30 rounded-lg px-3 py-2">
+                  {initError}
+                </p>
+              )}
+
+              {!clientSecret && !initError && (
+                <div className="space-y-3 animate-pulse">
+                  <div className="h-12 rounded-xl bg-muted" />
+                  <div className="h-12 rounded-xl bg-muted" />
+                  <div className="h-12 rounded-xl bg-muted" />
+                  {creatingPaymentIntent && (
+                    <p className="text-xs text-muted-foreground">Preparando pago seguro...</p>
+                  )}
+                </div>
+              )}
+
+              {clientSecret && stripePromise && paymentIntentId && (
+                <Elements stripe={stripePromise} options={elementsOptions}>
+                  <PaymentSection
+                    displayPrice={displayPrice}
+                    paymentIntentId={paymentIntentId}
+                    email={email}
+                    name={name}
+                    formValid={formValid}
+                    ensureAmountSynced={ensureAmountSynced}
+                  />
+                </Elements>
+              )}
             </div>
 
             <button
