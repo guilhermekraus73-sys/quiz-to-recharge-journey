@@ -11,6 +11,7 @@ const plans: Record<string, { name: string; description: string; amount: number 
   "1": { name: "Método de Mejores Prácticas", description: "Método de Mejores Prácticas", amount: 900 },
   "2": { name: "Método de Mejores Prácticas", description: "Método de Mejores Prácticas", amount: 1590 },
   "3": { name: "Método de Mejores Prácticas", description: "Método de Mejores Prácticas", amount: 1900 },
+  "4": { name: "Método de Mejores Prácticas", description: "Método de Mejores Prácticas", amount: 2500 },
 };
 
 Deno.serve(async (req) => {
