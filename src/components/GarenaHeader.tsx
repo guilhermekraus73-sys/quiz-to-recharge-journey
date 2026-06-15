@@ -1,7 +1,7 @@
 import garenaLogo from "@/assets/garena-logo.png";
 import membershipsBanner from "@/assets/memberships-banner.webp";
 import freefireCharacter from "@/assets/freefire-character.png";
-import freefireBanner from "@/assets/freefire-banner.jpg";
+import freefireBanner from "@/assets/freefire-banner.webp.asset.json";
 
 const GarenaHeader = () => (
   <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
@@ -14,13 +14,13 @@ const GarenaHeader = () => (
     </div>
     <img src={membershipsBanner} alt="Membresías Free Fire" className="w-full rounded-xl shadow-md" />
     <div>
-      <p className="text-xs sm:text-sm text-muted-foreground mb-2">Selección de Juego</p>
-      <div className="inline-flex items-center gap-2 border border-border rounded-full px-3 py-1.5 sm:px-4 sm:py-2 bg-card">
+      <p className="text-sm sm:text-base font-bold text-foreground mb-2">Selección de Juego</p>
+      <div className="inline-flex items-center gap-2 border-2 border-primary rounded-full px-3 py-1.5 sm:px-4 sm:py-2 bg-card">
         <img src={freefireCharacter} alt="Free Fire" className="w-7 h-7 sm:w-8 sm:h-8 object-contain" />
-        <span className="text-foreground font-medium text-sm">Free Fire</span>
+        <span className="text-foreground font-medium text-sm sm:text-base">Free Fire</span>
       </div>
     </div>
-    <img src={freefireBanner} alt="Free Fire" className="w-full rounded-xl shadow-md" loading="lazy" />
+    <img src={freefireBanner.url} alt="Free Fire" className="w-full rounded-xl shadow-md" loading="lazy" />
   </div>
 );
 
