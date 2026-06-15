@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,10 +19,15 @@ import {
   DollarSign,
   Globe2,
   Lock,
+  Moon,
+  RefreshCw,
   ShoppingCart,
+  Sun,
   TrendingUp,
   Users,
 } from "lucide-react";
+
+const DASH_THEME_KEY = "dashboard_theme";
 
 const DASH_AUTH_KEY = "dashboard_authed";
 const DASH_PASSWORD = "admin123";
@@ -171,6 +176,17 @@ function Dashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [recentEvents, setRecentEvents] = useState<FunnelEvent[]>([]);
   const [now, setNow] = useState(Date.now());
+  const [reloading, setReloading] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">(() => {
+    if (typeof window === "undefined") return "dark";
+    return (localStorage.getItem(DASH_THEME_KEY) as "light" | "dark") || "dark";
+  });
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    localStorage.setItem(DASH_THEME_KEY, theme);
+  }, [theme]);
+  const isDark = theme === "dark";
 
   const { from, to } = useMemo(
     () => getRange(range, customStart, customEnd),
@@ -204,43 +220,48 @@ function Dashboard() {
     };
   }, [authed]);
 
+  const loadAll = useCallback(async () => {
+    const [{ data: ev }, { data: ord }, { data: recent }] = await Promise.all([
+      supabase
+        .from("funnel_events")
+        .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
+        .gte("created_at", from.toISOString())
+        .lte("created_at", to.toISOString())
+        .order("created_at", { ascending: false })
+        .limit(10000),
+      supabase
+        .from("orders")
+        .select("id, email, customer_name, amount, currency, status, country, plan_name, created_at, utm_source, src")
+        .gte("created_at", from.toISOString())
+        .lte("created_at", to.toISOString())
+        .neq("email", "pending@checkout.local")
+        .order("created_at", { ascending: false })
+        .limit(500),
+      supabase
+        .from("funnel_events")
+        .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
+        .gte("created_at", new Date(Date.now() - 5 * 60_000).toISOString())
+        .order("created_at", { ascending: false })
+        .limit(200),
+    ]);
+    setEvents((ev as FunnelEvent[]) || []);
+    setOrders((ord as Order[]) || []);
+    setRecentEvents((recent as FunnelEvent[]) || []);
+  }, [from, to]);
+
   useEffect(() => {
     if (!authed) return;
-    let cancelled = false;
-    const load = async () => {
-      const [{ data: ev }, { data: ord }, { data: recent }] = await Promise.all([
-        supabase
-          .from("funnel_events")
-          .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
-          .gte("created_at", from.toISOString())
-          .lte("created_at", to.toISOString())
-          .order("created_at", { ascending: false })
-          .limit(10000),
-        supabase
-          .from("orders")
-          .select("id, email, customer_name, amount, currency, status, country, plan_name, created_at, utm_source, src")
-          .gte("created_at", from.toISOString())
-          .lte("created_at", to.toISOString())
-          .neq("email", "pending@checkout.local")
-          .order("created_at", { ascending: false })
-          .limit(500),
-        supabase
-          .from("funnel_events")
-          .select("id, session_id, step, event_type, country, country_code, source, utm_source, created_at")
-          .gte("created_at", new Date(Date.now() - 5 * 60_000).toISOString())
-          .order("created_at", { ascending: false })
-          .limit(200),
-      ]);
-      if (cancelled) return;
-      setEvents((ev as FunnelEvent[]) || []);
-      setOrders((ord as Order[]) || []);
-      setRecentEvents((recent as FunnelEvent[]) || []);
-    };
-    load();
-    return () => {
-      cancelled = true;
-    };
-  }, [authed, from, to]);
+    loadAll();
+  }, [authed, loadAll]);
+
+  const handleReload = useCallback(async () => {
+    setReloading(true);
+    try {
+      await loadAll();
+    } finally {
+      setTimeout(() => setReloading(false), 400);
+    }
+  }, [loadAll]);
 
   useEffect(() => {
     if (!authed) return;
@@ -393,23 +414,52 @@ function Dashboard() {
   if (!authed) return <PasswordGate onAuth={() => setAuthed(true)} />;
 
   return (
-    <div className="min-h-screen bg-background">
-      <header className="border-b bg-card">
-        <div className="container py-4 flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-sm text-muted-foreground">
-              Acompanhamento do funil em tempo real
-            </p>
-          </div>
+    <div className={`${isDark ? "dark" : ""} min-h-screen bg-background text-foreground relative`}>
+      <div className="tech-grid absolute inset-0 pointer-events-none opacity-40" />
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-primary to-transparent opacity-70" />
+      <header className="relative border-b border-border/60 bg-card/60 backdrop-blur-xl">
+        <div className="container py-4 flex items-center justify-between gap-3 flex-wrap">
           <div className="flex items-center gap-3">
+            <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center tech-glow">
+              <Activity className="h-5 w-5 text-primary-foreground" />
+            </div>
+            <div>
+              <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground font-mono">
+                {"// DASHBOARD"}
+              </h1>
+              <p className="text-xs text-muted-foreground font-mono">
+                funil · tempo_real · v2.0
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-2">
             <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 border border-success/30">
               <span className="relative flex h-2.5 w-2.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-success opacity-75" />
                 <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-success" />
               </span>
-              <span className="text-sm font-semibold text-success">{totalOnline} online</span>
+              <span className="text-sm font-semibold text-success font-mono">{totalOnline} online</span>
             </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleReload}
+              disabled={reloading}
+              className="gap-2"
+              title="Recarregar dados"
+            >
+              <RefreshCw className={`h-4 w-4 ${reloading ? "animate-spin" : ""}`} />
+              <span className="hidden sm:inline">Recarregar</span>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => setTheme(isDark ? "light" : "dark")}
+              className="gap-2"
+              title={isDark ? "Modo claro" : "Modo escuro"}
+            >
+              {isDark ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </Button>
             <Button variant="outline" size="sm" onClick={handleLogout}>
               Sair
             </Button>
@@ -417,7 +467,8 @@ function Dashboard() {
         </div>
       </header>
 
-      <main className="container py-6 space-y-6">
+
+      <main className="container py-6 space-y-6 relative">
         <Card>
           <CardContent className="pt-6">
             <div className="flex flex-wrap items-end gap-3">
