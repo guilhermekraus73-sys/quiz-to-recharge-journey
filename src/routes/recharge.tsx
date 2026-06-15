@@ -67,7 +67,7 @@ function RechargePage() {
               <h2 className="text-base sm:text-lg font-bold text-foreground">Valor de Recarga</h2>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-4">
+            <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
               {packages.map((pkg, i) => (
                 <button
                   key={i}
