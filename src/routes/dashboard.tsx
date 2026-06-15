@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -19,10 +19,15 @@ import {
   DollarSign,
   Globe2,
   Lock,
+  Moon,
+  RefreshCw,
   ShoppingCart,
+  Sun,
   TrendingUp,
   Users,
 } from "lucide-react";
+
+const DASH_THEME_KEY = "dashboard_theme";
 
 const DASH_AUTH_KEY = "dashboard_authed";
 const DASH_PASSWORD = "admin123";
