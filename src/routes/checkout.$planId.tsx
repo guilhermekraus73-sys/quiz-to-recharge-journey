@@ -57,9 +57,6 @@ const plans = [
   { id: 4, diamonds: "29,500", bonus: "5,900", total: "35,400", price: "25.00" },
 ];
 
-const isLikelyValidEmail = (value: string) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value.trim());
-
 export const Route = createFileRoute("/checkout/$planId")({
   head: () => ({
     meta: [{ title: "Checkout — Free Fire" }],
@@ -67,27 +64,56 @@ export const Route = createFileRoute("/checkout/$planId")({
   component: CheckoutPage,
 });
 
+type CreatePIArgs = { isExpress: boolean };
+
 type PaymentSectionProps = {
   displayPrice: string;
-  paymentIntentId: string;
+  planId: number;
   email: string;
   name: string;
+  country: string;
+  bumpSelected: boolean;
   formValid: boolean;
-  ensureAmountSynced: () => Promise<void>;
 };
 
 const PaymentSection = ({
   displayPrice,
-  paymentIntentId,
+  planId,
   email,
   name,
+  country,
+  bumpSelected,
   formValid,
-  ensureAmountSynced,
 }: PaymentSectionProps) => {
   const stripe = useStripe();
   const elements = useElements();
   const [submitting, setSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
+
+  // Create the PaymentIntent only when the user actually attempts to pay.
+  // This dramatically reduces "Incompleto" PaymentIntents in Stripe.
+  const createPaymentIntent = async (
+    overrideEmail?: string,
+    overrideName?: string,
+  ): Promise<{ clientSecret: string; paymentIntentId: string } | null> => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const tracking = resolveTracking(searchParams);
+    const { data, error } = await supabase.functions.invoke("create-payment-intent", {
+      body: {
+        planId,
+        email: (overrideEmail ?? email).trim(),
+        name: (overrideName ?? name).trim(),
+        country,
+        bumpSelected,
+        tracking,
+      },
+    });
+    if (error) throw error;
+    if (!data?.clientSecret || !data?.paymentIntentId) {
+      throw new Error("Respuesta inválida del servidor");
+    }
+    return { clientSecret: data.clientSecret, paymentIntentId: data.paymentIntentId };
+  };
 
   const handlePay = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -98,47 +124,71 @@ const PaymentSection = ({
     }
     setSubmitting(true);
     setErrorMsg(null);
-    await ensureAmountSynced();
-    const { error: submitError } = await elements.submit();
-    if (submitError) {
-      setErrorMsg(submitError.message ?? "Revisa los datos de pago");
-      setSubmitting(false);
-      return;
-    }
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/checkout-success?payment_intent=${paymentIntentId}`,
-        payment_method_data: {
-          billing_details: { email, name },
+    try {
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        setErrorMsg(submitError.message ?? "Revisa los datos de pago");
+        setSubmitting(false);
+        return;
+      }
+      const pi = await createPaymentIntent();
+      if (!pi) {
+        setSubmitting(false);
+        return;
+      }
+      const { error } = await stripe.confirmPayment({
+        elements,
+        clientSecret: pi.clientSecret,
+        confirmParams: {
+          return_url: `${window.location.origin}/checkout-success?payment_intent=${pi.paymentIntentId}`,
+          payment_method_data: {
+            billing_details: { email, name },
+          },
         },
-      },
-    });
-    if (error) {
-      setErrorMsg(error.message ?? "Error al confirmar el pago");
+      });
+      if (error) {
+        setErrorMsg(error.message ?? "Error al confirmar el pago");
+        setSubmitting(false);
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Error al iniciar el pago";
+      setErrorMsg(msg);
       setSubmitting(false);
     }
   };
 
-  const handleExpressConfirm = async () => {
+  const handleExpressConfirm = async (event: { billingDetails?: { email?: string | null; name?: string | null } | null }) => {
     if (!stripe || !elements) return;
     setErrorMsg(null);
     setSubmitting(true);
-    await ensureAmountSynced();
-    const { error: submitError } = await elements.submit();
-    if (submitError) {
-      setErrorMsg(submitError.message ?? "Revisa los datos de pago");
-      setSubmitting(false);
-      return;
-    }
-    const { error } = await stripe.confirmPayment({
-      elements,
-      confirmParams: {
-        return_url: `${window.location.origin}/checkout-success?payment_intent=${paymentIntentId}`,
-      },
-    });
-    if (error) {
-      setErrorMsg(error.message ?? "Error al confirmar el pago");
+    try {
+      const expressEmail = event?.billingDetails?.email || email;
+      const expressName = event?.billingDetails?.name || name || "Cliente";
+      const { error: submitError } = await elements.submit();
+      if (submitError) {
+        setErrorMsg(submitError.message ?? "Revisa los datos de pago");
+        setSubmitting(false);
+        return;
+      }
+      const pi = await createPaymentIntent(expressEmail, expressName);
+      if (!pi) {
+        setSubmitting(false);
+        return;
+      }
+      const { error } = await stripe.confirmPayment({
+        elements,
+        clientSecret: pi.clientSecret,
+        confirmParams: {
+          return_url: `${window.location.origin}/checkout-success?payment_intent=${pi.paymentIntentId}`,
+        },
+      });
+      if (error) {
+        setErrorMsg(error.message ?? "Error al confirmar el pago");
+        setSubmitting(false);
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : "Error al iniciar el pago";
+      setErrorMsg(msg);
       setSubmitting(false);
     }
   };
@@ -209,17 +259,16 @@ function CheckoutPage() {
   const [country, setCountry] = useState("México");
   const [bumpSelected, setBumpSelected] = useState(false);
   const [initError, setInitError] = useState<string | null>(null);
-  const [creatingPaymentIntent, setCreatingPaymentIntent] = useState(false);
 
   const basePriceNumber = parseFloat(plan.price);
   const totalNumber = basePriceNumber + (bumpSelected ? BUMP_PRICE_USD : 0);
+  const totalCents = Math.round(totalNumber * 100);
   const displayPrice = totalNumber.toFixed(2);
 
   const [stripePromise, setStripePromise] = useState<Promise<StripeJs | null> | null>(null);
-  const [clientSecret, setClientSecret] = useState<string | null>(null);
-  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
-  const initKeyRef = useRef<string | null>(null);
+  const stripeInitRef = useRef(false);
 
+  // Detect country from IP for prefill
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -249,88 +298,26 @@ function CheckoutPage() {
 
   const formValid = email.trim().length > 3 && name.trim().length > 1;
 
-  // Initialize PaymentIntent on mount so Apple Pay / Google Pay / Link / card
-  // are all available without requiring the user to type an email first.
+  // Load Stripe.js once with just the publishable key — no PaymentIntent yet.
+  // The PI is created only when the user actually clicks Pay or an Express
+  // Checkout button (Apple Pay / Google Pay / Link).
   useEffect(() => {
-    if (initKeyRef.current) return;
-    initKeyRef.current = "init";
-    setCreatingPaymentIntent(true);
-    setInitError(null);
-
+    if (stripeInitRef.current) return;
+    stripeInitRef.current = true;
     (async () => {
       try {
-        const searchParams = new URLSearchParams(window.location.search);
-        const tracking = resolveTracking(searchParams);
-
-        const { data, error } = await supabase.functions.invoke("create-payment-intent", {
-          body: {
-            planId: plan.id,
-            email: "",
-            name: "",
-            country,
-            tracking,
-          },
-        });
-
+        const { data, error } = await supabase.functions.invoke("stripe-config");
         if (error) throw error;
-        if (!data?.clientSecret || !data?.publishableKey) {
-          throw new Error("Respuesta inválida del servidor");
-        }
+        if (!data?.publishableKey) throw new Error("Falta configuración de pago");
         setStripePromise(loadStripe(data.publishableKey));
-        setClientSecret(data.clientSecret);
-        setPaymentIntentId(data.paymentIntentId);
       } catch (err) {
-        initKeyRef.current = null;
+        stripeInitRef.current = false;
         const msg = err instanceof Error ? err.message : "Error al iniciar el pago";
         setInitError(msg);
         toast.error(msg);
-      } finally {
-        setCreatingPaymentIntent(false);
       }
     })();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [plan.id]);
-
-
-  const pendingSyncRef = useRef<Promise<unknown> | null>(null);
-
-  const runSync = () => {
-    if (!paymentIntentId) return Promise.resolve();
-    const tracking = resolveTracking(new URLSearchParams(window.location.search));
-    const p = supabase.functions
-      .invoke("update-payment-intent", {
-        body: { paymentIntentId, email, name, country, bumpSelected, tracking },
-      })
-      .catch((err) => console.warn("update-payment-intent failed", err))
-      .finally(() => {
-        if (pendingSyncRef.current === p) pendingSyncRef.current = null;
-      });
-    pendingSyncRef.current = p;
-    return p;
-  };
-
-  useEffect(() => {
-    if (!paymentIntentId) return;
-    const handle = setTimeout(() => {
-      runSync();
-    }, 250);
-    return () => clearTimeout(handle);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [email, name, country, paymentIntentId]);
-
-  useEffect(() => {
-    if (!paymentIntentId) return;
-    runSync();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [bumpSelected, paymentIntentId]);
-
-  const ensureAmountSynced = async () => {
-    const fresh = runSync();
-    await fresh;
-    if (pendingSyncRef.current) {
-      await pendingSyncRef.current;
-    }
-  };
+  }, []);
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
@@ -338,21 +325,24 @@ function CheckoutPage() {
     return `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
   };
 
+  // Deferred-intent mode: amount + currency drive Express Checkout / Payment
+  // Element without creating a PaymentIntent. Updating amount re-renders
+  // ExpressCheckoutElement (e.g. when the bump is toggled).
   const elementsOptions = useMemo(
-    () =>
-      clientSecret
-        ? {
-            clientSecret,
-            appearance: {
-              theme: "stripe" as const,
-              variables: {
-                colorPrimary: "hsl(142 71% 45%)",
-                borderRadius: "12px",
-              },
-            },
-          }
-        : undefined,
-    [clientSecret],
+    () => ({
+      mode: "payment" as const,
+      amount: totalCents,
+      currency: "usd",
+      paymentMethodCreation: "manual" as const,
+      appearance: {
+        theme: "stripe" as const,
+        variables: {
+          colorPrimary: "hsl(142 71% 45%)",
+          borderRadius: "12px",
+        },
+      },
+    }),
+    [totalCents],
   );
 
   return (
@@ -444,26 +434,24 @@ function CheckoutPage() {
                 </p>
               )}
 
-              {!clientSecret && !initError && (
+              {!stripePromise && !initError && (
                 <div className="space-y-3 animate-pulse">
                   <div className="h-12 rounded-xl bg-muted" />
                   <div className="h-12 rounded-xl bg-muted" />
                   <div className="h-12 rounded-xl bg-muted" />
-                  {creatingPaymentIntent && (
-                    <p className="text-xs text-muted-foreground">Preparando pago seguro...</p>
-                  )}
                 </div>
               )}
 
-              {clientSecret && stripePromise && paymentIntentId && (
+              {stripePromise && (
                 <Elements stripe={stripePromise} options={elementsOptions}>
                   <PaymentSection
                     displayPrice={displayPrice}
-                    paymentIntentId={paymentIntentId}
+                    planId={plan.id}
                     email={email}
                     name={name}
+                    country={country}
+                    bumpSelected={bumpSelected}
                     formValid={formValid}
-                    ensureAmountSynced={ensureAmountSynced}
                   />
                 </Elements>
               )}
