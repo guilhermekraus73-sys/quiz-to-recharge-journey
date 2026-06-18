@@ -33,10 +33,15 @@ Deno.serve(async (req) => {
       country,
       document,
       tracking,
+      bumpSelected,
     } = await req.json();
     const plan = plans[String(planId)];
     if (!plan) throw new Error("Invalid plan");
     const effectiveEmail = (email && String(email).trim()) || `pending+${Date.now()}@checkout.local`;
+    const wantsBump = bumpSelected === true;
+    const BUMP_AMOUNT_CENTS = 299;
+    const bumpDelta = wantsBump ? BUMP_AMOUNT_CENTS : 0;
+    const finalAmount = plan.amount + bumpDelta;
 
     const utm = tracking || {};
     const ip =
@@ -52,7 +57,7 @@ Deno.serve(async (req) => {
     );
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: plan.amount,
+      amount: finalAmount,
       currency: "usd",
       automatic_payment_methods: { enabled: true },
       receipt_email: effectiveEmail,
@@ -65,6 +70,8 @@ Deno.serve(async (req) => {
         customer_name: name || "",
         country: country || "",
         document: document || "",
+        bump_selected: wantsBump ? "true" : "false",
+        bump_amount: String(bumpDelta),
         utm_source: utm.utm_source || "",
         utm_medium: utm.utm_medium || "",
         utm_campaign: utm.utm_campaign || "",
@@ -84,7 +91,7 @@ Deno.serve(async (req) => {
         player_id: playerId || null,
         plan_id: String(planId),
         plan_name: plan.name,
-        amount: plan.amount,
+        amount: finalAmount,
         currency: "usd",
         status: "pending",
         customer_name: name || null,
@@ -92,6 +99,8 @@ Deno.serve(async (req) => {
         document: document || null,
         ip,
         user_agent: userAgent,
+        bump_selected: wantsBump,
+        bump_amount: bumpDelta,
         utm_source: utm.utm_source || null,
         utm_medium: utm.utm_medium || null,
         utm_campaign: utm.utm_campaign || null,
