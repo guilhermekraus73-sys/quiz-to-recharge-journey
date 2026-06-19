@@ -65,7 +65,7 @@ function RechargePage() {
               <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold shrink-0">
                 2
               </div>
-              <h2 className="text-base sm:text-lg font-bold text-foreground">Valor de Recarga</h2>
+              <h2 className="text-base sm:text-lg font-bold text-foreground">Valor de Recarga (Diamantes + Cubos Mágicos)</h2>
             </div>
 
             <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
@@ -73,19 +73,32 @@ function RechargePage() {
                 <button
                   key={i}
                   onClick={() => setSelectedPkg(i)}
-                  className={`rounded-xl border-2 px-2 py-3 sm:p-4 text-center transition-all ${
+                  className={`rounded-2xl border-2 overflow-hidden text-center transition-all ${
                     selectedPkg === i
-                      ? "border-primary bg-primary/5 shadow-md"
+                      ? "border-primary shadow-lg"
                       : "border-border hover:border-primary/40"
                   }`}
                 >
-                  <div className="flex items-center justify-center gap-1 mb-1">
-                    <img src={diamondIcon} alt="" className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                    <span className="font-bold text-foreground text-xs sm:text-sm leading-none">{pkg.diamonds}</span>
+                  <div className={`bg-gradient-to-r ${pkg.badgeGradient} text-white text-[10px] sm:text-xs font-bold uppercase tracking-wide py-1.5 sm:py-2`}>
+                    {pkg.badge}
                   </div>
-                  <p className="text-primary font-bold text-xs sm:text-sm">{pkg.price}</p>
-                  <p className="text-success text-[10px] sm:text-xs mt-1">+ Bonus</p>
-                  <p className="text-success text-[10px] sm:text-xs font-bold">{pkg.bonus}</p>
+                  <div className="p-2 sm:p-3">
+                    <div className="flex items-center justify-center gap-1 sm:gap-1.5 mb-1">
+                      <img src={diamondIcon} alt="" className="w-4 h-4 sm:w-5 sm:h-5 object-contain" />
+                      <span className="font-bold text-foreground text-sm sm:text-base leading-none">{pkg.diamonds}</span>
+                      <span className="text-muted-foreground font-medium text-sm">+</span>
+                      <img src={cubeIcon} alt="" className="w-4 h-4 sm:w-5 sm:h-5 object-contain" />
+                      <span className="font-bold text-foreground text-sm sm:text-base leading-none">{pkg.cubes}</span>
+                    </div>
+                    <p className="text-violet-500 font-medium text-[10px] sm:text-xs">
+                      {pkg.cubes === 1 ? "Cubo Mágico" : "Cubos Mágicos"}
+                    </p>
+                    <div className="w-12 h-px bg-border mx-auto my-2 sm:my-2.5" />
+                    <p className="text-primary font-extrabold text-xl sm:text-2xl tracking-tight">{pkg.price}</p>
+                    <div className="mt-2 sm:mt-3 bg-orange-50 border border-orange-200 rounded-lg py-1.5 px-2">
+                      <p className="text-orange-500 text-[10px] sm:text-xs font-semibold">+ {pkg.bonus} Diamantes bonus</p>
+                    </div>
+                  </div>
                 </button>
               ))}
             </div>
