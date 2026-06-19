@@ -363,13 +363,20 @@ function CheckoutPage() {
           <LiveViewersBadge className="mb-3 sm:mb-4" />
 
           <div className="bg-card rounded-2xl shadow-lg p-4 sm:p-6 mb-4 sm:mb-6">
+            <div className={`inline-block bg-gradient-to-r ${plan.badgeGradient} text-white text-[10px] sm:text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-3`}>
+              {plan.badge}
+            </div>
             <div className="flex items-start gap-3 sm:gap-4">
               <img src={diamondIcon} alt="Diamantes" className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0" />
               <div className="flex-1 min-w-0">
-                <h2 className="text-base sm:text-lg font-bold text-foreground leading-tight">Bono de Diamantes - Free Fire</h2>
-                <p className="text-muted-foreground text-xs sm:text-sm mt-0.5">
-                  {plan.diamonds} + {plan.bonus} Bonus
-                </p>
+                <h2 className="text-base sm:text-lg font-bold text-foreground leading-tight">Diamantes + Cubos Mágicos — Free Fire</h2>
+                <div className="flex items-center gap-1.5 text-muted-foreground text-xs sm:text-sm mt-1">
+                  <span>{plan.diamonds} Diamantes</span>
+                  <span>+</span>
+                  <img src={cubeIcon} alt="" className="w-3.5 h-3.5 sm:w-4 sm:h-4 object-contain" />
+                  <span>{plan.cubes} {plan.cubes === 1 ? "Cubo Mágico" : "Cubos Mágicos"}</span>
+                </div>
+                <p className="text-muted-foreground text-xs sm:text-sm mt-0.5">+ {plan.bonus} Diamantes bonus</p>
                 {bumpSelected && (
                   <p className="text-success text-xs sm:text-sm font-medium mt-1">+ 1,000 diamantes extras 🎁</p>
                 )}
