@@ -7,31 +7,6 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
-const PUSHCUT_WEBHOOK_URL =
-  "https://api.pushcut.io/NhpL8edG__oFasgz_DOuF/notifications/MinhaNotifica%C3%A7%C3%A3o";
-
-const sendPushcut = async (o: {
-  id: string;
-  email: string;
-  plan_name: string;
-  amount: number;
-  customer_name: string | null;
-  country: string | null;
-}) => {
-  try {
-    await fetch(PUSHCUT_WEBHOOK_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        title: "💰 Venda Aprovada!",
-        text: `Funil Magico\n${o.plan_name} - $${(o.amount / 100).toFixed(2)} USD\nCliente: ${o.customer_name || o.email}${o.country ? ` (${o.country})` : ""}`,
-      }),
-    });
-  } catch (e) {
-    console.error("pushcut:", e);
-  }
-};
-
 // Fallback when Stripe webhook hasn't fired. Looks up the PaymentIntent
 // directly on Stripe and finalizes the order if it's succeeded.
 Deno.serve(async (req) => {
