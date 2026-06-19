@@ -39,7 +39,7 @@ Deno.serve(async () => {
 
   console.log("STRIPE_ENDPOINT_AUDIT", JSON.stringify(endpoints));
 
-  return new Response(JSON.stringify({ ok: true, count: endpoints.length }), {
+  return new Response(JSON.stringify({ ok: true, count: endpoints.length, endpoints }), {
     headers: { "Content-Type": "application/json" },
   });
 });
