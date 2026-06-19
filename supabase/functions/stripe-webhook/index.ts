@@ -211,8 +211,9 @@ Deno.serve(async (req) => {
           (!order.src && meta.src) ||
           (!order.sck && meta.sck);
 
+        const wasNotDelivered = !order.delivered;
         const updatePayload: Record<string, unknown> = {};
-        if (!order.delivered) {
+        if (wasNotDelivered) {
           updatePayload.status = "paid";
           updatePayload.delivered = true;
           updatePayload.delivered_at = approvedAt.toISOString();
@@ -231,20 +232,29 @@ Deno.serve(async (req) => {
         if (!order.sck && meta.sck) updatePayload.sck = meta.sck;
 
         if (Object.keys(updatePayload).length > 0) {
-          const { error: updateError } = await supabase
-            .from("orders")
-            .update(updatePayload)
-            .eq("id", order.id);
+          // Idempotency guard: only mark delivered if the row is still un-delivered.
+          // If a concurrent webhook delivery already flipped it, this update returns 0 rows.
+          let updateQuery = supabase.from("orders").update(updatePayload).eq("id", order.id);
+          if (wasNotDelivered) {
+            updateQuery = updateQuery.eq("delivered", false);
+          }
+          const { data: updatedRows, error: updateError } = await updateQuery.select("id");
 
           if (updateError) {
             console.error("Failed to update order:", updateError);
             throw updateError;
           }
 
+          const didDeliverNow = wasNotDelivered && (updatedRows?.length ?? 0) > 0;
           Object.assign(order, updatePayload);
 
-          // Reflect synced values locally so Utmify gets the right total
-          await sendPushcutNotification(order);
+          // Only notify on the transition from un-delivered -> delivered.
+          if (didDeliverNow) {
+            await sendPushcutNotification(order);
+          } else if (wasNotDelivered) {
+            console.log("Order already delivered by concurrent webhook, skipping notify:", order.id);
+            break;
+          }
         }
 
         console.log(
