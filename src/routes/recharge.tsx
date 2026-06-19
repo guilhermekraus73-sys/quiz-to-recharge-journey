@@ -84,10 +84,10 @@ function RechargePage() {
                   </div>
                   <div className="p-2 sm:p-3">
                     <div className="flex items-center justify-center gap-1 sm:gap-1.5 mb-1">
-                      <img src={diamondIcon} alt="" className="w-4 h-4 sm:w-5 sm:h-5 object-contain" />
+                      <img src={diamondIcon} alt="" className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
                       <span className="font-bold text-foreground text-sm sm:text-base leading-none">{pkg.diamonds}</span>
                       <span className="text-muted-foreground font-medium text-sm">+</span>
-                      <img src={cubeIcon} alt="" className="w-4 h-4 sm:w-5 sm:h-5 object-contain" />
+                      <img src={cubeIcon} alt="" className="w-6 h-6 sm:w-8 sm:h-8 object-contain" />
                       <span className="font-bold text-foreground text-sm sm:text-base leading-none">{pkg.cubes}</span>
                     </div>
                     <p className="text-violet-500 font-medium text-[10px] sm:text-xs">
