@@ -50,11 +50,13 @@ const countries = [
   { code: "GB", flag: "🇬🇧", name: "Reino Unido" },
 ];
 
+import cubeIcon from "@/assets/cube-icon.png";
+
 const plans = [
-  { id: 1, diamonds: "5,600", bonus: "1,120", total: "6,720", price: "9.00" },
-  { id: 2, diamonds: "11,200", bonus: "2,240", total: "13,440", price: "15.90" },
-  { id: 3, diamonds: "22,400", bonus: "4,480", total: "26,880", price: "19.00" },
-  { id: 4, diamonds: "29,500", bonus: "5,900", total: "35,400", price: "25.00" },
+  { id: 1, diamonds: "5.600", cubes: 1, bonus: "1.120", total: "6.720", price: "9.00", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500" },
+  { id: 2, diamonds: "11.200", cubes: 2, bonus: "2.240", total: "13.440", price: "15.90", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500" },
+  { id: 3, diamonds: "22.400", cubes: 4, bonus: "4.480", total: "26.880", price: "19.00", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500" },
+  { id: 4, diamonds: "29.500", cubes: 6, bonus: "5.900", total: "35.400", price: "25.00", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500" },
 ];
 
 export const Route = createFileRoute("/checkout/$planId")({

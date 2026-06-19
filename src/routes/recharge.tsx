@@ -5,13 +5,14 @@ import GarenaHeader from "@/components/GarenaHeader";
 import LiveViewersBadge from "@/components/LiveViewersBadge";
 import SocialProofToasts from "@/components/SocialProofToasts";
 import diamondIcon from "@/assets/diamond-icon.png";
+import cubeIcon from "@/assets/cube-icon.png";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 const packages = [
-  { diamonds: "5,600", price: "US$ 9.00", bonus: "1,120" },
-  { diamonds: "11,200", price: "US$ 15.90", bonus: "2,240" },
-  { diamonds: "22,400", price: "US$ 19.00", bonus: "4,480" },
-  { diamonds: "29,500", price: "US$ 25.00", bonus: "5,900" },
+  { diamonds: "5.600", cubes: 1, price: "$ 9.00", bonus: "1.120", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500" },
+  { diamonds: "11.200", cubes: 2, price: "$ 15.90", bonus: "2.240", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500" },
+  { diamonds: "22.400", cubes: 4, price: "$ 19.00", bonus: "4.480", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500" },
+  { diamonds: "29.500", cubes: 6, price: "$ 25.00", bonus: "5.900", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500" },
 ];
 
 export const Route = createFileRoute("/recharge")({
