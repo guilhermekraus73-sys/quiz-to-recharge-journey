@@ -373,7 +373,7 @@ function CheckoutPage() {
                 <div className="flex items-center gap-1.5 text-muted-foreground text-xs sm:text-sm mt-1">
                   <span>{plan.diamonds} Diamantes</span>
                   <span>+</span>
-                  <img src={cubeIcon} alt="" className="w-3.5 h-3.5 sm:w-4 sm:h-4 object-contain" />
+                  <img src={cubeIcon} alt="" className="w-5 h-5 sm:w-6 sm:h-6 object-contain" />
                   <span>{plan.cubes} {plan.cubes === 1 ? "Cubo Mágico" : "Cubos Mágicos"}</span>
                 </div>
                 <p className="text-muted-foreground text-xs sm:text-sm mt-0.5">+ {plan.bonus} Diamantes bonus</p>
