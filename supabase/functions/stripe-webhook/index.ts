@@ -246,7 +246,9 @@ Deno.serve(async (req) => {
           }
 
           const didDeliverNow = wasNotDelivered && (updatedRows?.length ?? 0) > 0;
-          Object.assign(order, updatePayload);
+          if (updatedRows && updatedRows.length > 0) {
+            Object.assign(order, updatePayload);
+          }
 
           // Only notify on the transition from un-delivered -> delivered.
           if (didDeliverNow) {
