@@ -112,13 +112,9 @@ function RechargePage() {
           </div>
 
           <button
-            onClick={() =>
-              navigate({
-                to: "/checkout/$planId",
-                params: { planId: String(selectedPkg + 1) },
-                search: preserveSearch(),
-              })
-            }
+            onClick={() => {
+              window.location.href = packages[selectedPkg].checkoutUrl;
+            }}
             className="go-to-checkout w-full text-base sm:text-lg font-semibold py-3.5 sm:py-4 px-6 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110 transition-all duration-200"
           >
             Continuar
