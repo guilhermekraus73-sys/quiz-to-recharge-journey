@@ -111,7 +111,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         "data-utmify-prevent-subids": "",
       },
       {
-        children: 'window.pixelId = "69aa175a67f54164ee4168e0";',
+        children: 'window.pixelId = "68966bec0ad50b6867bbee95";',
       },
       {
         src: "https://cdn.utmify.com.br/scripts/pixel/pixel.js",
