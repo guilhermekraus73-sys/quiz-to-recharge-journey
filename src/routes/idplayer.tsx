@@ -64,9 +64,9 @@ function IdPlayerPage() {
 
               <button
                 type="submit"
-                className="w-full text-base sm:text-lg font-semibold py-3 px-6 rounded-xl bg-primary text-primary-foreground hover:brightness-110 transition-all duration-200"
+                className="w-full font-display uppercase tracking-widest text-base sm:text-lg font-bold py-3.5 px-6 rounded-xl bg-gradient-to-r from-primary to-orange-400 text-primary-foreground shadow-[0_8px_24px_rgba(255,122,20,0.35)] hover:brightness-110 active:scale-[0.98] transition-all duration-200"
               >
-                Iniciar
+                Iniciar →
               </button>
             </form>
           </div>
