@@ -32,7 +32,7 @@ function IdPlayerPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5]">
+    <div className="min-h-screen gamer-bg">
       <main className="container py-4 sm:py-6 md:py-10">
         <div className="max-w-lg mx-auto">
           <GarenaHeader />
@@ -64,17 +64,17 @@ function IdPlayerPage() {
 
               <button
                 type="submit"
-                className="w-full text-base sm:text-lg font-semibold py-3 px-6 rounded-xl bg-primary text-primary-foreground hover:brightness-110 transition-all duration-200"
+                className="w-full font-display uppercase tracking-widest text-base sm:text-lg font-bold py-3.5 px-6 rounded-xl bg-gradient-to-r from-primary to-orange-400 text-primary-foreground shadow-[0_8px_24px_rgba(255,122,20,0.35)] hover:brightness-110 active:scale-[0.98] transition-all duration-200"
               >
-                Iniciar
+                Iniciar →
               </button>
             </form>
           </div>
 
-          <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 sm:p-5">
+          <div className="bg-primary/5 border border-primary/30 rounded-2xl p-4 sm:p-5">
             <div className="flex items-center gap-2 mb-2">
               <span>📊</span>
-              <h3 className="font-bold text-foreground text-sm sm:text-base">Resultado del análisis de cuenta</h3>
+              <h3 className="font-display uppercase tracking-wider font-bold text-foreground text-sm sm:text-base">Resultado del análisis de cuenta</h3>
             </div>
             <p className="text-sm text-muted-foreground">
               Según tu perfil como jugador, tu cuenta califica para bonos variables en recargas (hasta 65%).

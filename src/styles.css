@@ -1,3 +1,10 @@
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/rajdhani/500.css";
+@import "@fontsource/rajdhani/600.css";
+@import "@fontsource/rajdhani/700.css";
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
@@ -10,6 +17,8 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   --radius-2xl: calc(var(--radius) + 8px);
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Rajdhani", "Inter", ui-sans-serif, system-ui, sans-serif;
   --color-background: hsl(var(--background));
   --color-foreground: hsl(var(--foreground));
   --color-card: hsl(var(--card));
@@ -36,59 +45,53 @@
 }
 
 :root {
-  --radius: 0.75rem;
-  --background: 225 25% 93%;
-  --foreground: 222 47% 11%;
-  --card: 30 50% 98%;
-  --card-foreground: 222 47% 11%;
-  --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
-  --primary: 28 100% 54%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 30 50% 96%;
-  --secondary-foreground: 222 47% 11%;
-  --muted: 210 20% 92%;
-  --muted-foreground: 215 16% 47%;
-  --accent: 28 100% 54%;
-  --accent-foreground: 0 0% 100%;
-  --destructive: 0 84% 60%;
-  --destructive-foreground: 0 0% 100%;
-  --success: 152 69% 41%;
-  --success-foreground: 0 0% 100%;
-  --warning: 38 92% 50%;
-  --warning-foreground: 0 0% 100%;
-  --border: 30 30% 88%;
-  --input: 30 30% 88%;
-  --ring: 28 100% 54%;
-}
-
-.dark {
-  --background: 222 47% 5%;
-  --foreground: 210 40% 96%;
-  --card: 222 40% 9%;
-  --card-foreground: 210 40% 96%;
-  --popover: 222 40% 9%;
-  --popover-foreground: 210 40% 96%;
-  --primary: 174 90% 50%;
-  --primary-foreground: 222 47% 5%;
-  --secondary: 222 30% 14%;
-  --secondary-foreground: 210 40% 96%;
-  --muted: 222 30% 14%;
-  --muted-foreground: 215 20% 65%;
-  --accent: 280 90% 60%;
-  --accent-foreground: 210 40% 98%;
+  --radius: 0.875rem;
+  /* Gamer dark palette */
+  --background: 240 10% 4%;
+  --foreground: 0 0% 98%;
+  --card: 240 8% 9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 8% 9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 22 100% 54%;
+  --primary-foreground: 0 0% 8%;
+  --secondary: 240 6% 14%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 6% 14%;
+  --muted-foreground: 240 5% 65%;
+  --accent: 22 100% 54%;
+  --accent-foreground: 0 0% 8%;
   --destructive: 0 84% 60%;
   --destructive-foreground: 0 0% 100%;
   --success: 152 80% 50%;
-  --success-foreground: 222 47% 5%;
+  --success-foreground: 240 10% 4%;
   --warning: 38 92% 55%;
-  --warning-foreground: 222 47% 5%;
-  --border: 222 30% 18%;
-  --input: 222 30% 18%;
-  --ring: 174 90% 50%;
+  --warning-foreground: 240 10% 4%;
+  --border: 240 6% 18%;
+  --input: 240 6% 18%;
+  --ring: 22 100% 54%;
 }
 
-.tech-grid {
+@layer base {
+  * {
+    border-color: hsl(var(--border));
+  }
+  html, body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+    font-family: var(--font-sans);
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@utility tech-grid {
   background-image:
     linear-gradient(hsl(var(--border) / 0.5) 1px, transparent 1px),
     linear-gradient(90deg, hsl(var(--border) / 0.5) 1px, transparent 1px);
@@ -96,18 +99,15 @@
   background-position: -1px -1px;
 }
 
-.tech-glow {
-  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.15), 0 0 30px -10px hsl(var(--primary) / 0.4);
+@utility tech-glow {
+  box-shadow: 0 0 0 1px hsl(var(--primary) / 0.2), 0 0 40px -10px hsl(var(--primary) / 0.5);
 }
 
-@layer base {
-  * {
-    border-color: hsl(var(--border));
-  }
-  body {
-    background-color: hsl(var(--background));
-    color: hsl(var(--foreground));
-  }
+@utility gamer-bg {
+  background:
+    radial-gradient(ellipse 80% 50% at 50% -10%, hsl(22 100% 54% / 0.18), transparent 60%),
+    radial-gradient(ellipse 60% 40% at 10% 100%, hsl(22 100% 54% / 0.08), transparent 60%),
+    hsl(var(--background));
 }
 
 @keyframes fade-in {
@@ -116,8 +116,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 20px hsl(28 100% 54% / 0.3); }
-  50% { box-shadow: 0 0 30px hsl(28 100% 54% / 0.5); }
+  0%, 100% { box-shadow: 0 0 20px hsl(22 100% 54% / 0.35); }
+  50% { box-shadow: 0 0 36px hsl(22 100% 54% / 0.7); }
 }
 
 .animate-fade-in {

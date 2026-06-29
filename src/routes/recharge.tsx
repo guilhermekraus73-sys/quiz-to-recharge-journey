@@ -36,7 +36,7 @@ function RechargePage() {
       : undefined;
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5]">
+    <div className="min-h-screen gamer-bg">
       <main className="container py-4 sm:py-6 md:py-10">
         <div className="max-w-lg mx-auto">
           <GarenaHeader />
@@ -73,30 +73,30 @@ function RechargePage() {
                 <button
                   key={i}
                   onClick={() => setSelectedPkg(i)}
-                  className={`rounded-2xl border-2 overflow-hidden text-center transition-all ${
+                  className={`relative rounded-2xl border-2 overflow-hidden text-center transition-all bg-card ${
                     selectedPkg === i
-                      ? "border-primary shadow-lg"
-                      : "border-border hover:border-primary/40"
+                      ? "border-primary shadow-[0_0_24px_rgba(255,122,20,0.35)] scale-[1.02]"
+                      : "border-border hover:border-primary/50"
                   }`}
                 >
-                  <div className={`bg-gradient-to-r ${pkg.badgeGradient} text-white text-[10px] sm:text-xs font-bold uppercase tracking-wide py-1.5 sm:py-2`}>
+                  <div className={`bg-gradient-to-r ${pkg.badgeGradient} text-white text-[10px] sm:text-xs font-bold uppercase tracking-widest py-1.5 sm:py-2`}>
                     {pkg.badge}
                   </div>
                   <div className="p-2 sm:p-3">
                     <div className="flex items-center justify-center gap-1 sm:gap-1.5 mb-1">
                       <img src={diamondIcon} alt="" className="w-7 h-7 sm:w-9 sm:h-9 object-contain" />
-                      <span className="font-bold text-foreground text-sm sm:text-base leading-none">{pkg.diamonds}</span>
+                      <span className="font-display font-bold text-foreground text-base sm:text-lg leading-none">{pkg.diamonds}</span>
                       <span className="text-muted-foreground font-medium text-sm">+</span>
                       <img src={cubeIcon} alt="" className="w-7 h-7 sm:w-9 sm:h-9 object-contain" />
-                      <span className="font-bold text-foreground text-sm sm:text-base leading-none">{pkg.cubes}</span>
+                      <span className="font-display font-bold text-foreground text-base sm:text-lg leading-none">{pkg.cubes}</span>
                     </div>
-                    <p className="text-violet-500 font-medium text-[10px] sm:text-xs">
+                    <p className="text-violet-400 font-medium text-[10px] sm:text-xs">
                       {pkg.cubes === 1 ? "Cubo Mágico" : "Cubos Mágicos"}
                     </p>
                     <div className="w-12 h-px bg-border mx-auto my-2 sm:my-2.5" />
-                    <p className="text-primary font-extrabold text-xl sm:text-2xl tracking-tight">{pkg.price}</p>
-                    <div className="mt-2 sm:mt-3 bg-orange-50 border border-orange-200 rounded-lg py-1.5 px-2">
-                      <p className="text-orange-500 text-[10px] sm:text-xs font-semibold">+ {pkg.bonus} Diamantes bonus</p>
+                    <p className="font-display text-primary font-extrabold text-2xl sm:text-3xl tracking-tight drop-shadow-[0_0_8px_rgba(255,122,20,0.4)]">{pkg.price}</p>
+                    <div className="mt-2 sm:mt-3 bg-primary/10 border border-primary/30 rounded-lg py-1.5 px-2">
+                      <p className="text-primary text-[10px] sm:text-xs font-semibold">+ {pkg.bonus} Diamantes bonus</p>
                     </div>
                   </div>
                 </button>
@@ -115,9 +115,9 @@ function RechargePage() {
             onClick={() => {
               window.location.href = packages[selectedPkg].checkoutUrl;
             }}
-            className="go-to-checkout w-full text-base sm:text-lg font-semibold py-3.5 sm:py-4 px-6 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110 transition-all duration-200"
+            className="go-to-checkout w-full font-display uppercase tracking-widest text-base sm:text-lg font-bold py-4 sm:py-5 px-6 rounded-xl bg-gradient-to-r from-primary to-orange-400 text-primary-foreground shadow-[0_8px_30px_rgba(255,122,20,0.4)] hover:brightness-110 active:scale-[0.98] transition-all duration-200 animate-pulse-glow"
           >
-            Continuar
+            Continuar →
           </button>
         </div>
       </main>

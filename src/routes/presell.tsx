@@ -18,12 +18,12 @@ function PresellPage() {
   };
 
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center px-4">
+    <div className="min-h-screen gamer-bg flex items-center justify-center px-4">
       <button
         onClick={handleClick}
-        className="w-full max-w-sm text-lg font-semibold py-4 px-6 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110 transition-all duration-200 animate-pulse-glow"
+        className="w-full max-w-sm font-display uppercase tracking-widest text-lg font-bold py-4 px-6 rounded-xl bg-gradient-to-r from-primary to-orange-400 text-primary-foreground shadow-[0_8px_30px_rgba(255,122,20,0.4)] hover:brightness-110 active:scale-[0.98] transition-all duration-200 animate-pulse-glow"
       >
-        Comenzar ahora
+        Comenzar ahora →
       </button>
     </div>
   );
