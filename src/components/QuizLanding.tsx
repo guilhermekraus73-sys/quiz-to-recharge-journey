@@ -28,7 +28,7 @@ const QuizLanding = ({ onStart }: QuizLandingProps) => {
           </h1>
           <p className="text-muted-foreground leading-relaxed">
             Este sistema analiza tu perfil y determina si tu cuenta{" "}
-            <span className="text-primary font-semibold">califica para recibir hasta 70% de descuento</span>{" "}
+            <span className="text-primary font-semibold">puede recibir descuentos</span>{" "}
             en la compra de diamantes.
           </p>
         </div>
