@@ -32,7 +32,7 @@ function IdPlayerPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#f0f2f5]">
+    <div className="min-h-screen gamer-bg">
       <main className="container py-4 sm:py-6 md:py-10">
         <div className="max-w-lg mx-auto">
           <GarenaHeader />
