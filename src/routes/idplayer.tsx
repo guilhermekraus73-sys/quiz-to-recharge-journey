@@ -71,10 +71,10 @@ function IdPlayerPage() {
             </form>
           </div>
 
-          <div className="bg-blue-50 border border-blue-100 rounded-2xl p-4 sm:p-5">
+          <div className="bg-primary/5 border border-primary/30 rounded-2xl p-4 sm:p-5">
             <div className="flex items-center gap-2 mb-2">
               <span>📊</span>
-              <h3 className="font-bold text-foreground text-sm sm:text-base">Resultado del análisis de cuenta</h3>
+              <h3 className="font-display uppercase tracking-wider font-bold text-foreground text-sm sm:text-base">Resultado del análisis de cuenta</h3>
             </div>
             <p className="text-sm text-muted-foreground">
               Según tu perfil como jugador, tu cuenta califica para bonos variables en recargas (hasta 65%).
