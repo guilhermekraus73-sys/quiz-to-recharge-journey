@@ -115,9 +115,9 @@ function RechargePage() {
             onClick={() => {
               window.location.href = packages[selectedPkg].checkoutUrl;
             }}
-            className="go-to-checkout w-full text-base sm:text-lg font-semibold py-3.5 sm:py-4 px-6 rounded-xl bg-primary text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110 transition-all duration-200"
+            className="go-to-checkout w-full font-display uppercase tracking-widest text-base sm:text-lg font-bold py-4 sm:py-5 px-6 rounded-xl bg-gradient-to-r from-primary to-orange-400 text-primary-foreground shadow-[0_8px_30px_rgba(255,122,20,0.4)] hover:brightness-110 active:scale-[0.98] transition-all duration-200 animate-pulse-glow"
           >
-            Continuar
+            Continuar →
           </button>
         </div>
       </main>
