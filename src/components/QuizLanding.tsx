@@ -8,8 +8,13 @@ interface QuizLandingProps {
 const QuizLanding = ({ onStart }: QuizLandingProps) => {
   return (
     <div className="animate-fade-in">
-      <div className="flex justify-center mb-6 -mx-4">
-        <img src={freefireLogo} alt="Free Fire Logo" className="w-full max-w-md h-auto object-contain" />
+      <div className="relative flex justify-center mb-6 -mx-4">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(22_100%_54%/0.35),transparent_65%)] blur-2xl" />
+        <img
+          src={freefireLogo}
+          alt="Free Fire Logo"
+          className="relative w-full max-w-md h-auto object-contain drop-shadow-[0_0_18px_rgba(255,122,20,0.55)] [filter:brightness(1.25)_contrast(1.15)_saturate(1.2)]"
+        />
       </div>
 
       <div className="bg-gradient-to-r from-primary/20 to-accent/20 border border-primary/30 rounded-xl p-3 mb-4 text-center">
