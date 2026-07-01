@@ -1,5 +1,5 @@
 import { Check, TriangleAlert } from "lucide-react";
-import freefireLogoAsset from "@/assets/freefire-logo-white.jpg.asset.json";
+import freefireLogoAsset from "@/assets/freefire-logo-transparent.png.asset.json";
 
 interface QuizLandingProps {
   onStart: () => void;
@@ -8,12 +8,11 @@ interface QuizLandingProps {
 const QuizLanding = ({ onStart }: QuizLandingProps) => {
   return (
     <div className="animate-fade-in">
-      <div className="relative flex justify-center mb-6 -mx-4">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,hsl(22_100%_54%/0.35),transparent_65%)] blur-2xl" />
+      <div className="flex justify-center mb-6 -mx-4">
         <img
           src={freefireLogoAsset.url}
           alt="Free Fire Logo"
-          className="relative w-full max-w-md h-auto object-contain drop-shadow-[0_0_18px_rgba(255,122,20,0.55)]"
+          className="w-full max-w-md h-auto object-contain drop-shadow-[0_0_18px_rgba(255,122,20,0.55)]"
         />
       </div>
 
