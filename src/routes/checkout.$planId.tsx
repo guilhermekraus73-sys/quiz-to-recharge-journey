@@ -244,7 +244,7 @@ const PaymentSection = ({
         disabled={!stripe || submitting || !formValid}
         className="w-full text-lg font-semibold py-4 px-6 rounded-xl bg-gradient-to-b from-success to-success/80 text-success-foreground shadow-lg shadow-success/30 hover:brightness-110 transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed"
       >
-        {submitting ? "Procesando..." : `PAGAR $${displayPrice} USD`}
+        {submitting ? "Procesando..." : `PAGAR $${displayPrice} MXN`}
       </button>
     </form>
   );
