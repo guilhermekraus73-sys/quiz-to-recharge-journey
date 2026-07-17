@@ -66,7 +66,7 @@ function RechargePage() {
               <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold shrink-0">
                 2
               </div>
-              <h2 className="text-base sm:text-lg font-bold text-foreground">Valor de Recarga (Diamantes)</h2>
+              <h2 className="text-base sm:text-lg font-bold text-foreground">Elige tu recarga con bono</h2>
             </div>
 
             <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
