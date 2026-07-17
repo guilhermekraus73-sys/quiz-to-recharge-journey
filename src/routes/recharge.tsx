@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2 } from "lucide-react";
 import GarenaHeader from "@/components/GarenaHeader";
 import LiveViewersBadge from "@/components/LiveViewersBadge";
@@ -25,15 +24,18 @@ export const Route = createFileRoute("/recharge")({
   component: RechargePage,
 });
 
+function buildCheckoutUrl(baseUrl: string) {
+  if (typeof window === "undefined") return baseUrl;
+  const url = new URL(baseUrl);
+  const search = new URLSearchParams(window.location.search);
+  search.forEach((value, key) => {
+    if (!url.searchParams.has(key)) url.searchParams.append(key, value);
+  });
+  return url.toString();
+}
+
 function RechargePage() {
   useFunnelTracking("recharge");
-  const [selectedPkg, setSelectedPkg] = useState(0);
-  const navigate = useNavigate();
-
-  const preserveSearch = () =>
-    typeof window !== "undefined" && window.location.search
-      ? Object.fromEntries(new URLSearchParams(window.location.search).entries())
-      : undefined;
 
   return (
     <div className="min-h-screen gamer-bg">
@@ -72,12 +74,10 @@ function RechargePage() {
               {packages.map((pkg, i) => (
                 <button
                   key={i}
-                  onClick={() => setSelectedPkg(i)}
-                  className={`relative rounded-2xl border-2 overflow-hidden text-center transition-all bg-card ${
-                    selectedPkg === i
-                      ? "border-primary shadow-[0_0_24px_rgba(255,122,20,0.35)] scale-[1.02]"
-                      : "border-border hover:border-primary/50"
-                  }`}
+                  onClick={() => {
+                    window.location.href = buildCheckoutUrl(pkg.checkoutUrl);
+                  }}
+                  className="go-to-checkout relative rounded-2xl border-2 overflow-hidden text-center transition-all bg-card border-border hover:border-primary/50 hover:shadow-[0_0_24px_rgba(255,122,20,0.25)] hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <div className={`bg-gradient-to-r ${pkg.badgeGradient} text-white text-[10px] sm:text-xs font-bold uppercase tracking-widest py-1.5 sm:py-2`}>
                     {pkg.badge}
@@ -110,15 +110,6 @@ function RechargePage() {
               ¡El importe de la recarga se convertirá automáticamente a tu moneda local!
             </p>
           </div>
-
-          <button
-            onClick={() => {
-              window.location.href = packages[selectedPkg].checkoutUrl;
-            }}
-            className="go-to-checkout w-full font-display uppercase tracking-widest text-base sm:text-lg font-bold py-4 sm:py-5 px-6 rounded-xl bg-gradient-to-r from-primary to-orange-400 text-primary-foreground shadow-[0_8px_30px_rgba(255,122,20,0.4)] hover:brightness-110 active:scale-[0.98] transition-all duration-200 animate-pulse-glow"
-          >
-            Continuar →
-          </button>
         </div>
       </main>
       <SocialProofToasts />
