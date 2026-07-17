@@ -4,14 +4,13 @@ import GarenaHeader from "@/components/GarenaHeader";
 import LiveViewersBadge from "@/components/LiveViewersBadge";
 import SocialProofToasts from "@/components/SocialProofToasts";
 import diamondIcon from "@/assets/diamond-icon.png";
-import cubeIcon from "@/assets/cube-icon.png";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 const packages = [
-  { diamonds: "5.600", cubes: 1, price: "$ 9.90 USD", bonus: "1.120", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690922840:1?channel=buy_button" },
-  { diamonds: "11.200", cubes: 2, price: "$ 15.90 USD", bonus: "2.240", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690988376:1?channel=buy_button" },
-  { diamonds: "22.400", cubes: 4, price: "$ 19.90 USD", bonus: "4.480", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691021144:1?channel=buy_button" },
-  { diamonds: "29.500", cubes: 6, price: "$ 25.90 USD", bonus: "5.900", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691053912:1?channel=buy_button" },
+  { diamonds: "5.600", price: "$ 9.90 USD", bonus: "1.120", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690922840:1?channel=buy_button" },
+  { diamonds: "11.200", price: "$ 15.90 USD", bonus: "2.240", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690988376:1?channel=buy_button" },
+  { diamonds: "22.400", price: "$ 19.90 USD", bonus: "4.480", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691021144:1?channel=buy_button" },
+  { diamonds: "29.500", price: "$ 25.90 USD", bonus: "5.900", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691053912:1?channel=buy_button" },
 ];
 
 export const Route = createFileRoute("/recharge")({
@@ -67,7 +66,7 @@ function RechargePage() {
               <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary text-primary-foreground flex items-center justify-center text-sm font-bold shrink-0">
                 2
               </div>
-              <h2 className="text-base sm:text-lg font-bold text-foreground">Valor de Recarga (Diamantes + Cubos Mágicos)</h2>
+              <h2 className="text-base sm:text-lg font-bold text-foreground">Valor de Recarga (Diamantes)</h2>
             </div>
 
             <div className="grid grid-cols-2 gap-2 sm:gap-3 mb-4">
@@ -83,16 +82,11 @@ function RechargePage() {
                     {pkg.badge}
                   </div>
                   <div className="p-2 sm:p-3">
-                    <div className="flex items-center justify-center gap-1 sm:gap-1.5 mb-1">
-                      <img src={diamondIcon} alt="" className="w-7 h-7 sm:w-9 sm:h-9 object-contain" />
-                      <span className="font-display font-bold text-foreground text-base sm:text-lg leading-none">{pkg.diamonds}</span>
-                      <span className="text-muted-foreground font-medium text-sm">+</span>
-                      <img src={cubeIcon} alt="" className="w-7 h-7 sm:w-9 sm:h-9 object-contain" />
-                      <span className="font-display font-bold text-foreground text-base sm:text-lg leading-none">{pkg.cubes}</span>
+                    <div className="flex items-center justify-center gap-2 sm:gap-2.5 mb-1">
+                      <img src={diamondIcon} alt="" className="w-8 h-8 sm:w-10 sm:h-10 object-contain" />
+                      <span className="font-display font-bold text-foreground text-lg sm:text-xl leading-none">{pkg.diamonds}</span>
                     </div>
-                    <p className="text-violet-400 font-medium text-[10px] sm:text-xs">
-                      {pkg.cubes === 1 ? "Cubo Mágico" : "Cubos Mágicos"}
-                    </p>
+                    <p className="text-violet-400 font-medium text-[10px] sm:text-xs">Diamantes</p>
                     <div className="w-12 h-px bg-border mx-auto my-2 sm:my-2.5" />
                     <p className="font-display text-primary font-extrabold text-2xl sm:text-3xl tracking-tight drop-shadow-[0_0_8px_rgba(255,122,20,0.4)]">{pkg.price}</p>
                     <div className="mt-2 sm:mt-3 bg-primary/10 border border-primary/30 rounded-lg py-1.5 px-2">

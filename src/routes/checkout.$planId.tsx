@@ -50,13 +50,13 @@ const countries = [
   { code: "GB", flag: "🇬🇧", name: "Reino Unido" },
 ];
 
-import cubeIcon from "@/assets/cube-icon.png";
+
 
 const plans = [
-  { id: 1, diamonds: "5.600", cubes: 1, bonus: "1.120", total: "6.720", price: "9.90", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500" },
-  { id: 2, diamonds: "11.200", cubes: 2, bonus: "2.240", total: "13.440", price: "15.90", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500" },
-  { id: 3, diamonds: "22.400", cubes: 4, bonus: "4.480", total: "26.880", price: "19.90", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500" },
-  { id: 4, diamonds: "29.500", cubes: 6, bonus: "5.900", total: "35.400", price: "25.90", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500" },
+  { id: 1, diamonds: "5.600", bonus: "1.120", total: "6.720", price: "9.90", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500" },
+  { id: 2, diamonds: "11.200", bonus: "2.240", total: "13.440", price: "15.90", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500" },
+  { id: 3, diamonds: "22.400", bonus: "4.480", total: "26.880", price: "19.90", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500" },
+  { id: 4, diamonds: "29.500", bonus: "5.900", total: "35.400", price: "25.90", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500" },
 ];
 
 export const Route = createFileRoute("/checkout/$planId")({
@@ -369,12 +369,9 @@ function CheckoutPage() {
             <div className="flex items-start gap-3 sm:gap-4">
               <img src={diamondIcon} alt="Diamantes" className="w-12 h-12 sm:w-14 sm:h-14 object-contain shrink-0" />
               <div className="flex-1 min-w-0">
-                <h2 className="text-base sm:text-lg font-bold text-foreground leading-tight">Diamantes + Cubos Mágicos — Free Fire</h2>
+                <h2 className="text-base sm:text-lg font-bold text-foreground leading-tight">Diamantes — Free Fire</h2>
                 <div className="flex items-center gap-1.5 text-muted-foreground text-xs sm:text-sm mt-1">
                   <span>{plan.diamonds} Diamantes</span>
-                  <span>+</span>
-                  <img src={cubeIcon} alt="" className="w-8 h-8 sm:w-9 sm:h-9 object-contain" />
-                  <span>{plan.cubes} {plan.cubes === 1 ? "Cubo Mágico" : "Cubos Mágicos"}</span>
                 </div>
                 <p className="text-muted-foreground text-xs sm:text-sm mt-0.5">+ {plan.bonus} Diamantes bonus</p>
                 {bumpSelected && (
