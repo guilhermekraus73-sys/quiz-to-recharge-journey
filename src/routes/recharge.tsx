@@ -9,10 +9,10 @@ import cubeIcon from "@/assets/cube-icon.png";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 const packages = [
-  { diamonds: "5.600", cubes: 1, price: "$ 170.00 MXN", bonus: "1.120", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690922840:1?channel=buy_button" },
-  { diamonds: "11.200", cubes: 2, price: "$ 290.00 MXN", bonus: "2.240", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690988376:1?channel=buy_button" },
-  { diamonds: "22.400", cubes: 4, price: "$ 340.00 MXN", bonus: "4.480", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691021144:1?channel=buy_button" },
-  { diamonds: "29.500", cubes: 6, price: "$ 440.00 MXN", bonus: "5.900", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691053912:1?channel=buy_button" },
+  { diamonds: "5.600", cubes: 1, price: "$ 9.90 USD", bonus: "1.120", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690922840:1?channel=buy_button" },
+  { diamonds: "11.200", cubes: 2, price: "$ 15.90 USD", bonus: "2.240", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690988376:1?channel=buy_button" },
+  { diamonds: "22.400", cubes: 4, price: "$ 19.90 USD", bonus: "4.480", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691021144:1?channel=buy_button" },
+  { diamonds: "29.500", cubes: 6, price: "$ 25.90 USD", bonus: "5.900", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691053912:1?channel=buy_button" },
 ];
 
 export const Route = createFileRoute("/recharge")({
