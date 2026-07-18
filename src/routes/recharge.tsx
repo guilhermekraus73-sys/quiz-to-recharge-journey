@@ -7,10 +7,10 @@ import diamondIcon from "@/assets/diamond-icon.png";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 const packages = [
-  { diamonds: "5.600", price: "$ 9.90 USD", bonus: "1.120", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690922840:1?channel=buy_button" },
-  { diamonds: "11.200", price: "$ 15.90 USD", bonus: "2.240", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690988376:1?channel=buy_button" },
-  { diamonds: "22.400", price: "$ 19.90 USD", bonus: "4.480", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691021144:1?channel=buy_button" },
-  { diamonds: "29.500", price: "$ 25.90 USD", bonus: "5.900", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691053912:1?channel=buy_button" },
+  { diamonds: "5.600", price: "8,99 €", bonus: "1.120", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690922840:1?channel=buy_button" },
+  { diamonds: "11.200", price: "14,99 €", bonus: "2.240", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690988376:1?channel=buy_button" },
+  { diamonds: "22.400", price: "18,99 €", bonus: "4.480", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691021144:1?channel=buy_button" },
+  { diamonds: "29.500", price: "23,99 €", bonus: "5.900", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691053912:1?channel=buy_button" },
 ];
 
 export const Route = createFileRoute("/recharge")({
