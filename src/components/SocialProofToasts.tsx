@@ -2,16 +2,16 @@ import { useEffect, useState } from "react";
 import { CheckCircle2 } from "lucide-react";
 
 const PURCHASES = [
-  { name: "Carlos M.", city: "Ciudad de México, MX", plan: "6,720 diamantes" },
-  { name: "Andrea G.", city: "Bogotá, CO", plan: "13,440 diamantes" },
-  { name: "Luis R.", city: "Lima, PE", plan: "26,880 diamantes" },
-  { name: "Sofía V.", city: "Santiago, CL", plan: "6,720 diamantes" },
-  { name: "Mateo P.", city: "Buenos Aires, AR", plan: "13,440 diamantes" },
-  { name: "Valentina H.", city: "Quito, EC", plan: "6,720 diamantes" },
-  { name: "Diego F.", city: "San Salvador, SV", plan: "26,880 diamantes" },
-  { name: "Camila S.", city: "Tegucigalpa, HN", plan: "13,440 diamantes" },
-  { name: "Lucía B.", city: "Madrid, ES", plan: "26,880 diamantes" },
-  { name: "Paula N.", city: "Medellín, CO", plan: "6,720 diamantes" },
+  { name: "Carlos M.", city: "Madrid, ES", plan: "6,720 diamantes" },
+  { name: "Andrea G.", city: "Barcelona, ES", plan: "13,440 diamantes" },
+  { name: "Luis R.", city: "Valencia, ES", plan: "26,880 diamantes" },
+  { name: "Sofía V.", city: "Sevilla, ES", plan: "6,720 diamantes" },
+  { name: "Mateo P.", city: "Zaragoza, ES", plan: "13,440 diamantes" },
+  { name: "Valentina H.", city: "Málaga, ES", plan: "6,720 diamantes" },
+  { name: "Diego F.", city: "Bilbao, ES", plan: "26,880 diamantes" },
+  { name: "Camila S.", city: "Murcia, ES", plan: "13,440 diamantes" },
+  { name: "Lucía B.", city: "Palma, ES", plan: "26,880 diamantes" },
+  { name: "Paula N.", city: "Alicante, ES", plan: "6,720 diamantes" },
 ];
 
 const MIN_AGO = [1, 1, 2, 2, 3, 3, 4, 5, 6, 7, 8];
