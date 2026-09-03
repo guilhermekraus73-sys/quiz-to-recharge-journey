@@ -7,12 +7,12 @@ import diamondIcon from "@/assets/diamond-icon.png";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 const packages = [
-  { diamonds: "5.600", price: "$9.90", bonus: "1.120", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690922840:1?channel=buy_button" },
-  { diamonds: "11.200", price: "$15.90", bonus: "2.240", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366690988376:1?channel=buy_button" },
-  { diamonds: "22.400", price: "$19.90", bonus: "4.480", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691021144:1?channel=buy_button" },
-  { diamonds: "29.500", price: "$25.90", bonus: "5.900", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57366691053912:1?channel=buy_button" },
-  { diamonds: "39.200", price: "$29.90", bonus: "7.840", badge: "SUPER PACK", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57762701574488:1?channel=buy_button" },
-  { diamonds: "56.000", price: "$35.90", bonus: "11.200", badge: "MEGA PACK", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://qhqaey-1b.myshopify.com/cart/57762701607256:1?channel=buy_button" },
+  { diamonds: "5.600", price: "$9.90", bonus: "1.200", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://nutdrs-wa.myshopify.com/cart/59374793687121:1?channel=buy_button" },
+  { diamonds: "11.200", price: "$15.90", bonus: "2.240", badge: "MÁS POPULAR", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://nutdrs-wa.myshopify.com/cart/59374793719889:1?channel=buy_button" },
+  { diamonds: "22.400", price: "$19.90", bonus: "4.480", badge: "MEJOR OFERTA", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://nutdrs-wa.myshopify.com/cart/59374793752657:1?channel=buy_button" },
+  { diamonds: "29.500", price: "$25.90", bonus: "5.900", badge: "MÁXIMO BENEFICIO", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://nutdrs-wa.myshopify.com/cart/59513778929745:1?channel=buy_button" },
+  { diamonds: "39.200", price: "$29.90", bonus: "7.840", badge: "SUPER PACK", badgeGradient: "from-orange-500 to-pink-500", checkoutUrl: "https://nutdrs-wa.myshopify.com/cart/59840965312593:1?channel=buy_button" },
+  { diamonds: "56.000", price: "$35.90", bonus: "11.200", badge: "MEGA PACK", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://nutdrs-wa.myshopify.com/cart/59840965345361:1?channel=buy_button" },
 ];
 
 export const Route = createFileRoute("/recharge")({
