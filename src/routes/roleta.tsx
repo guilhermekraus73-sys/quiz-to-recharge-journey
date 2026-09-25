@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
+import freefireLogoAsset from "@/assets/freefire-logo-transparent.png.asset.json";
 
 export const Route = createFileRoute("/roleta")({
   head: () => ({
@@ -109,12 +110,59 @@ function RoletaPage() {
           0%, 100% { transform: translateY(0) rotate(-6deg); }
           50% { transform: translateY(-10px) rotate(6deg); }
         }
+        @keyframes roleta-ambient {
+          0%, 100% { opacity: 0.55; transform: scale(1); }
+          50% { opacity: 0.9; transform: scale(1.06); }
+        }
+        @keyframes roleta-ring-spin {
+          from { transform: rotate(0deg); }
+          to { transform: rotate(360deg); }
+        }
+        @keyframes roleta-bulb {
+          0%, 100% { opacity: 1; box-shadow: 0 0 6px 2px rgba(255,122,20,0.8); }
+          50% { opacity: 0.25; box-shadow: 0 0 2px 0 rgba(255,122,20,0.3); }
+        }
+        @keyframes roleta-pointer-wiggle {
+          0%, 100% { transform: translateX(-50%) rotate(0deg); }
+          25% { transform: translateX(-50%) rotate(-10deg); }
+          75% { transform: translateX(-50%) rotate(10deg); }
+        }
+        @keyframes roleta-screen-flash {
+          0% { opacity: 0; }
+          15% { opacity: 0.85; }
+          100% { opacity: 0; }
+        }
+        @keyframes roleta-shine-sweep {
+          0% { transform: translateX(-120%) skewX(-18deg); }
+          100% { transform: translateX(240%) skewX(-18deg); }
+        }
+        @keyframes roleta-win-glow {
+          0%, 100% { box-shadow: 0 0 24px rgba(255,122,20,0.45), inset 0 0 18px rgba(255,122,20,0.12); }
+          50% { box-shadow: 0 0 48px rgba(255,122,20,0.75), inset 0 0 30px rgba(255,122,20,0.22); }
+        }
       `}</style>
 
-      <main className="container py-6 sm:py-10">
+      {/* Flash de tela al ganar */}
+      {phase === "won" && (
+        <div
+          className="fixed inset-0 z-40 pointer-events-none bg-primary"
+          style={{ animation: "roleta-screen-flash 0.7s ease-out forwards" }}
+        />
+      )}
+
+      <main className="container py-6 sm:py-10 relative z-10">
         <div className="max-w-md mx-auto text-center">
+          {/* Logo Free Fire (igual que la página del quiz) */}
+          <div className="flex justify-center mb-6 -mx-4">
+            <img
+              src={freefireLogoAsset.url}
+              alt="Free Fire Logo"
+              className="w-full max-w-md h-auto object-contain drop-shadow-[0_0_18px_rgba(255,122,20,0.55)]"
+            />
+          </div>
+
           <p className="font-display uppercase tracking-[0.3em] text-xs text-primary mb-2">
-            Free Fire · Roleta de descuentos
+            Roleta de descuentos
           </p>
           <h1 className="font-display uppercase tracking-wider text-2xl sm:text-3xl font-bold text-foreground">
             ¡Gira y gana tu descuento!
@@ -125,13 +173,60 @@ function RoletaPage() {
 
           {/* Roleta */}
           <div className="relative mx-auto mt-8 w-[300px] h-[300px] sm:w-[340px] sm:h-[340px]">
+            {/* Resplandor ambiente detrás de la rueda */}
+            <div
+              className="absolute -inset-8 rounded-full bg-primary/25 blur-2xl pointer-events-none"
+              style={{ animation: "roleta-ambient 3s ease-in-out infinite" }}
+            />
+            {/* Halo giratorio estilo neón */}
+            <div
+              className={`absolute -inset-3 rounded-full pointer-events-none transition-opacity duration-500 ${
+                spinning ? "opacity-100" : "opacity-60"
+              }`}
+              style={{
+                background:
+                  "conic-gradient(from 0deg, transparent 0%, rgba(255,122,20,0.55) 12%, transparent 25%, transparent 50%, rgba(255,187,64,0.45) 62%, transparent 75%)",
+                filter: "blur(10px)",
+                animation: "roleta-ring-spin 6s linear infinite",
+              }}
+            />
+
+            {/* Bombillas del aro */}
+            {Array.from({ length: 16 }).map((_, i) => {
+              const pos = polar(50, 50, 49, i * (360 / 16));
+              return (
+                <span
+                  key={i}
+                  className="absolute w-[5px] h-[5px] rounded-full bg-primary z-10"
+                  style={{
+                    left: `${pos.x}%`,
+                    top: `${pos.y}%`,
+                    transform: "translate(-50%, -50%)",
+                    animation: `roleta-bulb 1.4s ease-in-out ${(i % 2) * 0.7}s infinite`,
+                  }}
+                />
+              );
+            })}
+
             {/* Puntero */}
-            <div className="absolute left-1/2 -translate-x-1/2 -top-3 z-20">
-              <div className="w-0 h-0 border-l-[14px] border-r-[14px] border-t-[26px] border-l-transparent border-r-transparent border-t-primary drop-shadow-[0_2px_6px_rgba(255,122,20,0.7)]" />
+            <div className="absolute left-1/2 -translate-x-1/2 -top-4 z-20">
+              <div
+                className={`w-0 h-0 border-l-[15px] border-r-[15px] border-t-[28px] border-l-transparent border-r-transparent border-t-primary drop-shadow-[0_2px_8px_rgba(255,122,20,0.9)] ${
+                  spinning ? "" : "transition-transform"
+                }`}
+                style={spinning ? { animation: "roleta-pointer-wiggle 0.28s ease-in-out infinite" } : undefined}
+              />
             </div>
 
             {/* Aro exterior */}
-            <div className="absolute inset-0 rounded-full bg-gradient-to-b from-primary/40 to-primary/10 p-[6px] tech-glow">
+            <div
+              className="absolute inset-0 rounded-full bg-gradient-to-b from-primary/40 to-primary/10 p-[6px] transition-shadow duration-500"
+              style={{
+                boxShadow: spinning
+                  ? "0 0 45px rgba(255,122,20,0.65), inset 0 0 20px rgba(255,122,20,0.3)"
+                  : "0 0 24px rgba(255,122,20,0.35)",
+              }}
+            >
               <div className="w-full h-full rounded-full bg-background p-[3px] border border-border">
                 <svg
                   viewBox="0 0 200 200"
@@ -179,6 +274,29 @@ function RoletaPage() {
                 </svg>
               </div>
             </div>
+
+            {/* Chispas sobre la rueda mientras gira */}
+            {spinning && (
+              <>
+                {[
+                  { left: "8%", top: "20%", delay: "0s" },
+                  { left: "85%", top: "15%", delay: "0.3s" },
+                  { left: "15%", top: "75%", delay: "0.5s" },
+                  { left: "90%", top: "70%", delay: "0.8s" },
+                ].map((s, i) => (
+                  <span
+                    key={i}
+                    className="absolute w-1.5 h-1.5 rounded-full bg-primary/90 pointer-events-none z-10"
+                    style={{
+                      left: s.left,
+                      top: s.top,
+                      boxShadow: "0 0 8px 3px rgba(255,122,20,0.7)",
+                      animation: `roleta-diamond-float 1.1s ease-in-out ${s.delay} infinite`,
+                    }}
+                  />
+                ))}
+              </>
+            )}
           </div>
 
           {/* Mensaje + botones */}
@@ -215,10 +333,18 @@ function RoletaPage() {
             {phase === "won" && (
               <div className="animate-fade-in">
                 <div
-                  className="relative bg-card border border-primary/50 rounded-2xl p-6 tech-glow overflow-hidden"
-                  style={{ animation: "roleta-prize-pop 0.6s ease-out forwards" }}
+                  className="relative bg-card border border-primary/50 rounded-2xl p-6 overflow-hidden"
+                  style={{
+                    animation: "roleta-prize-pop 0.6s ease-out forwards, roleta-win-glow 1.8s ease-in-out 0.6s infinite",
+                  }}
                 >
-                  {/* Confetti */}
+                  {/* Barrido de brillo sobre la tarjeta */}
+                  <span
+                    className="absolute top-0 bottom-0 w-1/3 bg-gradient-to-r from-transparent via-primary/25 to-transparent pointer-events-none"
+                    style={{ animation: "roleta-shine-sweep 2.2s ease-in-out 0.8s infinite" }}
+                  />
+
+                  {/* Confeti dentro de la tarjeta */}
                   {Array.from({ length: 24 }).map((_, i) => (
                     <span
                       key={i}
@@ -247,7 +373,7 @@ function RoletaPage() {
                   <p className="font-display uppercase tracking-[0.25em] text-xs text-primary">
                     ¡Premio desbloqueado!
                   </p>
-                  <h2 className="font-display uppercase tracking-wider text-3xl sm:text-4xl font-bold text-foreground mt-1">
+                  <h2 className="font-display uppercase tracking-wider text-3xl sm:text-4xl font-bold text-foreground mt-1 drop-shadow-[0_0_12px_rgba(255,122,20,0.6)]">
                     65% OFF
                   </h2>
                   <p className="text-sm text-muted-foreground mt-2">
@@ -259,6 +385,23 @@ function RoletaPage() {
                   >
                     Rescatar descuento →
                   </button>
+                </div>
+
+                {/* Confeti de pantalla completa */}
+                <div className="fixed inset-0 pointer-events-none z-30 overflow-hidden">
+                  {Array.from({ length: 40 }).map((_, i) => (
+                    <span
+                      key={i}
+                      className="absolute top-0 rounded-sm"
+                      style={{
+                        left: `${(i * 61) % 100}%`,
+                        width: i % 3 === 0 ? "8px" : "5px",
+                        height: i % 3 === 0 ? "14px" : "10px",
+                        backgroundColor: ["#ea580c", "#fbbf24", "#22c55e", "#f97316", "#fde68a"][i % 5],
+                        animation: `roleta-confetti ${2.2 + (i % 6) * 0.5}s linear ${(i % 9) * 0.22}s infinite`,
+                      }}
+                    />
+                  ))}
                 </div>
               </div>
             )}
