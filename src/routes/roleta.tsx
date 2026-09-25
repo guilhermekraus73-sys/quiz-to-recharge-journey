@@ -168,9 +168,14 @@ function RoletaPage() {
                   })}
                   {/* Centro */}
                   <circle cx="100" cy="100" r="22" fill="#0a0a0c" stroke="#ea580c" strokeWidth="3" />
-                  <text x="100" y="101" fill="#ea580c" fontSize="15" textAnchor="middle" dominantBaseline="middle">
-                    💎
-                  </text>
+                  <g transform="translate(100 100)">
+                    <path
+                      d="M -9 -5 L -4.5 -10 L 4.5 -10 L 9 -5 L 0 10 Z"
+                      fill="#ea580c"
+                      stroke="#fed7aa"
+                      strokeWidth="1"
+                    />
+                  </g>
                 </svg>
               </div>
             </div>
