@@ -232,10 +232,17 @@ function RoletaPage() {
                   ))}
 
                   <div
-                    className="text-4xl mb-2"
+                    className="mx-auto mb-2 w-14 h-14 rounded-full bg-primary/10 border border-primary/40 flex items-center justify-center"
                     style={{ animation: "roleta-diamond-float 1.6s ease-in-out infinite" }}
                   >
-                    💎
+                    <svg viewBox="-12 -14 24 28" className="w-7 h-7">
+                      <path
+                        d="M -9 -5 L -4.5 -10 L 4.5 -10 L 9 -5 L 0 10 Z"
+                        fill="#ea580c"
+                        stroke="#fed7aa"
+                        strokeWidth="1"
+                      />
+                    </svg>
                   </div>
                   <p className="font-display uppercase tracking-[0.25em] text-xs text-primary">
                     ¡Premio desbloqueado!
