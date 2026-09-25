@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RoletaRouteImport } from './routes/roleta'
 import { Route as RechargeRouteImport } from './routes/recharge'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as PresellRouteImport } from './routes/presell'
@@ -18,6 +19,11 @@ import { Route as CheckoutSuccessRouteImport } from './routes/checkout-success'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckoutPlanIdRouteImport } from './routes/checkout.$planId'
 
+const RoletaRoute = RoletaRouteImport.update({
+  id: '/roleta',
+  path: '/roleta',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RechargeRoute = RechargeRouteImport.update({
   id: '/recharge',
   path: '/recharge',
@@ -67,6 +73,7 @@ export interface FileRoutesByFullPath {
   '/presell': typeof PresellRoute
   '/quiz': typeof QuizRoute
   '/recharge': typeof RechargeRoute
+  '/roleta': typeof RoletaRoute
   '/checkout/$planId': typeof CheckoutPlanIdRoute
 }
 export interface FileRoutesByTo {
@@ -77,6 +84,7 @@ export interface FileRoutesByTo {
   '/presell': typeof PresellRoute
   '/quiz': typeof QuizRoute
   '/recharge': typeof RechargeRoute
+  '/roleta': typeof RoletaRoute
   '/checkout/$planId': typeof CheckoutPlanIdRoute
 }
 export interface FileRoutesById {
@@ -88,6 +96,7 @@ export interface FileRoutesById {
   '/presell': typeof PresellRoute
   '/quiz': typeof QuizRoute
   '/recharge': typeof RechargeRoute
+  '/roleta': typeof RoletaRoute
   '/checkout/$planId': typeof CheckoutPlanIdRoute
 }
 export interface FileRouteTypes {
@@ -100,6 +109,7 @@ export interface FileRouteTypes {
     | '/presell'
     | '/quiz'
     | '/recharge'
+    | '/roleta'
     | '/checkout/$planId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -110,6 +120,7 @@ export interface FileRouteTypes {
     | '/presell'
     | '/quiz'
     | '/recharge'
+    | '/roleta'
     | '/checkout/$planId'
   id:
     | '__root__'
@@ -120,6 +131,7 @@ export interface FileRouteTypes {
     | '/presell'
     | '/quiz'
     | '/recharge'
+    | '/roleta'
     | '/checkout/$planId'
   fileRoutesById: FileRoutesById
 }
@@ -131,11 +143,19 @@ export interface RootRouteChildren {
   PresellRoute: typeof PresellRoute
   QuizRoute: typeof QuizRoute
   RechargeRoute: typeof RechargeRoute
+  RoletaRoute: typeof RoletaRoute
   CheckoutPlanIdRoute: typeof CheckoutPlanIdRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/roleta': {
+      id: '/roleta'
+      path: '/roleta'
+      fullPath: '/roleta'
+      preLoaderRoute: typeof RoletaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/recharge': {
       id: '/recharge'
       path: '/recharge'
@@ -203,6 +223,7 @@ const rootRouteChildren: RootRouteChildren = {
   PresellRoute: PresellRoute,
   QuizRoute: QuizRoute,
   RechargeRoute: RechargeRoute,
+  RoletaRoute: RoletaRoute,
   CheckoutPlanIdRoute: CheckoutPlanIdRoute,
 }
 export const routeTree = rootRouteImport
