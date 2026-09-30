@@ -5,6 +5,7 @@ import LiveViewersBadge from "@/components/LiveViewersBadge";
 import SocialProofToasts from "@/components/SocialProofToasts";
 import diamondIcon from "@/assets/diamond-icon.png";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
+import { resolveTracking } from "@/lib/tracking";
 
 const packages = [
   { diamonds: "5.600", price: "$9.90", bonus: "1.200", badge: "MEJOR VALOR", badgeGradient: "from-violet-500 to-fuchsia-500", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831049552:1?channel=buy_button" },
@@ -31,6 +32,11 @@ function buildCheckoutUrl(baseUrl: string) {
   const search = new URLSearchParams(window.location.search);
   search.forEach((value, key) => {
     if (!url.searchParams.has(key)) url.searchParams.append(key, value);
+  });
+  // Fallback: fill any UTM/src/sck missing from the URL with saved values
+  const saved = resolveTracking(search);
+  Object.entries(saved).forEach(([key, value]) => {
+    if (value && !url.searchParams.has(key)) url.searchParams.set(key, value);
   });
   return url.toString();
 }
