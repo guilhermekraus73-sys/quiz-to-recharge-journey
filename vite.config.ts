@@ -7,6 +7,11 @@
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
 export default defineConfig({
+  vite: {
+    // Dev-only: allow testing the preview via alternative local hostnames
+    // (e.g. lvh.me) so third-party scripts treat it as a real domain.
+    server: { allowedHosts: true },
+  },
   tanstackStart: {
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
