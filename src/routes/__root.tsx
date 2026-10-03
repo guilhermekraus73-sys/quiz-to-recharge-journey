@@ -128,7 +128,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         // Utmify TikTok pixels: pixel-tiktok.js reads window.tikTokPixelId when it
         // executes, so load it once per pixel ID, sequentially - each load captures
         // its own ID before the next one overwrites the global.
-        children: `(function(){var ids=["6a0622e377f037082725db0f","6a6bd4f5b9b8fc887e72d81a","6a7f8782c6cc02cf7846797d","6a8437e1e62902b57266f22f","6ac00ee5dffe50be16245e3c","6ac057551e09b97c39c67eec"];var i=0;function next(){if(i>=ids.length)return;window.tikTokPixelId=ids[i++];var s=document.createElement("script");s.src="https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js";s.onload=next;s.onerror=next;(document.head||document.documentElement).appendChild(s);}next();})();`,
+        children: `(function(){var ids=["6a0622e377f037082725db0f","6a6bd4f5b9b8fc887e72d81a","6a8437e1e62902b57266f22f","6ac00ee5dffe50be16245e3c","6ac057551e09b97c39c67eec"];var i=0;function next(){if(i>=ids.length)return;window.tikTokPixelId=ids[i++];var s=document.createElement("script");s.src="https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js";s.onload=next;s.onerror=next;(document.head||document.documentElement).appendChild(s);}next();})();`,
       },
     ],
   }),
