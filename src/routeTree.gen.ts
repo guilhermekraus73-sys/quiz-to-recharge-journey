@@ -9,44 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as CheckoutSuccessRouteImport } from './routes/checkout-success'
-import { Route as DashboardRouteImport } from './routes/dashboard'
-import { Route as IdplayerRouteImport } from './routes/idplayer'
-import { Route as PresellRouteImport } from './routes/presell'
-import { Route as QuizRouteImport } from './routes/quiz'
-import { Route as RechargeRouteImport } from './routes/recharge'
 import { Route as RoletaRouteImport } from './routes/roleta'
+import { Route as RechargeRouteImport } from './routes/recharge'
+import { Route as QuizRouteImport } from './routes/quiz'
+import { Route as PresellRouteImport } from './routes/presell'
+import { Route as IdplayerRouteImport } from './routes/idplayer'
+import { Route as DashboardRouteImport } from './routes/dashboard'
+import { Route as CheckoutSuccessRouteImport } from './routes/checkout-success'
+import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckoutPlanIdRouteImport } from './routes/checkout.$planId'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
-  id: '/checkout-success',
-  path: '/checkout-success',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DashboardRoute = DashboardRouteImport.update({
-  id: '/dashboard',
-  path: '/dashboard',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const IdplayerRoute = IdplayerRouteImport.update({
-  id: '/idplayer',
-  path: '/idplayer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PresellRoute = PresellRouteImport.update({
-  id: '/presell',
-  path: '/presell',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const QuizRoute = QuizRouteImport.update({
-  id: '/quiz',
-  path: '/quiz',
+const RoletaRoute = RoletaRouteImport.update({
+  id: '/roleta',
+  path: '/roleta',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RechargeRoute = RechargeRouteImport.update({
@@ -54,9 +29,34 @@ const RechargeRoute = RechargeRouteImport.update({
   path: '/recharge',
   getParentRoute: () => rootRouteImport,
 } as any)
-const RoletaRoute = RoletaRouteImport.update({
-  id: '/roleta',
-  path: '/roleta',
+const QuizRoute = QuizRouteImport.update({
+  id: '/quiz',
+  path: '/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PresellRoute = PresellRouteImport.update({
+  id: '/presell',
+  path: '/presell',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IdplayerRoute = IdplayerRouteImport.update({
+  id: '/idplayer',
+  path: '/idplayer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DashboardRoute = DashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CheckoutSuccessRoute = CheckoutSuccessRouteImport.update({
+  id: '/checkout-success',
+  path: '/checkout-success',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CheckoutPlanIdRoute = CheckoutPlanIdRouteImport.update({
@@ -149,46 +149,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/checkout-success': {
-      id: '/checkout-success'
-      path: '/checkout-success'
-      fullPath: '/checkout-success'
-      preLoaderRoute: typeof CheckoutSuccessRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dashboard': {
-      id: '/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/idplayer': {
-      id: '/idplayer'
-      path: '/idplayer'
-      fullPath: '/idplayer'
-      preLoaderRoute: typeof IdplayerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/presell': {
-      id: '/presell'
-      path: '/presell'
-      fullPath: '/presell'
-      preLoaderRoute: typeof PresellRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/quiz': {
-      id: '/quiz'
-      path: '/quiz'
-      fullPath: '/quiz'
-      preLoaderRoute: typeof QuizRouteImport
+    '/roleta': {
+      id: '/roleta'
+      path: '/roleta'
+      fullPath: '/roleta'
+      preLoaderRoute: typeof RoletaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/recharge': {
@@ -198,11 +163,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RechargeRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/roleta': {
-      id: '/roleta'
-      path: '/roleta'
-      fullPath: '/roleta'
-      preLoaderRoute: typeof RoletaRouteImport
+    '/quiz': {
+      id: '/quiz'
+      path: '/quiz'
+      fullPath: '/quiz'
+      preLoaderRoute: typeof QuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/presell': {
+      id: '/presell'
+      path: '/presell'
+      fullPath: '/presell'
+      preLoaderRoute: typeof PresellRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/idplayer': {
+      id: '/idplayer'
+      path: '/idplayer'
+      fullPath: '/idplayer'
+      preLoaderRoute: typeof IdplayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dashboard': {
+      id: '/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/checkout-success': {
+      id: '/checkout-success'
+      path: '/checkout-success'
+      fullPath: '/checkout-success'
+      preLoaderRoute: typeof CheckoutSuccessRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/checkout/$planId': {
