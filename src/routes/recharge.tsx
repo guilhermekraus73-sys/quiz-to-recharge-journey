@@ -38,6 +38,15 @@ function buildCheckoutUrl(baseUrl: string) {
   Object.entries(saved).forEach(([key, value]) => {
     if (value && !url.searchParams.has(key)) url.searchParams.set(key, value);
   });
+  // Also save every tracking value as a Shopify cart attribute. Cart
+  // attributes are stored on the order itself (note_attributes), so the
+  // UTMs survive Shopify's checkout redirects, abandoned-cart returns and
+  // in-app browsers that strip the query string.
+  const trackingKeys = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "src", "sck"];
+  for (const key of trackingKeys) {
+    const value = url.searchParams.get(key);
+    if (value) url.searchParams.set(`attributes[${key}]`, value);
+  }
   return url.toString();
 }
 
