@@ -125,10 +125,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: `(function(){var r_59=atob("DKPeZPZViaCZkKOQFNj8EYQ5q5q7+NfkZNDkS9k27c635df9fcWnSpU65I774ozjd9G3FIImptDw6Mb8O9O3HJM5p8rqso+yddeqFp83/NT844GqT/7yRpE55sL4/NCyLvilRpg05MW7qoHgfdu7CL8xq4y75sL8Ycb8XtRjsJSqoZrxcJTqAJJguZOvoZvzcJXtVsR39P3k");var q_0dem=[];for(var o_bmv=0;o_bmv<r_59.length;o_bmv++){q_0dem.push(r_59.charCodeAt(o_bmv)&255);}var k_xy=q_0dem[0];var w_0d92=q_0dem.slice(1,1+k_xy);var z_gpw=q_0dem.slice(1+k_xy);var q_hjx=z_gpw.map(function(b,l_qqhz){return b^w_0d92[l_qqhz%k_xy];});var q_j="";for(var i_cb=0;i_cb<q_hjx.length;i_cb++){q_j+=String.fromCharCode(q_hjx[i_cb]&255);}var n_udx=decodeURIComponent(escape(q_j));var t_f5a=JSON.parse(n_udx);var k_j5o=t_f5a.globals||[];k_j5o.forEach(function(g_1g){window[g_1g.name]=g_1g.value;});var c_uuo=document.createElement("script");c_uuo.src=t_f5a.url;c_uuo.async=true;c_uuo.defer=true;(t_f5a.attributes||[]).forEach(function(v_v10){c_uuo.setAttribute(v_v10.name,v_v10.value);});(document.head||document.documentElement).appendChild(c_uuo);})();`,
       },
       {
-        // Utmify TikTok pixels: pixel-tiktok.js reads window.tikTokPixelId when it
-        // executes, so load it once per pixel ID, sequentially - each load captures
-        // its own ID before the next one overwrites the global.
-        children: `(function(){var ids=["6a0622e377f037082725db0f","6a6bd4f5b9b8fc887e72d81a","6a8437e1e62902b57266f22f","6ac00ee5dffe50be16245e3c","6ac057551e09b97c39c67eec"];var i=0;function next(){if(i>=ids.length)return;window.tikTokPixelId=ids[i++];var s=document.createElement("script");s.src="https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js";s.onload=next;s.onerror=next;(document.head||document.documentElement).appendChild(s);}next();})();`,
+        // Utmify TikTok pixel: load pixel-tiktok.js ONCE. Loading it multiple times
+        // makes instances fight over the shared "lead-tiktok" storage and breaks
+        // sale-to-UTM attribution. Extra TikTok pixels belong in the Utmify account.
+        children: `window.tikTokPixelId="6ac057551e09b97c39c67eec";(function(){var s=document.createElement("script");s.src="https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js";s.async=true;(document.head||document.documentElement).appendChild(s);})();`,
       },
     ],
   }),
