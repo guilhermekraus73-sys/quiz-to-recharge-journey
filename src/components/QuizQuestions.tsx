@@ -9,19 +9,27 @@ const QuizQuestions = ({ onComplete }: QuizQuestionsProps) => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [answers, setAnswers] = useState<number[]>([]);
+  const [showMidReward, setShowMidReward] = useState(false);
+  const [midShown, setMidShown] = useState(false);
 
   const question = quizQuestions[currentQuestion];
   const totalQuestions = quizQuestions.length;
   const progress = ((currentQuestion + 1) / totalQuestions) * 100;
   const letters = ["A", "B", "C", "D"];
+  const unlocked = progress >= 100 ? 65 : progress >= 50 ? 35 : 15;
 
   const handleNext = () => {
     if (selectedOption === null) return;
     const newAnswers = [...answers, selectedOption];
     if (currentQuestion < totalQuestions - 1) {
       setAnswers(newAnswers);
-      setCurrentQuestion(currentQuestion + 1);
+      const next = currentQuestion + 1;
+      setCurrentQuestion(next);
       setSelectedOption(null);
+      if (!midShown && totalQuestions > 2 && next === Math.floor(totalQuestions / 2)) {
+        setMidShown(true);
+        setShowMidReward(true);
+      }
     } else {
       onComplete(newAnswers);
     }
@@ -29,17 +37,40 @@ const QuizQuestions = ({ onComplete }: QuizQuestionsProps) => {
 
   return (
     <div className="animate-fade-in">
+      {showMidReward && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm p-4 animate-fade-in">
+          <div className="w-full max-w-sm rounded-2xl border-2 border-primary bg-card p-6 text-center shadow-2xl shadow-primary/40">
+            <div className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-full bg-primary/15 text-4xl animate-bounce">🏆</div>
+            <p className="text-xs font-bold uppercase tracking-widest text-primary">¡Bono desbloqueado!</p>
+            <h3 className="mt-2 text-2xl font-extrabold text-foreground">Ya aseguraste 35% OFF</h3>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Responde las últimas preguntas para desbloquear tu oportunidad de <span className="font-bold text-primary">65% OFF</span> en diamantes.
+            </p>
+            <button
+              onClick={() => setShowMidReward(false)}
+              className="mt-5 w-full rounded-xl bg-gradient-to-b from-primary to-primary/80 py-4 text-lg font-semibold text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110"
+            >
+              Continuar y desbloquear 65%
+            </button>
+          </div>
+        </div>
+      )}
       <div className="bg-card rounded-2xl shadow-lg p-6 md:p-8">
         <div className="flex justify-between items-center mb-2">
           <span className="text-sm text-muted-foreground">
-            Pregunta {currentQuestion + 1} de {totalQuestions}
+            Etapa {currentQuestion + 1} de {totalQuestions}
           </span>
-          <span className="text-sm text-muted-foreground">{Math.round(progress)}%</span>
+          <span className="text-sm font-bold text-primary">🎁 {unlocked}% OFF desbloqueado</span>
         </div>
 
-        <div className="w-full bg-muted rounded-full h-2 mb-6">
-          <div className="bg-primary h-2 rounded-full transition-all duration-500" style={{ width: `${progress}%` }} />
+        <div className="relative w-full bg-muted rounded-full h-3 mb-6">
+          <div
+            className="h-3 rounded-full bg-gradient-to-r from-primary/70 to-primary shadow-[0_0_12px] shadow-primary/60 transition-all duration-500"
+            style={{ width: `${progress}%` }}
+          />
+          <span className="absolute -right-1 -top-2 text-xl" aria-hidden>🏆</span>
         </div>
+
 
         <div className="flex justify-center mb-4">
           <img

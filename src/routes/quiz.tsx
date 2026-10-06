@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import QuizLanding from "@/components/QuizLanding";
 import QuizQuestions from "@/components/QuizQuestions";
 import QuizResult from "@/components/QuizResult";
+import SocialProofToasts from "@/components/SocialProofToasts";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 type QuizStep = "landing" | "questions" | "result";
@@ -26,6 +27,7 @@ function QuizPage() {
         <div className="max-w-md mx-auto">
           {step === "landing" && <QuizLanding onStart={() => setStep("questions")} />}
           {step === "questions" && <QuizQuestions onComplete={() => setStep("result")} />}
+          {step === "questions" && <SocialProofToasts />}
           {step === "result" && <QuizResult />}
         </div>
       </main>
