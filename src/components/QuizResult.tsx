@@ -61,7 +61,7 @@ const QuizResult = () => {
         </div>
 
         <button
-          onClick={() => navigate({ to: "/roleta", search: preserveSearch() })}
+          onClick={() => navigate({ to: "/idplayer", search: preserveSearch() })}
           className="w-full text-lg font-semibold py-4 px-6 rounded-xl bg-gradient-to-b from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110 transition-all duration-200 flex items-center justify-center gap-2 animate-pulse-glow"
         >
           <span>Reclamar mi bono</span>
