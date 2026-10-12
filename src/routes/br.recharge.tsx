@@ -21,9 +21,9 @@ export const Route = createFileRoute("/br/recharge")({
   head: () => ({
     meta: [
       { title: "Recarga de diamantes — Free Fire Brasil" },
-      { name: "description", content: "Escolha sua recarga de diamantes com bônus e continue para o checkout da Shopify." },
+      { name: "description", content: "Escolha sua recarga de diamantes com bônus e pague na hora via PIX." },
       { property: "og:title", content: "Recarga de diamantes — Free Fire Brasil" },
-      { property: "og:description", content: "Escolha sua recarga de diamantes com bônus e continue para o checkout da Shopify." },
+      { property: "og:description", content: "Escolha sua recarga de diamantes com bônus e pague na hora via PIX." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -98,7 +98,7 @@ function RechargePage() {
                 <Button
                   key={i}
                   onClick={() => {
-                    window.location.href = buildCheckoutUrl(pkg.checkoutUrl);
+                    window.location.href = `/br/checkout/${i}${window.location.search}`;
                   }}
                   className="go-to-checkout h-auto whitespace-normal block p-0 relative rounded-2xl border-2 overflow-hidden text-center transition-all bg-card border-border hover:border-primary/50 hover:shadow-lg hover:scale-[1.02] active:scale-[0.98]"
                 >

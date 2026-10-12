@@ -87,8 +87,11 @@ export type Database = {
           delivered_at: string | null
           document: string | null
           email: string
+          freepay_transaction_id: string | null
           id: string
           ip: string | null
+          phone: string | null
+          pix_qr_code: string | null
           plan_id: string
           plan_name: string
           player_id: string | null
@@ -119,8 +122,11 @@ export type Database = {
           delivered_at?: string | null
           document?: string | null
           email: string
+          freepay_transaction_id?: string | null
           id?: string
           ip?: string | null
+          phone?: string | null
+          pix_qr_code?: string | null
           plan_id: string
           plan_name: string
           player_id?: string | null
@@ -151,8 +157,11 @@ export type Database = {
           delivered_at?: string | null
           document?: string | null
           email?: string
+          freepay_transaction_id?: string | null
           id?: string
           ip?: string | null
+          phone?: string | null
+          pix_qr_code?: string | null
           plan_id?: string
           plan_name?: string
           player_id?: string | null

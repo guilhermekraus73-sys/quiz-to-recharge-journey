@@ -32,6 +32,7 @@ function IdPlayerPage() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (playerId.trim()) {
+      try { sessionStorage.setItem("br_player_id", playerId.trim()); } catch { /* ignore */ }
       navigate({ to: "/br/recharge", search: preserveSearch() });
     }
   };
