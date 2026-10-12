@@ -1,8 +1,8 @@
 import quizQ1 from "@/assets/quiz-q1.jpg";
-import quizQ2 from "@/assets/quiz-q2.jpg";
-import quizQ3 from "@/assets/quiz-q3.jpg";
+import quizQ2 from "@/assets/br-quiz-q2.jpg";
+import quizQ3 from "@/assets/br-quiz-q3.jpg";
 import quizQ4 from "@/assets/quiz-q4.jpg";
-import quizQ5 from "@/assets/quiz-q5.jpg";
+import quizQ5 from "@/assets/br-quiz-q5.jpg";
 import quizQ6 from "@/assets/quiz-q6.jpg";
 
 export interface QuizQuestion {
