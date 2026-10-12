@@ -24,9 +24,14 @@ const formatAmount = (amount: number, currency: string) =>
   `$${(amount / 100).toFixed(2)} ${currency.toUpperCase()}`;
 
 export const Route = createFileRoute("/checkout-success")({
-  head: () => ({
-    meta: [{ title: "¡Pago confirmado! — Free Fire" }],
-  }),
+  head: () => ({ meta: [
+    { title: "Estado del pago — Free Fire" },
+    { name: "description", content: "Consulta el estado de tu pago y recarga Free Fire." },
+    { property: "og:title", content: "Estado del pago — Free Fire" },
+    { property: "og:description", content: "Consulta el estado de tu pago y recarga Free Fire." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+  ] }),
   component: CheckoutSuccess,
 });
 

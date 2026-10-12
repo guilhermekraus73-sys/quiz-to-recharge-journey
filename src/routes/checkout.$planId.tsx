@@ -60,9 +60,14 @@ const plans = [
 ];
 
 export const Route = createFileRoute("/checkout/$planId")({
-  head: () => ({
-    meta: [{ title: "Checkout — Free Fire" }],
-  }),
+  head: () => ({ meta: [
+    { title: "Checkout — Recarga Free Fire" },
+    { name: "description", content: "Completa los datos de pago de tu recarga Free Fire." },
+    { property: "og:title", content: "Checkout — Recarga Free Fire" },
+    { property: "og:description", content: "Completa los datos de pago de tu recarga Free Fire." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+  ] }),
   component: CheckoutPage,
 });
 

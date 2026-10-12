@@ -9,6 +9,10 @@ export const Route = createFileRoute("/idplayer")({
     meta: [
       { title: "Identificar cuenta — Free Fire" },
       { name: "description", content: "Ingresa tu ID de jugador de Free Fire para validar tu cuenta." },
+      { property: "og:title", content: "Identificar cuenta — Free Fire" },
+      { property: "og:description", content: "Ingresa tu ID de jugador de Free Fire para validar tu cuenta." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: IdPlayerPage,

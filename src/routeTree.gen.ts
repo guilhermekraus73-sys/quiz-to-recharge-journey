@@ -17,6 +17,10 @@ import { Route as PresellRouteImport } from './routes/presell'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as RechargeRouteImport } from './routes/recharge'
 import { Route as RoletaRouteImport } from './routes/roleta'
+import { Route as BrIndexRouteImport } from './routes/br.index'
+import { Route as BrIdplayerRouteImport } from './routes/br.idplayer'
+import { Route as BrQuizRouteImport } from './routes/br.quiz'
+import { Route as BrRechargeRouteImport } from './routes/br.recharge'
 import { Route as CheckoutPlanIdRouteImport } from './routes/checkout.$planId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -59,6 +63,26 @@ const RoletaRoute = RoletaRouteImport.update({
   path: '/roleta',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrIndexRoute = BrIndexRouteImport.update({
+  id: '/br/',
+  path: '/br/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrIdplayerRoute = BrIdplayerRouteImport.update({
+  id: '/br/idplayer',
+  path: '/br/idplayer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrQuizRoute = BrQuizRouteImport.update({
+  id: '/br/quiz',
+  path: '/br/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BrRechargeRoute = BrRechargeRouteImport.update({
+  id: '/br/recharge',
+  path: '/br/recharge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CheckoutPlanIdRoute = CheckoutPlanIdRouteImport.update({
   id: '/checkout/$planId',
   path: '/checkout/$planId',
@@ -74,7 +98,11 @@ export interface FileRoutesByFullPath {
   '/quiz': typeof QuizRoute
   '/recharge': typeof RechargeRoute
   '/roleta': typeof RoletaRoute
+  '/br/idplayer': typeof BrIdplayerRoute
+  '/br/quiz': typeof BrQuizRoute
+  '/br/recharge': typeof BrRechargeRoute
   '/checkout/$planId': typeof CheckoutPlanIdRoute
+  '/br/': typeof BrIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -85,7 +113,11 @@ export interface FileRoutesByTo {
   '/quiz': typeof QuizRoute
   '/recharge': typeof RechargeRoute
   '/roleta': typeof RoletaRoute
+  '/br/idplayer': typeof BrIdplayerRoute
+  '/br/quiz': typeof BrQuizRoute
+  '/br/recharge': typeof BrRechargeRoute
   '/checkout/$planId': typeof CheckoutPlanIdRoute
+  '/br': typeof BrIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -97,7 +129,11 @@ export interface FileRoutesById {
   '/quiz': typeof QuizRoute
   '/recharge': typeof RechargeRoute
   '/roleta': typeof RoletaRoute
+  '/br/idplayer': typeof BrIdplayerRoute
+  '/br/quiz': typeof BrQuizRoute
+  '/br/recharge': typeof BrRechargeRoute
   '/checkout/$planId': typeof CheckoutPlanIdRoute
+  '/br/': typeof BrIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -110,7 +146,11 @@ export interface FileRouteTypes {
     | '/quiz'
     | '/recharge'
     | '/roleta'
+    | '/br/idplayer'
+    | '/br/quiz'
+    | '/br/recharge'
     | '/checkout/$planId'
+    | '/br/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -121,7 +161,11 @@ export interface FileRouteTypes {
     | '/quiz'
     | '/recharge'
     | '/roleta'
+    | '/br/idplayer'
+    | '/br/quiz'
+    | '/br/recharge'
     | '/checkout/$planId'
+    | '/br'
   id:
     | '__root__'
     | '/'
@@ -132,7 +176,11 @@ export interface FileRouteTypes {
     | '/quiz'
     | '/recharge'
     | '/roleta'
+    | '/br/idplayer'
+    | '/br/quiz'
+    | '/br/recharge'
     | '/checkout/$planId'
+    | '/br/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -144,7 +192,11 @@ export interface RootRouteChildren {
   QuizRoute: typeof QuizRoute
   RechargeRoute: typeof RechargeRoute
   RoletaRoute: typeof RoletaRoute
+  BrIdplayerRoute: typeof BrIdplayerRoute
+  BrQuizRoute: typeof BrQuizRoute
+  BrRechargeRoute: typeof BrRechargeRoute
   CheckoutPlanIdRoute: typeof CheckoutPlanIdRoute
+  BrIndexRoute: typeof BrIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -205,6 +257,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RoletaRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/br/': {
+      id: '/br/'
+      path: '/br'
+      fullPath: '/br/'
+      preLoaderRoute: typeof BrIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/br/idplayer': {
+      id: '/br/idplayer'
+      path: '/br/idplayer'
+      fullPath: '/br/idplayer'
+      preLoaderRoute: typeof BrIdplayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/br/quiz': {
+      id: '/br/quiz'
+      path: '/br/quiz'
+      fullPath: '/br/quiz'
+      preLoaderRoute: typeof BrQuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/br/recharge': {
+      id: '/br/recharge'
+      path: '/br/recharge'
+      fullPath: '/br/recharge'
+      preLoaderRoute: typeof BrRechargeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/checkout/$planId': {
       id: '/checkout/$planId'
       path: '/checkout/$planId'
@@ -224,7 +304,11 @@ const rootRouteChildren: RootRouteChildren = {
   QuizRoute: QuizRoute,
   RechargeRoute: RechargeRoute,
   RoletaRoute: RoletaRoute,
+  BrIdplayerRoute: BrIdplayerRoute,
+  BrQuizRoute: BrQuizRoute,
+  BrRechargeRoute: BrRechargeRoute,
   CheckoutPlanIdRoute: CheckoutPlanIdRoute,
+  BrIndexRoute: BrIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
