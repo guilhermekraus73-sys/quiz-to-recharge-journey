@@ -1,6 +1,6 @@
 import { createFileRoute, redirect } from "@tanstack/react-router";
 
-export const Route = createFileRoute("/br")({
+export const Route = createFileRoute("/br/")({
   head: () => ({ meta: [
     { title: "Free Fire Brasil — Avaliação e recarga" },
     { name: "description", content: "Avalie sua conta Free Fire e escolha sua recarga de diamantes com bônus." },
