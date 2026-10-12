@@ -26,7 +26,7 @@ const createSchema = z.object({
 });
 
 export const createPixOrder = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => createSchema.parse(d))
+  .validator((d: unknown) => createSchema.parse(d))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { freepayCreatePix, sendUtmify } = await import("./freepay.server");
@@ -74,7 +74,7 @@ export const createPixOrder = createServerFn({ method: "POST" })
   });
 
 export const getPixOrderStatus = createServerFn({ method: "POST" })
-  .inputValidator((d: unknown) => z.object({ orderId: z.string().uuid() }).parse(d))
+  .validator((d: unknown) => z.object({ orderId: z.string().uuid() }).parse(d))
   .handler(async ({ data }) => {
     const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
     const { freepayGetStatus, finalizePaidOrder } = await import("./freepay.server");
