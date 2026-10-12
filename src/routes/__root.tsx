@@ -78,8 +78,25 @@ function ErrorComponent({ error, reset }: import("@tanstack/react-router").Error
   );
 }
 
+const BR_SCRIPTS = [
+  {
+    src: "https://cdn.utmify.com.br/scripts/utms/latest.js",
+    async: true,
+    defer: true,
+    "data-utmify-prevent-xcod-sck": "",
+    "data-utmify-prevent-subids": "",
+  },
+  { children: 'window.pixelId = "6ac3c40c0b8aa0336e8b2ded";' },
+  { src: "https://cdn.utmify.com.br/scripts/pixel/pixel.js", async: true, defer: true },
+  {
+    children: `window.tikTokPixelId="6ac3c4e899128c9b6fe0c1c3";(function(){var s=document.createElement("script");s.src="https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js";s.async=true;s.defer=true;(document.head||document.documentElement).appendChild(s);})();`,
+  },
+];
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
-  head: () => ({
+  head: ({ matches }) => {
+    const isBr = matches.some((m) => m.pathname === "/br" || m.pathname.startsWith("/br/"));
+    return {
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
@@ -98,7 +115,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: appCss,
       },
     ],
-    scripts: [
+    // Brazilian funnel has its own Utmify account; Spanish pages keep theirs.
+    scripts: isBr ? BR_SCRIPTS : [
       {
         src: "https://cdn.utmify.com.br/scripts/utms/latest.js",
         async: true,
@@ -127,7 +145,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: `window.tikTokPixelId="6ac057551e09b97c39c67eec";(function(){var s=document.createElement("script");s.src="https://cdn.utmify.com.br/scripts/pixel/pixel-tiktok.js";s.async=true;(document.head||document.documentElement).appendChild(s);})();`,
       },
     ],
-  }),
+    };
+  },
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
