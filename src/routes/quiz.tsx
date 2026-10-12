@@ -13,6 +13,10 @@ export const Route = createFileRoute("/quiz")({
     meta: [
       { title: "Quiz Free Fire — Califica tu cuenta" },
       { name: "description", content: "Descubre si tu cuenta Free Fire califica para hasta 70% de descuento en diamantes." },
+      { property: "og:title", content: "Quiz Free Fire — Califica tu cuenta" },
+      { property: "og:description", content: "Descubre si tu cuenta Free Fire califica para hasta 70% de descuento en diamantes." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: QuizPage,

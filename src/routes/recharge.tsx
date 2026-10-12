@@ -21,6 +21,10 @@ export const Route = createFileRoute("/recharge")({
     meta: [
       { title: "Recarga de Diamantes — Free Fire" },
       { name: "description", content: "Selecciona tu paquete de diamantes con bono especial desbloqueado." },
+      { property: "og:title", content: "Recarga de Diamantes — Free Fire" },
+      { property: "og:description", content: "Selecciona tu paquete de diamantes con bono especial desbloqueado." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: RechargePage,

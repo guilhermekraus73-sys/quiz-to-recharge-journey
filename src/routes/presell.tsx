@@ -5,6 +5,10 @@ export const Route = createFileRoute("/presell")({
     meta: [
       { title: "Oferta exclusiva — Free Fire" },
       { name: "description", content: "Accede a tu oferta exclusiva de diamantes para Free Fire." },
+      { property: "og:title", content: "Oferta exclusiva — Free Fire" },
+      { property: "og:description", content: "Accede a tu oferta exclusiva de diamantes para Free Fire." },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
     ],
   }),
   component: PresellPage,

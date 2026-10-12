@@ -83,18 +83,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Builds complete sales funnels with quiz pages, identification, and recharge capabilities, including images." },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Builds complete sales funnels with quiz pages, identification, and recharge capabilities, including images." },
+      { title: "Free Fire — Recarga de diamantes" },
+      { name: "description", content: "Evalúa tu cuenta y elige tu recarga de diamantes Free Fire con bono." },
+      { property: "og:title", content: "Free Fire — Recarga de diamantes" },
+      { property: "og:description", content: "Evalúa tu cuenta y elige tu recarga de diamantes Free Fire con bono." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
-      { name: "twitter:title", content: "Lovable App" },
-      { name: "twitter:description", content: "Builds complete sales funnels with quiz pages, identification, and recharge capabilities, including images." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1f5082a0-f832-491c-a371-021261a1bf99/id-preview-61c856f6--7a3d015f-3532-493c-ba65-f62e5ef7d897.lovable.app-1781045789940.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/1f5082a0-f832-491c-a371-021261a1bf99/id-preview-61c856f6--7a3d015f-3532-493c-ba65-f62e5ef7d897.lovable.app-1781045789940.png" },
+      { name: "twitter:title", content: "Free Fire — Recarga de diamantes" },
+      { name: "twitter:description", content: "Evalúa tu cuenta y elige tu recarga de diamantes Free Fire con bono." },
     ],
     links: [
       {
@@ -139,8 +135,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const pathname = useRouter().state.location.pathname;
   return (
-    <html lang="en">
+    <html lang={pathname === "/br" || pathname.startsWith("/br/") ? "pt-BR" : "es"}>
       <head>
         <HeadContent />
       </head>

@@ -33,7 +33,14 @@ const DASH_AUTH_KEY = "dashboard_authed";
 const DASH_PASSWORD = "admin123";
 
 export const Route = createFileRoute("/dashboard")({
-  head: () => ({ meta: [{ title: "Dashboard — Funil" }] }),
+  head: () => ({ meta: [
+    { title: "Dashboard — Funil Magico" },
+    { name: "description", content: "Acompanhe as etapas e vendas do funil Free Fire." },
+    { property: "og:title", content: "Dashboard — Funil Magico" },
+    { property: "og:description", content: "Acompanhe as etapas e vendas do funil Free Fire." },
+    { property: "og:type", content: "website" },
+    { name: "twitter:card", content: "summary" },
+  ] }),
   component: Dashboard,
 });
 
