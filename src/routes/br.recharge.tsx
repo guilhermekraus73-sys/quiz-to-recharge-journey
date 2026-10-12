@@ -34,6 +34,8 @@ export const Route = createFileRoute("/br/recharge")({
 function buildCheckoutUrl(baseUrl: string) {
   if (typeof window === "undefined") return baseUrl;
   const url = new URL(baseUrl);
+  // Ask Shopify for Portuguese; the shop must have this language enabled.
+  url.searchParams.set("locale", "pt-BR");
   const search = new URLSearchParams(window.location.search);
   search.forEach((value, key) => {
     if (!url.searchParams.has(key)) url.searchParams.append(key, value);

@@ -31,7 +31,7 @@ const QuizResult = () => {
           {results.map((item) => (
             <div
               key={item.label}
-              className="flex items-center justify-between bg-success/10 rounded-xl p-4 border border-success/20"
+              className="flex flex-wrap items-center justify-between gap-2 bg-success/10 rounded-xl p-4 border border-success/20"
             >
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="w-5 h-5 text-success" />
