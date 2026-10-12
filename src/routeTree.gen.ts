@@ -23,6 +23,7 @@ import { Route as BrQuizRouteImport } from './routes/br.quiz'
 import { Route as BrRechargeRouteImport } from './routes/br.recharge'
 import { Route as CheckoutPlanIdRouteImport } from './routes/checkout.$planId'
 import { Route as ApiPublicFreepayWebhookRouteImport } from './routes/api/public/freepay-webhook'
+import { Route as BrCheckoutPlanRouteImport } from './routes/br.checkout.$plan'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -94,6 +95,11 @@ const ApiPublicFreepayWebhookRoute = ApiPublicFreepayWebhookRouteImport.update({
   path: '/api/public/freepay-webhook',
   getParentRoute: () => rootRouteImport,
 } as any)
+const BrCheckoutPlanRoute = BrCheckoutPlanRouteImport.update({
+  id: '/br/checkout/$plan',
+  path: '/br/checkout/$plan',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/checkout/$planId': typeof CheckoutPlanIdRoute
   '/br/': typeof BrIndexRoute
   '/api/public/freepay-webhook': typeof ApiPublicFreepayWebhookRoute
+  '/br/checkout/$plan': typeof BrCheckoutPlanRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/checkout/$planId': typeof CheckoutPlanIdRoute
   '/br': typeof BrIndexRoute
   '/api/public/freepay-webhook': typeof ApiPublicFreepayWebhookRoute
+  '/br/checkout/$plan': typeof BrCheckoutPlanRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -143,6 +151,7 @@ export interface FileRoutesById {
   '/checkout/$planId': typeof CheckoutPlanIdRoute
   '/br/': typeof BrIndexRoute
   '/api/public/freepay-webhook': typeof ApiPublicFreepayWebhookRoute
+  '/br/checkout/$plan': typeof BrCheckoutPlanRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -161,6 +170,7 @@ export interface FileRouteTypes {
     | '/checkout/$planId'
     | '/br/'
     | '/api/public/freepay-webhook'
+    | '/br/checkout/$plan'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -177,6 +187,7 @@ export interface FileRouteTypes {
     | '/checkout/$planId'
     | '/br'
     | '/api/public/freepay-webhook'
+    | '/br/checkout/$plan'
   id:
     | '__root__'
     | '/'
@@ -193,6 +204,7 @@ export interface FileRouteTypes {
     | '/checkout/$planId'
     | '/br/'
     | '/api/public/freepay-webhook'
+    | '/br/checkout/$plan'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -210,6 +222,7 @@ export interface RootRouteChildren {
   CheckoutPlanIdRoute: typeof CheckoutPlanIdRoute
   BrIndexRoute: typeof BrIndexRoute
   ApiPublicFreepayWebhookRoute: typeof ApiPublicFreepayWebhookRoute
+  BrCheckoutPlanRoute: typeof BrCheckoutPlanRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -312,6 +325,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicFreepayWebhookRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/br/checkout/$plan': {
+      id: '/br/checkout/$plan'
+      path: '/br/checkout/$plan'
+      fullPath: '/br/checkout/$plan'
+      preLoaderRoute: typeof BrCheckoutPlanRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -330,6 +350,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutPlanIdRoute: CheckoutPlanIdRoute,
   BrIndexRoute: BrIndexRoute,
   ApiPublicFreepayWebhookRoute: ApiPublicFreepayWebhookRoute,
+  BrCheckoutPlanRoute: BrCheckoutPlanRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

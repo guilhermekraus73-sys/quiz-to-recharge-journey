@@ -139,9 +139,7 @@ function CheckoutPage() {
                 <Timer className="w-4 h-4" /> Expira em {mm}:{ss}
               </div>
               <div className="bg-background rounded-xl p-3 inline-block mb-4 border border-border">
-                <div className="bg-[hsl(0_0%_100%)] p-2 rounded-lg">
-                  <QRCodeSVG value={pix.qrCode} size={200} />
-                </div>
+                <QRCodeSVG value={pix.qrCode} size={200} marginSize={2} className="rounded-lg" />
               </div>
               <div className="bg-muted/50 border border-border rounded-xl p-3 text-xs text-muted-foreground break-all text-left mb-3 max-h-20 overflow-hidden">
                 {pix.qrCode}
