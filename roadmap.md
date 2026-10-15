@@ -15,3 +15,4 @@
 - [x] Replace the alternate quiz scenery with the user's Naruto artwork and keep characters visible above the quiz.
 - [x] Create /idplayer2 and /recharge2 with Naruto styling and connect /quiz2 to the new flow.
 - [x] Verify alternate funnel navigation, checkout UTMs, and unchanged original pages.
+- [ ] Make Naruto artwork background-only and verify centered alternate funnel content without artwork-induced spacing on mobile and desktop.

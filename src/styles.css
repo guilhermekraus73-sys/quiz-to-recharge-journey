@@ -147,8 +147,8 @@
   --muted: 240 6% 14%;
   --muted-foreground: 240 5% 76%;
   --border: 22 25% 24%;
-  --ninja-shade: linear-gradient(to bottom, transparent 65%, hsl(var(--background)) 100%);
-  --ninja-panel: hsl(var(--card) / 0.88);
+  --ninja-shade: linear-gradient(to bottom, hsl(var(--background) / 0.55), hsl(var(--background) / 0.72));
+  --ninja-panel: hsl(var(--card) / 0.96);
   --ninja-outline: hsl(var(--primary) / 0.7);
   --ninja-chakra: 190 90% 58%;
   --ninja-chakra-line: hsl(var(--ninja-chakra) / 0.4);
@@ -157,13 +157,15 @@
   background: hsl(var(--background));
 }
 .quiz-ninja-scenery {
-  position: absolute;
-  inset: 0 0 auto;
-  height: clamp(240px, 56vw, 620px);
+  position: fixed;
+  inset: 0;
   z-index: -1;
   pointer-events: none;
+  overflow: hidden;
 }
+.quiz-ninja-scenery picture { display: block; height: 100%; }
 .quiz-ninja-backdrop {
+  display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -174,7 +176,12 @@
   inset: 0;
   background: var(--ninja-shade);
 }
-.quiz-ninja-content { padding-top: clamp(220px, 45vw, 500px); }
+.quiz-ninja-content {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  padding-block: 16px;
+}
 .quiz-ninja .bg-card {
   background-color: var(--ninja-panel);
   border: 1px solid var(--ninja-outline);
@@ -191,19 +198,7 @@
 .quiz-ninja button { border-radius: 6px; }
 .quiz-ninja h1, .quiz-ninja h2, .quiz-ninja h3 { letter-spacing: 0; }
 @media (max-width: 767px) {
-  .quiz-ninja-scenery { position: fixed; height: 100svh; }
-  .quiz-ninja-scenery picture { display: block; height: 100%; }
   .quiz-ninja-backdrop { object-position: 50% top; }
-  .quiz-ninja-veil {
-    background: linear-gradient(to bottom, transparent 25%, hsl(var(--background) / 0.12) 60%, hsl(var(--background) / 0.3));
-  }
-  .quiz-ninja-content {
-    min-height: 100svh;
-    display: flex;
-    align-items: center;
-    padding-top: 145px;
-    padding-bottom: 16px;
-  }
   .quiz-ninja-landing > div > div:first-child { margin: 0 0 6px; }
   .quiz-ninja-landing img { width: 150px; height: 36px; }
   .quiz-ninja-landing > div > div:nth-child(2) {
@@ -224,8 +219,7 @@
   .quiz-ninja-landing button { padding: 12px; font-size: 15px; line-height: 20px; }
 }
 
-.ninja-continuation > main { position: relative; padding-top: clamp(180px, 38vw, 420px); }
-.ninja-continuation .quiz-ninja-scenery picture { display: block; height: 100%; }
+.ninja-continuation > main { position: relative; }
 .ninja-continuation .go-to-checkout > div:first-child {
   background: hsl(var(--primary) / 0.18);
   color: hsl(var(--foreground));
@@ -233,9 +227,6 @@
   letter-spacing: 0;
 }
 .ninja-continuation .text-violet-400 { color: hsl(var(--ninja-chakra)); }
-@media (max-width: 767px) {
-  .ninja-continuation > main { padding-top: 165px; }
-}
 
 /* Seasonal presentation is isolated from the Spanish funnel and tracking. */
 .br-halloween {
