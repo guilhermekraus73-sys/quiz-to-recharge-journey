@@ -42,6 +42,7 @@
   --color-border: hsl(var(--border));
   --color-input: hsl(var(--input));
   --color-ring: hsl(var(--ring));
+  --color-halloween-moon: var(--halloween-moon);
 }
 
 :root {
@@ -137,3 +138,67 @@
 @media (min-width: 768px) { .container { max-width: 768px; padding-inline: 2rem; } }
 @media (min-width: 1024px) { .container { max-width: 1024px; } }
 @media (min-width: 1280px) { .container { max-width: 1280px; } }
+
+/* Seasonal presentation is isolated from the Spanish funnel and tracking. */
+.br-halloween {
+  --background: 260 16% 5%;
+  --card: 258 14% 10%;
+  --popover: 258 14% 10%;
+  --secondary: 258 12% 15%;
+  --muted: 258 12% 15%;
+  --border: 265 17% 23%;
+  --input: 265 17% 23%;
+  --primary: 25 100% 57%;
+  --accent: 25 100% 57%;
+  --ring: 25 100% 57%;
+  --halloween-moon: oklch(0.84 0.09 302);
+  --halloween-shadow: 0 6px 30px hsl(var(--background) / 0.6);
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  color-scheme: dark;
+}
+
+.br-halloween > .min-h-screen {
+  min-height: auto;
+  background: transparent;
+}
+
+.br-halloween main.container {
+  padding-top: 1.25rem;
+}
+
+.halloween-art {
+  height: 168px;
+  border: 1px solid hsl(var(--primary) / 0.4);
+  box-shadow: var(--halloween-shadow);
+}
+
+.halloween-title {
+  letter-spacing: 0;
+  text-shadow: 0 2px 8px hsl(var(--background)), 0 0 24px hsl(var(--primary) / 0.5);
+  animation: halloween-reveal 700ms ease-out both;
+}
+
+.br-halloween .bg-card {
+  box-shadow: var(--halloween-shadow);
+}
+
+.br-halloween input:focus-visible {
+  outline-color: hsl(var(--primary));
+}
+
+@keyframes halloween-reveal {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 380px) {
+  .halloween-art { height: 144px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .br-halloween *, .br-halloween *::before, .br-halloween *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
