@@ -206,7 +206,12 @@
   }
   .quiz-ninja-landing > div > div:first-child { margin: 0 0 6px; }
   .quiz-ninja-landing img { width: 150px; height: 36px; }
-  .quiz-ninja-landing > div > div:nth-child(2) { padding: 6px; margin-bottom: 8px; }
+  .quiz-ninja-landing > div > div:nth-child(2) {
+    padding: 6px;
+    margin-bottom: 8px;
+    background: hsl(var(--card) / 0.94);
+    border-radius: 4px;
+  }
   .quiz-ninja-landing > div > div:nth-child(2) p { font-size: 11px; line-height: 16px; }
   .quiz-ninja-landing .bg-card { padding: 14px; }
   .quiz-ninja-landing .bg-card > div:first-child { margin-bottom: 10px; }
