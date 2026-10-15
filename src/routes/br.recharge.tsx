@@ -9,12 +9,12 @@ import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 import { resolveTracking } from "@/lib/tracking";
 
 const packages = [
-  { diamonds: "5.600", price: "R$37,00", bonus: "1.200", badge: "MELHOR VALOR", badgeGradient: "from-secondary to-secondary", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831049552:1?channel=buy_button" },
-  { diamonds: "11.200", price: "R$57,00", bonus: "2.240", badge: "MAIS POPULAR", badgeGradient: "from-primary/30 to-primary/10", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831082320:1?channel=buy_button" },
-  { diamonds: "22.400", price: "R$77,00", bonus: "4.480", badge: "MELHOR OFERTA", badgeGradient: "from-secondary to-secondary", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831115088:1?channel=buy_button" },
-  { diamonds: "29.500", price: "R$97,00", bonus: "5.900", badge: "MÁXIMO BENEFÍCIO", badgeGradient: "from-secondary to-secondary", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831147856:1?channel=buy_button" },
-  { diamonds: "39.200", price: "R$117,00", bonus: "7.840", badge: "SUPER PACOTE", badgeGradient: "from-primary/30 to-primary/10", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831180624:1?channel=buy_button" },
-  { diamonds: "56.000", price: "R$137,00", bonus: "11.200", badge: "MEGA PACOTE", badgeGradient: "from-secondary to-secondary", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831213392:1?channel=buy_button" },
+  { diamonds: "5.600", price: "R$19,90", bonus: "1.200", badge: "MELHOR VALOR", badgeGradient: "from-secondary to-secondary", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831049552:1?channel=buy_button" },
+  { diamonds: "11.200", price: "R$29,90", bonus: "2.240", badge: "MAIS POPULAR", badgeGradient: "from-primary/30 to-primary/10", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831082320:1?channel=buy_button" },
+  { diamonds: "22.400", price: "R$39,90", bonus: "4.480", badge: "MELHOR OFERTA", badgeGradient: "from-secondary to-secondary", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831115088:1?channel=buy_button" },
+  { diamonds: "29.500", price: "R$49,90", bonus: "5.900", badge: "MÁXIMO BENEFÍCIO", badgeGradient: "from-secondary to-secondary", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831147856:1?channel=buy_button" },
+  { diamonds: "39.200", price: "R$59,90", bonus: "7.840", badge: "SUPER PACOTE", badgeGradient: "from-primary/30 to-primary/10", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831180624:1?channel=buy_button" },
+  { diamonds: "56.000", price: "R$69,90", bonus: "11.200", badge: "MEGA PACOTE", badgeGradient: "from-secondary to-secondary", checkoutUrl: "https://1ievzb-tk.myshopify.com/cart/53605831213392:1?channel=buy_button" },
 ];
 
 export const Route = createFileRoute("/br/recharge")({
