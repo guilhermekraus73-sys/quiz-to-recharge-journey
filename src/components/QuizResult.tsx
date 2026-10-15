@@ -1,7 +1,7 @@
 import { CheckCircle2, Clock, Gift } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 
-const QuizResult = () => {
+const QuizResult = ({ nextPage = "/idplayer" }: { nextPage?: "/idplayer" | "/idplayer2" }) => {
   const navigate = useNavigate();
 
   const preserveSearch = () =>
@@ -61,7 +61,7 @@ const QuizResult = () => {
         </div>
 
         <button
-          onClick={() => navigate({ to: "/idplayer", search: preserveSearch() })}
+          onClick={() => navigate({ to: nextPage, search: preserveSearch() })}
           className="w-full text-lg font-semibold py-4 px-6 rounded-xl bg-gradient-to-b from-primary to-primary/80 text-primary-foreground shadow-lg shadow-primary/30 hover:brightness-110 transition-all duration-200 flex items-center justify-center gap-2 animate-pulse-glow"
         >
           <span>Reclamar mi bono</span>

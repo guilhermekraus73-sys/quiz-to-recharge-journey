@@ -13,10 +13,12 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as CheckoutSuccessRouteImport } from './routes/checkout-success'
 import { Route as DashboardRouteImport } from './routes/dashboard'
 import { Route as IdplayerRouteImport } from './routes/idplayer'
+import { Route as Idplayer2RouteImport } from './routes/idplayer2'
 import { Route as PresellRouteImport } from './routes/presell'
 import { Route as QuizRouteImport } from './routes/quiz'
 import { Route as Quiz2RouteImport } from './routes/quiz2'
 import { Route as RechargeRouteImport } from './routes/recharge'
+import { Route as Recharge2RouteImport } from './routes/recharge2'
 import { Route as RoletaRouteImport } from './routes/roleta'
 import { Route as BrIndexRouteImport } from './routes/br.index'
 import { Route as BrIdplayerRouteImport } from './routes/br.idplayer'
@@ -46,6 +48,11 @@ const IdplayerRoute = IdplayerRouteImport.update({
   path: '/idplayer',
   getParentRoute: () => rootRouteImport,
 } as any)
+const Idplayer2Route = Idplayer2RouteImport.update({
+  id: '/idplayer2',
+  path: '/idplayer2',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PresellRoute = PresellRouteImport.update({
   id: '/presell',
   path: '/presell',
@@ -64,6 +71,11 @@ const Quiz2Route = Quiz2RouteImport.update({
 const RechargeRoute = RechargeRouteImport.update({
   id: '/recharge',
   path: '/recharge',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const Recharge2Route = Recharge2RouteImport.update({
+  id: '/recharge2',
+  path: '/recharge2',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RoletaRoute = RoletaRouteImport.update({
@@ -112,10 +124,12 @@ export interface FileRoutesByFullPath {
   '/checkout-success': typeof CheckoutSuccessRoute
   '/dashboard': typeof DashboardRoute
   '/idplayer': typeof IdplayerRoute
+  '/idplayer2': typeof Idplayer2Route
   '/presell': typeof PresellRoute
   '/quiz': typeof QuizRoute
   '/quiz2': typeof Quiz2Route
   '/recharge': typeof RechargeRoute
+  '/recharge2': typeof Recharge2Route
   '/roleta': typeof RoletaRoute
   '/br/idplayer': typeof BrIdplayerRoute
   '/br/quiz': typeof BrQuizRoute
@@ -130,10 +144,12 @@ export interface FileRoutesByTo {
   '/checkout-success': typeof CheckoutSuccessRoute
   '/dashboard': typeof DashboardRoute
   '/idplayer': typeof IdplayerRoute
+  '/idplayer2': typeof Idplayer2Route
   '/presell': typeof PresellRoute
   '/quiz': typeof QuizRoute
   '/quiz2': typeof Quiz2Route
   '/recharge': typeof RechargeRoute
+  '/recharge2': typeof Recharge2Route
   '/roleta': typeof RoletaRoute
   '/br/idplayer': typeof BrIdplayerRoute
   '/br/quiz': typeof BrQuizRoute
@@ -149,10 +165,12 @@ export interface FileRoutesById {
   '/checkout-success': typeof CheckoutSuccessRoute
   '/dashboard': typeof DashboardRoute
   '/idplayer': typeof IdplayerRoute
+  '/idplayer2': typeof Idplayer2Route
   '/presell': typeof PresellRoute
   '/quiz': typeof QuizRoute
   '/quiz2': typeof Quiz2Route
   '/recharge': typeof RechargeRoute
+  '/recharge2': typeof Recharge2Route
   '/roleta': typeof RoletaRoute
   '/br/idplayer': typeof BrIdplayerRoute
   '/br/quiz': typeof BrQuizRoute
@@ -169,10 +187,12 @@ export interface FileRouteTypes {
     | '/checkout-success'
     | '/dashboard'
     | '/idplayer'
+    | '/idplayer2'
     | '/presell'
     | '/quiz'
     | '/quiz2'
     | '/recharge'
+    | '/recharge2'
     | '/roleta'
     | '/br/idplayer'
     | '/br/quiz'
@@ -187,10 +207,12 @@ export interface FileRouteTypes {
     | '/checkout-success'
     | '/dashboard'
     | '/idplayer'
+    | '/idplayer2'
     | '/presell'
     | '/quiz'
     | '/quiz2'
     | '/recharge'
+    | '/recharge2'
     | '/roleta'
     | '/br/idplayer'
     | '/br/quiz'
@@ -205,10 +227,12 @@ export interface FileRouteTypes {
     | '/checkout-success'
     | '/dashboard'
     | '/idplayer'
+    | '/idplayer2'
     | '/presell'
     | '/quiz'
     | '/quiz2'
     | '/recharge'
+    | '/recharge2'
     | '/roleta'
     | '/br/idplayer'
     | '/br/quiz'
@@ -224,10 +248,12 @@ export interface RootRouteChildren {
   CheckoutSuccessRoute: typeof CheckoutSuccessRoute
   DashboardRoute: typeof DashboardRoute
   IdplayerRoute: typeof IdplayerRoute
+  Idplayer2Route: typeof Idplayer2Route
   PresellRoute: typeof PresellRoute
   QuizRoute: typeof QuizRoute
   Quiz2Route: typeof Quiz2Route
   RechargeRoute: typeof RechargeRoute
+  Recharge2Route: typeof Recharge2Route
   RoletaRoute: typeof RoletaRoute
   BrIdplayerRoute: typeof BrIdplayerRoute
   BrQuizRoute: typeof BrQuizRoute
@@ -268,6 +294,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IdplayerRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/idplayer2': {
+      id: '/idplayer2'
+      path: '/idplayer2'
+      fullPath: '/idplayer2'
+      preLoaderRoute: typeof Idplayer2RouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/presell': {
       id: '/presell'
       path: '/presell'
@@ -294,6 +327,13 @@ declare module '@tanstack/react-router' {
       path: '/recharge'
       fullPath: '/recharge'
       preLoaderRoute: typeof RechargeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/recharge2': {
+      id: '/recharge2'
+      path: '/recharge2'
+      fullPath: '/recharge2'
+      preLoaderRoute: typeof Recharge2RouteImport
       parentRoute: typeof rootRouteImport
     }
     '/roleta': {
@@ -360,10 +400,12 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutSuccessRoute: CheckoutSuccessRoute,
   DashboardRoute: DashboardRoute,
   IdplayerRoute: IdplayerRoute,
+  Idplayer2Route: Idplayer2Route,
   PresellRoute: PresellRoute,
   QuizRoute: QuizRoute,
   Quiz2Route: Quiz2Route,
   RechargeRoute: RechargeRoute,
+  Recharge2Route: Recharge2Route,
   RoletaRoute: RoletaRoute,
   BrIdplayerRoute: BrIdplayerRoute,
   BrQuizRoute: BrQuizRoute,

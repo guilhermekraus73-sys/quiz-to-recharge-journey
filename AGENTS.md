@@ -4,4 +4,4 @@
 - Spanish funnel keeps Shopify checkout; Brazilian funnel no longer uses Shopify.
 - Seasonal Brazilian visuals live in a presentation-only wrapper under components/br and scoped CSS so payment, tracking, and Spanish pages stay unchanged.
 - Spanish seasonal visuals use a separate presentation-only wrapper and es-halloween-scoped styling on main funnel routes; never change checkout handoff or tracking to apply a theme.
-- Alternate /quiz2 reuses the Spanish quiz components and tracking with route-scoped background styling, so variants cannot change the original quiz or its checkout handoff.
+- The alternate /quiz2 → /idplayer2 → /recharge2 funnel shares a presentation-only NarutoTheme and existing Spanish tracking/Shopify handoff; QuizResult defaults to the original ID destination so variants cannot alter the main funnel.
