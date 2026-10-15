@@ -12,3 +12,4 @@
 # Naruto quiz variant
 - [x] Duplicate /quiz at /quiz2 with an isolated Free Fire × Naruto background, preserving questions, result, navigation, and tracking.
 - [x] Verify /quiz2 through result → ID with UTMs and confirm /quiz stays unchanged.
+- [x] Replace the alternate quiz scenery with the user's Naruto artwork and keep characters visible above the quiz.

@@ -5,7 +5,7 @@ import QuizQuestions from "@/components/QuizQuestions";
 import QuizResult from "@/components/QuizResult";
 import SocialProofToasts from "@/components/SocialProofToasts";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
-import ninjaBackground from "@/assets/quiz2-ninja-background.jpg";
+import ninjaBackground from "@/assets/quiz2_naruto_reference.png.asset.json";
 
 type QuizStep = "landing" | "questions" | "result";
 
@@ -30,7 +30,7 @@ function QuizTwoPage() {
   return (
     <div className="quiz-ninja min-h-screen isolate">
       <div className="quiz-ninja-scenery" aria-hidden="true">
-        <img src={ninjaBackground} alt="" width={1536} height={1024} fetchPriority="high" className="quiz-ninja-backdrop" />
+        <img src={ninjaBackground.url} alt="" width={648} height={364} fetchPriority="high" className="quiz-ninja-backdrop" />
         <div className="quiz-ninja-veil" />
       </div>
       <main className="quiz-ninja-content container relative pb-12">

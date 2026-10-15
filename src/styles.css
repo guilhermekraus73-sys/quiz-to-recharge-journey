@@ -141,36 +141,38 @@
 
 /* Alternate quiz presentation never affects the original funnel. */
 .quiz-ninja {
-  --background: 160 22% 6%;
-  --card: 160 18% 9%;
-  --secondary: 160 14% 15%;
-  --muted: 160 14% 15%;
-  --muted-foreground: 150 8% 76%;
-  --border: 160 15% 24%;
-  --ninja-shade: hsl(var(--background) / 0.25);
-  --ninja-panel: hsl(var(--card) / 0.94);
+  --background: 240 10% 4%;
+  --card: 240 8% 9%;
+  --secondary: 240 6% 14%;
+  --muted: 240 6% 14%;
+  --muted-foreground: 240 5% 76%;
+  --border: 22 25% 24%;
+  --ninja-shade: linear-gradient(to bottom, transparent 65%, hsl(var(--background)) 100%);
+  --ninja-panel: hsl(var(--card) / 0.97);
   --ninja-outline: hsl(var(--primary) / 0.4);
   --ninja-shadow: 0 16px 48px hsl(var(--background) / 0.55);
+  position: relative;
   background: hsl(var(--background));
 }
 .quiz-ninja-scenery {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  inset: 0 0 auto;
+  height: clamp(240px, 56vw, 620px);
   z-index: -1;
   pointer-events: none;
 }
 .quiz-ninja-backdrop {
   width: 100%;
-  height: auto;
+  height: 100%;
   object-fit: cover;
-  object-position: center top;
+  object-position: center center;
 }
 .quiz-ninja-veil {
   position: absolute;
   inset: 0;
   background: var(--ninja-shade);
 }
-.quiz-ninja-content { padding-top: 48px; }
+.quiz-ninja-content { padding-top: clamp(220px, 45vw, 500px); }
 .quiz-ninja .bg-card {
   background-color: var(--ninja-panel);
   border: 1px solid var(--ninja-outline);
@@ -178,12 +180,7 @@
 }
 .quiz-ninja h1, .quiz-ninja h2, .quiz-ninja h3 { letter-spacing: 0; }
 @media (max-width: 767px) {
-  .quiz-ninja-scenery { position: absolute; height: 520px; }
-  .quiz-ninja-backdrop { height: 100%; object-position: 20% top; }
-  .quiz-ninja-veil {
-    background: linear-gradient(to bottom, transparent 40%, hsl(var(--background)) 100%);
-  }
-  .quiz-ninja-content { padding-top: 225px; }
+  .quiz-ninja-backdrop { object-position: 50% center; }
 }
 
 /* Seasonal presentation is isolated from the Spanish funnel and tracking. */
