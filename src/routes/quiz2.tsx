@@ -29,8 +29,8 @@ function QuizTwoPage() {
 
   return (
     <NarutoTheme>
-      <main className="quiz-ninja-content container relative pb-12">
-        <div className={`max-w-md mx-auto w-full${step === "landing" ? " quiz-ninja-landing" : ""}`}>
+      <main className="container relative py-8 md:py-12">
+        <div className="max-w-md mx-auto">
           {step === "landing" && <QuizLanding onStart={() => setStep("questions")} />}
           {step === "questions" && <QuizQuestions onComplete={() => setStep("result")} />}
           {step === "questions" && <SocialProofToasts />}

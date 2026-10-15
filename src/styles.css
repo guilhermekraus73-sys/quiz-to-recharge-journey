@@ -176,12 +176,6 @@
   inset: 0;
   background: var(--ninja-shade);
 }
-.quiz-ninja-content {
-  min-height: 100svh;
-  display: flex;
-  align-items: center;
-  padding-block: 16px;
-}
 .quiz-ninja .bg-card {
   background-color: var(--ninja-panel);
   border: 1px solid var(--ninja-outline);
@@ -199,24 +193,6 @@
 .quiz-ninja h1, .quiz-ninja h2, .quiz-ninja h3 { letter-spacing: 0; }
 @media (max-width: 767px) {
   .quiz-ninja-backdrop { object-position: 50% top; }
-  .quiz-ninja-landing > div > div:first-child { margin: 0 0 6px; }
-  .quiz-ninja-landing img { width: 150px; height: 36px; }
-  .quiz-ninja-landing > div > div:nth-child(2) {
-    padding: 6px;
-    margin-bottom: 8px;
-    background: hsl(var(--card) / 0.94);
-    border-radius: 4px;
-  }
-  .quiz-ninja-landing > div > div:nth-child(2) p { font-size: 11px; line-height: 16px; }
-  .quiz-ninja-landing .bg-card { padding: 14px; }
-  .quiz-ninja-landing .bg-card > div:first-child { margin-bottom: 10px; }
-  .quiz-ninja-landing h1 { font-size: 18px; line-height: 24px; margin-bottom: 6px; }
-  .quiz-ninja-landing .bg-card p { font-size: 13px; line-height: 20px; }
-  .quiz-ninja-landing .space-y-3 { margin-bottom: 10px; }
-  .quiz-ninja-landing .space-y-3 > div { padding: 8px; font-size: 13px; }
-  .quiz-ninja-landing .space-y-3 > :not(:last-child) { margin-bottom: 4px; }
-  .quiz-ninja-landing .text-warning { padding: 6px 8px; margin-bottom: 10px; font-size: 11px; }
-  .quiz-ninja-landing button { padding: 12px; font-size: 15px; line-height: 20px; }
 }
 
 .ninja-continuation > main { position: relative; }
