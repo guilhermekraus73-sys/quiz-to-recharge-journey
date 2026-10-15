@@ -180,7 +180,31 @@
 }
 .quiz-ninja h1, .quiz-ninja h2, .quiz-ninja h3 { letter-spacing: 0; }
 @media (max-width: 767px) {
+  .quiz-ninja-scenery { position: fixed; height: 100svh; }
   .quiz-ninja-backdrop { object-position: 50% center; }
+  .quiz-ninja-veil {
+    background: linear-gradient(to bottom, hsl(var(--background) / 0.45), hsl(var(--background) / 0.8));
+  }
+  .quiz-ninja-content {
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    padding-top: 16px;
+    padding-bottom: 16px;
+  }
+  .quiz-ninja-landing > div > div:first-child { margin: 0 0 10px; }
+  .quiz-ninja-landing img { width: 180px; height: 52px; }
+  .quiz-ninja-landing > div > div:nth-child(2) { padding: 8px; margin-bottom: 10px; }
+  .quiz-ninja-landing > div > div:nth-child(2) p { font-size: 11px; line-height: 16px; }
+  .quiz-ninja-landing .bg-card { padding: 16px; }
+  .quiz-ninja-landing .bg-card > div:first-child { margin-bottom: 12px; }
+  .quiz-ninja-landing h1 { font-size: 18px; line-height: 24px; margin-bottom: 8px; }
+  .quiz-ninja-landing .bg-card p { font-size: 13px; line-height: 20px; }
+  .quiz-ninja-landing .space-y-3 { margin-bottom: 12px; }
+  .quiz-ninja-landing .space-y-3 > div { padding: 8px; font-size: 13px; }
+  .quiz-ninja-landing .space-y-3 > :not(:last-child) { margin-bottom: 6px; }
+  .quiz-ninja-landing .text-warning { padding: 6px 8px; margin-bottom: 12px; font-size: 11px; }
+  .quiz-ninja-landing button { padding: 12px; font-size: 15px; line-height: 20px; }
 }
 
 /* Seasonal presentation is isolated from the Spanish funnel and tracking. */

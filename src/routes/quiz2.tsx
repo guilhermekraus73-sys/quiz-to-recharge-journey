@@ -34,7 +34,7 @@ function QuizTwoPage() {
         <div className="quiz-ninja-veil" />
       </div>
       <main className="quiz-ninja-content container relative pb-12">
-        <div className="max-w-md mx-auto">
+        <div className={`max-w-md mx-auto w-full${step === "landing" ? " quiz-ninja-landing" : ""}`}>
           {step === "landing" && <QuizLanding onStart={() => setStep("questions")} />}
           {step === "questions" && <QuizQuestions onComplete={() => setStep("result")} />}
           {step === "questions" && <SocialProofToasts />}
