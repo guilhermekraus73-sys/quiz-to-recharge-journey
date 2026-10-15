@@ -6,5 +6,5 @@
 - [x] Verify quiz → ID → recharge → checkout with UTMs preserved, plus desktop/mobile Halloween layout; no PIX charge generated.
 
 # Spanish Halloween
-- [ ] Add immersive Halloween scenery and multiple seasonal details throughout the main Spanish funnel, without changing its logic.
-- [ ] Verify Spanish quiz → ID → recharge and unchanged Shopify handoff on desktop/mobile.
+- [x] Add immersive Halloween scenery and multiple seasonal details throughout the main Spanish funnel, without changing its logic.
+- [x] Verify Spanish quiz → ID → recharge and unchanged Shopify handoff with URL UTMs and cart attributes on desktop/mobile; Brazilian visuals remain isolated.
