@@ -214,7 +214,6 @@
   --ring: 25 100% 57%;
   --halloween-moon: oklch(0.84 0.09 302);
   --seasonal-card-shadow: 0 8px 28px hsl(var(--background) / 0.6), 0 0 0 1px hsl(var(--primary) / 0.23);
-  --seasonal-pumpkins: url("./assets/halloween-pumpkins.png");
   --seasonal-veil: linear-gradient(to bottom, hsl(var(--background) / 0.25), hsl(var(--background) / 0.75) 50%, hsl(var(--background)) 90%);
   background: hsl(var(--background));
   color: hsl(var(--foreground));
@@ -231,7 +230,7 @@
 .es-halloween .go-to-checkout { position: relative; border-radius: 8px; }
 .es-halloween .go-to-checkout::after {
   content: ""; position: absolute; right: 3px; top: 29px; width: 32px; height: 32px;
-  background: var(--seasonal-pumpkins) center / contain no-repeat; pointer-events: none;
+  background: url("./assets/halloween-pumpkins.png") center / contain no-repeat; pointer-events: none;
 }
 .es-halloween .go-to-checkout:hover { box-shadow: 0 0 24px hsl(var(--primary) / 0.3); }
 .es-halloween .bg-secondary\/50 { border-left: 2px solid hsl(var(--primary) / 0.55); }
