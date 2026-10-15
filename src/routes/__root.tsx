@@ -12,6 +12,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import HalloweenTheme from "@/components/br/HalloweenTheme";
+import SpanishHalloweenTheme from "@/components/HalloweenTheme";
 
 declare global {
   interface Window {
@@ -173,11 +174,12 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouter().state.location.pathname;
   const isBr = pathname === "/br" || pathname.startsWith("/br/");
+  const isSpanishFunnel = ["/", "/quiz", "/idplayer", "/recharge"].includes(pathname);
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      {isBr ? <HalloweenTheme><Outlet /></HalloweenTheme> : <Outlet />}
+      {isBr ? <HalloweenTheme><Outlet /></HalloweenTheme> : isSpanishFunnel ? <SpanishHalloweenTheme><Outlet /></SpanishHalloweenTheme> : <Outlet />}
     </QueryClientProvider>
   );
 }
