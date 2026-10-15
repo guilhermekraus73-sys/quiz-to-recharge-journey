@@ -224,6 +224,19 @@
   .quiz-ninja-landing button { padding: 12px; font-size: 15px; line-height: 20px; }
 }
 
+.ninja-continuation > main { position: relative; padding-top: clamp(180px, 38vw, 420px); }
+.ninja-continuation .quiz-ninja-scenery picture { display: block; height: 100%; }
+.ninja-continuation .go-to-checkout > div:first-child {
+  background: hsl(var(--primary) / 0.18);
+  color: hsl(var(--foreground));
+  border-bottom: 1px solid var(--ninja-outline);
+  letter-spacing: 0;
+}
+.ninja-continuation .text-violet-400 { color: hsl(var(--ninja-chakra)); }
+@media (max-width: 767px) {
+  .ninja-continuation > main { padding-top: 165px; }
+}
+
 /* Seasonal presentation is isolated from the Spanish funnel and tracking. */
 .br-halloween {
   --background: 260 16% 5%;

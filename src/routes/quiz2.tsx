@@ -5,8 +5,7 @@ import QuizQuestions from "@/components/QuizQuestions";
 import QuizResult from "@/components/QuizResult";
 import SocialProofToasts from "@/components/SocialProofToasts";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
-import ninjaBackground from "@/assets/quiz2_naruto_reference.png.asset.json";
-import ninjaPortrait from "@/assets/quiz2-naruto-portrait.jpg";
+import NarutoTheme from "@/components/NarutoTheme";
 
 type QuizStep = "landing" | "questions" | "result";
 
@@ -29,22 +28,15 @@ function QuizTwoPage() {
   const [step, setStep] = useState<QuizStep>("landing");
 
   return (
-    <div className="quiz-ninja min-h-screen isolate">
-      <div className="quiz-ninja-scenery" aria-hidden="true">
-        <picture>
-          <source media="(max-width: 767px)" srcSet={ninjaPortrait} />
-          <img src={ninjaBackground.url} alt="" width={648} height={364} fetchPriority="high" className="quiz-ninja-backdrop" />
-        </picture>
-        <div className="quiz-ninja-veil" />
-      </div>
+    <NarutoTheme>
       <main className="quiz-ninja-content container relative pb-12">
         <div className={`max-w-md mx-auto w-full${step === "landing" ? " quiz-ninja-landing" : ""}`}>
           {step === "landing" && <QuizLanding onStart={() => setStep("questions")} />}
           {step === "questions" && <QuizQuestions onComplete={() => setStep("result")} />}
           {step === "questions" && <SocialProofToasts />}
-          {step === "result" && <QuizResult />}
+          {step === "result" && <QuizResult nextPage="/idplayer2" />}
         </div>
       </main>
-    </div>
+    </NarutoTheme>
   );
 }
