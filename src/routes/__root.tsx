@@ -11,6 +11,7 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import HalloweenTheme from "@/components/br/HalloweenTheme";
 
 declare global {
   interface Window {
@@ -170,11 +171,13 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const pathname = useRouter().state.location.pathname;
+  const isBr = pathname === "/br" || pathname.startsWith("/br/");
 
   return (
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      {isBr ? <HalloweenTheme><Outlet /></HalloweenTheme> : <Outlet />}
     </QueryClientProvider>
   );
 }
