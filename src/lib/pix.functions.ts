@@ -59,7 +59,7 @@ export const createPixOrder = createServerFn({ method: "POST" })
       payment_method: "pix",
       postback_url: origin.startsWith("https://") ? `${origin}/api/public/freepay-webhook` : undefined,
       customer: { name: data.name, email: data.email, document: { number: data.cpf, type: "cpf" }, phone: data.phone },
-      items: [{ title: planName, unit_price: pkg.cents, quantity: 1, tangible: false, external_ref: order.id }],
+      items: [{ title: "E-book de receitas com casca de banana", unit_price: pkg.cents, quantity: 1, tangible: false, external_ref: order.id }],
       pix: { expires_in_days: 1 },
       metadata: { provider_name: "Funil Magico", order_id: order.id },
       ...(ip ? { ip } : {}),
