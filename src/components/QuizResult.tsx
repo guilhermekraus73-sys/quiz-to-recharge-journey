@@ -1,7 +1,7 @@
 import { CheckCircle2, Clock, Gift } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 
-const QuizResult = ({ nextPage = "/idplayer" }: { nextPage?: "/idplayer" | "/idplayer2" }) => {
+const QuizResult = ({ nextPage = "/idplayer" }: { nextPage?: "/idplayer" | "/idplayer2" | "/es/idplayer" }) => {
   const navigate = useNavigate();
 
   const preserveSearch = () =>
