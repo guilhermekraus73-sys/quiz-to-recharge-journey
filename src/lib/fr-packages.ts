@@ -1,12 +1,12 @@
 import { resolveTracking } from "@/lib/tracking";
 
 export const frPackages = [
-  { diamonds: "5 600", bonus: "1 200", cents: 990, badge: "MEILLEUR PRIX", variant: "53818484425040" },
-  { diamonds: "11 200", bonus: "2 240", cents: 1590, badge: "LE PLUS POPULAIRE", variant: "53818484457808" },
-  { diamonds: "22 400", bonus: "4 480", cents: 1990, badge: "MEILLEURE OFFRE", variant: "53818484490576" },
-  { diamonds: "29 500", bonus: "5 900", cents: 2590, badge: "AVANTAGE MAXIMAL", variant: "53818484523344" },
-  { diamonds: "39 200", bonus: "7 840", cents: 2990, badge: "SUPER PACK", variant: "53818484556112" },
-  { diamonds: "56 000", bonus: "11 200", cents: 3590, badge: "MÉGA PACK", variant: "53818484588880" },
+  { diamonds: "5 600", bonus: "1 200", cents: 995, badge: "MEILLEUR PRIX", variant: "53818484425040" },
+  { diamonds: "11 200", bonus: "2 240", cents: 1695, badge: "LE PLUS POPULAIRE", variant: "53818484457808" },
+  { diamonds: "22 400", bonus: "4 480", cents: 1895, badge: "MEILLEURE OFFRE", variant: "53818484490576" },
+  { diamonds: "29 500", bonus: "5 900", cents: 2495, badge: "AVANTAGE MAXIMAL", variant: "53818484523344" },
+  { diamonds: "39 200", bonus: "7 840", cents: 2995, badge: "SUPER PACK", variant: "53818484556112" },
+  { diamonds: "56 000", bonus: "11 200", cents: 3495, badge: "MÉGA PACK", variant: "53818484588880" },
 ] as const;
 
 export const formatEUR = (cents: number) => new Intl.NumberFormat("fr-FR", { style: "currency", currency: "EUR" }).format(cents / 100);
