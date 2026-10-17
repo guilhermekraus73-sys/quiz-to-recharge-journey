@@ -25,6 +25,7 @@ import { Route as BrIdplayerRouteImport } from './routes/br.idplayer'
 import { Route as BrQuizRouteImport } from './routes/br.quiz'
 import { Route as BrRechargeRouteImport } from './routes/br.recharge'
 import { Route as CheckoutPlanIdRouteImport } from './routes/checkout.$planId'
+import { Route as FrIndexRouteImport } from './routes/fr.index'
 import { Route as FrIdplayerRouteImport } from './routes/fr.idplayer'
 import { Route as FrQuizRouteImport } from './routes/fr.quiz'
 import { Route as ApiPublicFreepayWebhookRouteImport } from './routes/api/public/freepay-webhook'
@@ -110,6 +111,11 @@ const CheckoutPlanIdRoute = CheckoutPlanIdRouteImport.update({
   path: '/checkout/$planId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const FrIndexRoute = FrIndexRouteImport.update({
+  id: '/fr/',
+  path: '/fr/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FrIdplayerRoute = FrIdplayerRouteImport.update({
   id: '/fr/idplayer',
   path: '/fr/idplayer',
@@ -150,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/fr/idplayer': typeof FrIdplayerRoute
   '/fr/quiz': typeof FrQuizRoute
   '/br/': typeof BrIndexRoute
+  '/fr/': typeof FrIndexRoute
   '/api/public/freepay-webhook': typeof ApiPublicFreepayWebhookRoute
   '/br/checkout/$plan': typeof BrCheckoutPlanRoute
 }
@@ -172,6 +179,7 @@ export interface FileRoutesByTo {
   '/fr/idplayer': typeof FrIdplayerRoute
   '/fr/quiz': typeof FrQuizRoute
   '/br': typeof BrIndexRoute
+  '/fr': typeof FrIndexRoute
   '/api/public/freepay-webhook': typeof ApiPublicFreepayWebhookRoute
   '/br/checkout/$plan': typeof BrCheckoutPlanRoute
 }
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/fr/idplayer': typeof FrIdplayerRoute
   '/fr/quiz': typeof FrQuizRoute
   '/br/': typeof BrIndexRoute
+  '/fr/': typeof FrIndexRoute
   '/api/public/freepay-webhook': typeof ApiPublicFreepayWebhookRoute
   '/br/checkout/$plan': typeof BrCheckoutPlanRoute
 }
@@ -219,6 +228,7 @@ export interface FileRouteTypes {
     | '/fr/idplayer'
     | '/fr/quiz'
     | '/br/'
+    | '/fr/'
     | '/api/public/freepay-webhook'
     | '/br/checkout/$plan'
   fileRoutesByTo: FileRoutesByTo
@@ -241,6 +251,7 @@ export interface FileRouteTypes {
     | '/fr/idplayer'
     | '/fr/quiz'
     | '/br'
+    | '/fr'
     | '/api/public/freepay-webhook'
     | '/br/checkout/$plan'
   id:
@@ -263,6 +274,7 @@ export interface FileRouteTypes {
     | '/fr/idplayer'
     | '/fr/quiz'
     | '/br/'
+    | '/fr/'
     | '/api/public/freepay-webhook'
     | '/br/checkout/$plan'
   fileRoutesById: FileRoutesById
@@ -286,6 +298,7 @@ export interface RootRouteChildren {
   FrIdplayerRoute: typeof FrIdplayerRoute
   FrQuizRoute: typeof FrQuizRoute
   BrIndexRoute: typeof BrIndexRoute
+  FrIndexRoute: typeof FrIndexRoute
   ApiPublicFreepayWebhookRoute: typeof ApiPublicFreepayWebhookRoute
   BrCheckoutPlanRoute: typeof BrCheckoutPlanRoute
 }
@@ -404,6 +417,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutPlanIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/fr/': {
+      id: '/fr/'
+      path: '/fr'
+      fullPath: '/fr/'
+      preLoaderRoute: typeof FrIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fr/idplayer': {
       id: '/fr/idplayer'
       path: '/fr/idplayer'
@@ -454,6 +474,7 @@ const rootRouteChildren: RootRouteChildren = {
   FrIdplayerRoute: FrIdplayerRoute,
   FrQuizRoute: FrQuizRoute,
   BrIndexRoute: BrIndexRoute,
+  FrIndexRoute: FrIndexRoute,
   ApiPublicFreepayWebhookRoute: ApiPublicFreepayWebhookRoute,
   BrCheckoutPlanRoute: BrCheckoutPlanRoute,
 }
