@@ -25,6 +25,10 @@ import { Route as BrIdplayerRouteImport } from './routes/br.idplayer'
 import { Route as BrQuizRouteImport } from './routes/br.quiz'
 import { Route as BrRechargeRouteImport } from './routes/br.recharge'
 import { Route as CheckoutPlanIdRouteImport } from './routes/checkout.$planId'
+import { Route as EsIndexRouteImport } from './routes/es.index'
+import { Route as EsIdplayerRouteImport } from './routes/es.idplayer'
+import { Route as EsQuizRouteImport } from './routes/es.quiz'
+import { Route as EsRechargeRouteImport } from './routes/es.recharge'
 import { Route as FrIndexRouteImport } from './routes/fr.index'
 import { Route as FrIdplayerRouteImport } from './routes/fr.idplayer'
 import { Route as FrQuizRouteImport } from './routes/fr.quiz'
@@ -112,6 +116,26 @@ const CheckoutPlanIdRoute = CheckoutPlanIdRouteImport.update({
   path: '/checkout/$planId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EsIndexRoute = EsIndexRouteImport.update({
+  id: '/es/',
+  path: '/es/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsIdplayerRoute = EsIdplayerRouteImport.update({
+  id: '/es/idplayer',
+  path: '/es/idplayer',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsQuizRoute = EsQuizRouteImport.update({
+  id: '/es/quiz',
+  path: '/es/quiz',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EsRechargeRoute = EsRechargeRouteImport.update({
+  id: '/es/recharge',
+  path: '/es/recharge',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FrIndexRoute = FrIndexRouteImport.update({
   id: '/fr/',
   path: '/fr/',
@@ -159,10 +183,14 @@ export interface FileRoutesByFullPath {
   '/br/quiz': typeof BrQuizRoute
   '/br/recharge': typeof BrRechargeRoute
   '/checkout/$planId': typeof CheckoutPlanIdRoute
+  '/es/idplayer': typeof EsIdplayerRoute
+  '/es/quiz': typeof EsQuizRoute
+  '/es/recharge': typeof EsRechargeRoute
   '/fr/idplayer': typeof FrIdplayerRoute
   '/fr/quiz': typeof FrQuizRoute
   '/fr/recharge': typeof FrRechargeRoute
   '/br/': typeof BrIndexRoute
+  '/es/': typeof EsIndexRoute
   '/fr/': typeof FrIndexRoute
   '/api/public/freepay-webhook': typeof ApiPublicFreepayWebhookRoute
   '/br/checkout/$plan': typeof BrCheckoutPlanRoute
@@ -183,10 +211,14 @@ export interface FileRoutesByTo {
   '/br/quiz': typeof BrQuizRoute
   '/br/recharge': typeof BrRechargeRoute
   '/checkout/$planId': typeof CheckoutPlanIdRoute
+  '/es/idplayer': typeof EsIdplayerRoute
+  '/es/quiz': typeof EsQuizRoute
+  '/es/recharge': typeof EsRechargeRoute
   '/fr/idplayer': typeof FrIdplayerRoute
   '/fr/quiz': typeof FrQuizRoute
   '/fr/recharge': typeof FrRechargeRoute
   '/br': typeof BrIndexRoute
+  '/es': typeof EsIndexRoute
   '/fr': typeof FrIndexRoute
   '/api/public/freepay-webhook': typeof ApiPublicFreepayWebhookRoute
   '/br/checkout/$plan': typeof BrCheckoutPlanRoute
@@ -208,10 +240,14 @@ export interface FileRoutesById {
   '/br/quiz': typeof BrQuizRoute
   '/br/recharge': typeof BrRechargeRoute
   '/checkout/$planId': typeof CheckoutPlanIdRoute
+  '/es/idplayer': typeof EsIdplayerRoute
+  '/es/quiz': typeof EsQuizRoute
+  '/es/recharge': typeof EsRechargeRoute
   '/fr/idplayer': typeof FrIdplayerRoute
   '/fr/quiz': typeof FrQuizRoute
   '/fr/recharge': typeof FrRechargeRoute
   '/br/': typeof BrIndexRoute
+  '/es/': typeof EsIndexRoute
   '/fr/': typeof FrIndexRoute
   '/api/public/freepay-webhook': typeof ApiPublicFreepayWebhookRoute
   '/br/checkout/$plan': typeof BrCheckoutPlanRoute
@@ -234,10 +270,14 @@ export interface FileRouteTypes {
     | '/br/quiz'
     | '/br/recharge'
     | '/checkout/$planId'
+    | '/es/idplayer'
+    | '/es/quiz'
+    | '/es/recharge'
     | '/fr/idplayer'
     | '/fr/quiz'
     | '/fr/recharge'
     | '/br/'
+    | '/es/'
     | '/fr/'
     | '/api/public/freepay-webhook'
     | '/br/checkout/$plan'
@@ -258,10 +298,14 @@ export interface FileRouteTypes {
     | '/br/quiz'
     | '/br/recharge'
     | '/checkout/$planId'
+    | '/es/idplayer'
+    | '/es/quiz'
+    | '/es/recharge'
     | '/fr/idplayer'
     | '/fr/quiz'
     | '/fr/recharge'
     | '/br'
+    | '/es'
     | '/fr'
     | '/api/public/freepay-webhook'
     | '/br/checkout/$plan'
@@ -282,10 +326,14 @@ export interface FileRouteTypes {
     | '/br/quiz'
     | '/br/recharge'
     | '/checkout/$planId'
+    | '/es/idplayer'
+    | '/es/quiz'
+    | '/es/recharge'
     | '/fr/idplayer'
     | '/fr/quiz'
     | '/fr/recharge'
     | '/br/'
+    | '/es/'
     | '/fr/'
     | '/api/public/freepay-webhook'
     | '/br/checkout/$plan'
@@ -307,10 +355,14 @@ export interface RootRouteChildren {
   BrQuizRoute: typeof BrQuizRoute
   BrRechargeRoute: typeof BrRechargeRoute
   CheckoutPlanIdRoute: typeof CheckoutPlanIdRoute
+  EsIdplayerRoute: typeof EsIdplayerRoute
+  EsQuizRoute: typeof EsQuizRoute
+  EsRechargeRoute: typeof EsRechargeRoute
   FrIdplayerRoute: typeof FrIdplayerRoute
   FrQuizRoute: typeof FrQuizRoute
   FrRechargeRoute: typeof FrRechargeRoute
   BrIndexRoute: typeof BrIndexRoute
+  EsIndexRoute: typeof EsIndexRoute
   FrIndexRoute: typeof FrIndexRoute
   ApiPublicFreepayWebhookRoute: typeof ApiPublicFreepayWebhookRoute
   BrCheckoutPlanRoute: typeof BrCheckoutPlanRoute
@@ -430,6 +482,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CheckoutPlanIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/es/': {
+      id: '/es/'
+      path: '/es'
+      fullPath: '/es/'
+      preLoaderRoute: typeof EsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/es/idplayer': {
+      id: '/es/idplayer'
+      path: '/es/idplayer'
+      fullPath: '/es/idplayer'
+      preLoaderRoute: typeof EsIdplayerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/es/quiz': {
+      id: '/es/quiz'
+      path: '/es/quiz'
+      fullPath: '/es/quiz'
+      preLoaderRoute: typeof EsQuizRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/es/recharge': {
+      id: '/es/recharge'
+      path: '/es/recharge'
+      fullPath: '/es/recharge'
+      preLoaderRoute: typeof EsRechargeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fr/': {
       id: '/fr/'
       path: '/fr'
@@ -491,10 +571,14 @@ const rootRouteChildren: RootRouteChildren = {
   BrQuizRoute: BrQuizRoute,
   BrRechargeRoute: BrRechargeRoute,
   CheckoutPlanIdRoute: CheckoutPlanIdRoute,
+  EsIdplayerRoute: EsIdplayerRoute,
+  EsQuizRoute: EsQuizRoute,
+  EsRechargeRoute: EsRechargeRoute,
   FrIdplayerRoute: FrIdplayerRoute,
   FrQuizRoute: FrQuizRoute,
   FrRechargeRoute: FrRechargeRoute,
   BrIndexRoute: BrIndexRoute,
+  EsIndexRoute: EsIndexRoute,
   FrIndexRoute: FrIndexRoute,
   ApiPublicFreepayWebhookRoute: ApiPublicFreepayWebhookRoute,
   BrCheckoutPlanRoute: BrCheckoutPlanRoute,
