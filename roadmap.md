@@ -1,4 +1,9 @@
 # Brazilian funnel
+# French funnel
+- [ ] Create isolated /fr quiz → ID → recharge in French with translated images, euro offers, provided Shopify links and unchanged Spanish tracking scripts.
+- [ ] Verify complete French flow, all checkout links and UTM cart attributes; confirm existing funnels remain unchanged.
+
+# Brazilian funnel
 - [x] Create separate Brazilian Portuguese quiz, ID and recharge routes without changing the Spanish funnel.
 - [x] Translate embedded banner text and customer-facing copy; keep current USD packages and Shopify links.
 - [x] Verify quiz → ID → recharge → Shopify link with UTMs; external checkout payment controls render in pt-BR.
