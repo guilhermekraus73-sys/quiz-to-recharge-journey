@@ -174,7 +174,7 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouter().state.location.pathname;
   const isBr = pathname === "/br" || pathname.startsWith("/br/");
-  const isSpanishFunnel = ["/", "/quiz", "/idplayer", "/recharge"].includes(pathname);
+  const isSpanishFunnel = ["/", "/quiz", "/idplayer", "/recharge", "/quiz2", "/idplayer2", "/recharge2"].includes(pathname);
 
   return (
     <QueryClientProvider client={queryClient}>

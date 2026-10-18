@@ -1,17 +1,16 @@
 import { useState } from "react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { Info } from "lucide-react";
-import NarutoTheme from "@/components/NarutoTheme";
 import GarenaHeader from "@/components/GarenaHeader";
 import { useFunnelTracking } from "@/hooks/useFunnelTracking";
 
 export const Route = createFileRoute("/idplayer2")({
   head: () => ({
     meta: [
-      { title: "Identificar cuenta Naruto — Free Fire" },
-      { name: "description", content: "Ingresa tu ID de Free Fire y continúa tu evaluación en el tema Naruto." },
-      { property: "og:title", content: "Identificar cuenta Naruto — Free Fire" },
-      { property: "og:description", content: "Ingresa tu ID de Free Fire y continúa tu evaluación en el tema Naruto." },
+      { title: "Identificar cuenta — Free Fire (Edición Halloween)" },
+      { name: "description", content: "Ingresa tu ID de jugador de Free Fire para validar tu cuenta en la edición especial de Halloween." },
+      { property: "og:title", content: "Identificar cuenta — Free Fire (Edición Halloween)" },
+      { property: "og:description", content: "Ingresa tu ID de jugador de Free Fire para validar tu cuenta en la edición especial de Halloween." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -37,7 +36,7 @@ function IdPlayerTwoPage() {
   };
 
   return (
-    <NarutoTheme continuation>
+    <div className="min-h-screen gamer-bg">
       <main className="container py-4 sm:py-6 md:py-10">
         <div className="max-w-lg mx-auto">
           <GarenaHeader />
@@ -90,6 +89,6 @@ function IdPlayerTwoPage() {
           </div>
         </div>
       </main>
-    </NarutoTheme>
+    </div>
   );
 }
