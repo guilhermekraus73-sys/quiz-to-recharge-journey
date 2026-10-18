@@ -36,8 +36,8 @@ export default function NarutoTheme({ children, continuation = false }: { childr
         <Kunai className="ninja-drift ninja-drift-three" />
         <div className="ninja-cloud ninja-cloud-left" />
         <div className="ninja-cloud ninja-cloud-right" />
-        <Shuriken className="ninja-side-art ninja-side-left" />
-        <Shuriken className="ninja-side-art ninja-side-right" />
+        <Shuriken className="ninja-side-art ninja-side-left text-primary" />
+        <Shuriken className="ninja-side-art ninja-side-right text-primary" />
       </div>
       <header className="quiz-ninja-heading relative mx-auto flex max-w-lg items-center justify-center gap-3 px-4 pt-5">
         <Shuriken className="h-16 w-16 shrink-0 text-primary" />
@@ -45,7 +45,7 @@ export default function NarutoTheme({ children, continuation = false }: { childr
           <p className="text-xs font-semibold uppercase text-primary">Edición especial</p>
           <h2 className="font-display text-3xl font-bold text-foreground">NARUTO</h2>
         </div>
-        <Kunai className="h-8 w-12 shrink-0 text-primary" />
+        <Kunai className="h-12 w-12 shrink-0 rotate-45 text-primary" />
       </header>
       <div className="quiz-ninja-content relative">{children}</div>
       <footer aria-hidden="true" className="ninja-footer relative flex justify-center pb-6">
