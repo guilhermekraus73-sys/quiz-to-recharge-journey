@@ -6,4 +6,4 @@
 - Seasonal Brazilian visuals live in a presentation-only wrapper under components/br and scoped CSS so payment, tracking, and Spanish pages stay unchanged.
 - Spanish seasonal visuals use a separate presentation-only wrapper and es-halloween-scoped styling on main funnel routes; never change checkout handoff or tracking to apply a theme.
 - The alternate /quiz2 → /idplayer2 → /recharge2 funnel shares a presentation-only NarutoTheme and existing Spanish tracking/Shopify handoff; QuizResult defaults to the original ID destination so variants cannot alter the main funnel.
-- Keep NarutoTheme scenery fixed and outside document flow; scoped theme styles must not reserve layout space for artwork so shared funnel content retains its normal structure.
+- The /quiz2 theme wrapper must mirror the main funnel's theme wrapper (title band, fading scenery banner, footer band) so both funnels share identical layout; only artwork and palette may differ.

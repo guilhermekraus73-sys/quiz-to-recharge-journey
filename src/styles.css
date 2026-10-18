@@ -147,62 +147,56 @@
   --muted: 240 6% 14%;
   --muted-foreground: 240 5% 76%;
   --border: 22 25% 24%;
-  --ninja-shade: linear-gradient(to bottom, hsl(var(--background) / 0.55), hsl(var(--background) / 0.72));
-  --ninja-panel: hsl(var(--card) / 0.96);
-  --ninja-outline: hsl(var(--primary) / 0.7);
-  --ninja-chakra: 190 90% 58%;
-  --ninja-chakra-line: hsl(var(--ninja-chakra) / 0.4);
-  --ninja-shadow: 0 16px 48px hsl(var(--background) / 0.55);
-  position: relative;
+  --ninja-shadow: 0 8px 28px hsl(var(--background) / 0.6), 0 0 0 1px hsl(var(--primary) / 0.23);
+  --seasonal-veil: linear-gradient(to bottom, hsl(var(--background) / 0.3), hsl(var(--background) / 0.72) 55%, hsl(var(--background)) 92%);
   background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  position: relative;
 }
-.quiz-ninja-scenery {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  overflow: hidden;
+.quiz-ninja-scenery { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
+.quiz-ninja-scenery picture { position: absolute; top: 0; left: 0; display: block; width: 100%; height: 560px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 45%, transparent 96%);
+  mask-image: linear-gradient(to bottom, #000 0, #000 45%, transparent 96%);
 }
-.quiz-ninja-scenery picture { display: block; height: 100%; }
-.quiz-ninja-backdrop {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: center center;
-}
-.quiz-ninja-veil {
-  position: absolute;
-  inset: 0;
-  background: var(--ninja-shade);
-}
-.quiz-ninja .bg-card {
-  background-color: var(--ninja-panel);
-  border: 1px solid var(--ninja-outline);
-  box-shadow: var(--ninja-shadow);
-  border-radius: 8px;
-  border-top: 3px solid var(--ninja-outline);
-  border-bottom: 2px solid var(--ninja-chakra-line);
-}
-.quiz-ninja .bg-secondary\/50 {
-  border-left: 2px solid var(--ninja-chakra-line);
-  border-radius: 4px;
-}
-.quiz-ninja .text-success { color: hsl(var(--ninja-chakra)); }
-.quiz-ninja button { border-radius: 6px; }
+.quiz-ninja-backdrop { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
+.quiz-ninja-veil { position: absolute; inset: 0; background: var(--seasonal-veil); }
+.quiz-ninja-content > .min-h-screen { min-height: auto; background: transparent; }
+.quiz-ninja main.container { padding-top: 1.25rem; }
 .quiz-ninja h1, .quiz-ninja h2, .quiz-ninja h3 { letter-spacing: 0; }
+.quiz-ninja .bg-card { box-shadow: var(--ninja-shadow); }
+.quiz-ninja .bg-card.rounded-2xl { border-radius: 8px; border-top: 2px solid hsl(var(--primary) / 0.6); }
+.quiz-ninja .bg-secondary\/50 { border-left: 2px solid hsl(var(--primary) / 0.55); }
+.quiz-ninja input { border-color: hsl(var(--primary) / 0.35); }
+.quiz-ninja button:disabled { animation: none; }
+.ninja-drift { position: absolute; color: hsl(var(--primary)); opacity: 0.5; animation: ninja-spin 9s linear infinite; }
+.ninja-drift-one { width: 56px; left: 12%; top: 140px; }
+.ninja-drift-two { width: 36px; right: 15%; top: 235px; animation-duration: 13s; animation-direction: reverse; }
+.ninja-drift-three { width: 30px; right: 9%; top: 120px; animation-duration: 17s; }
+.ninja-side-art { position: absolute; width: 150px; top: 460px; opacity: 0.5; animation: seasonal-pumpkin-glow 5s ease-in-out infinite; }
+.ninja-side-left { left: max(16px, calc(50% - 470px)); }
+.ninja-side-right { right: max(16px, calc(50% - 470px)); transform: scaleX(-1); }
+.ninja-cloud { position: absolute; top: 0; width: 120px; height: 120px; opacity: 0.22;
+  background: repeating-radial-gradient(circle at top left, transparent 0 22px, hsl(var(--primary)) 23px 24px, transparent 25px 30px);
+  clip-path: polygon(0 0, 100% 0, 90% 20%, 80% 22%, 65% 43%, 45% 65%, 22% 80%, 20% 90%, 0 100%);
+}
+.ninja-cloud-left { left: 0; }
+.ninja-cloud-right { right: 0; transform: scaleX(-1); }
+@keyframes ninja-spin { to { transform: rotate(360deg); } }
 @media (max-width: 767px) {
   .quiz-ninja-backdrop { object-position: 50% top; }
 }
-
-.ninja-continuation > main { position: relative; }
-.ninja-continuation .go-to-checkout > div:first-child {
-  background: hsl(var(--primary) / 0.18);
-  color: hsl(var(--foreground));
-  border-bottom: 1px solid var(--ninja-outline);
-  letter-spacing: 0;
+@media (max-width: 800px) {
+  .ninja-side-art { display: none; }
+  .quiz-ninja-scenery picture { height: 360px; }
+  .ninja-drift-one { left: 3%; top: 110px; width: 25px; }
+  .ninja-drift-two { right: 3%; top: 200px; width: 22px; }
+  .ninja-drift-three { display: none; }
+  .ninja-cloud { width: 64px; height: 64px; }
 }
-.ninja-continuation .text-violet-400 { color: hsl(var(--ninja-chakra)); }
+@media (prefers-reduced-motion: reduce) {
+  .quiz-ninja *, .quiz-ninja *::before, .quiz-ninja *::after { animation: none !important; transition: none !important; }
+}
+.ninja-continuation main { position: relative; }
 
 /* Seasonal presentation is isolated from the Spanish funnel and tracking. */
 .br-halloween {
