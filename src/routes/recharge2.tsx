@@ -1,6 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { CheckCircle2 } from "lucide-react";
-import NarutoTheme from "@/components/NarutoTheme";
 import GarenaHeader from "@/components/GarenaHeader";
 import LiveViewersBadge from "@/components/LiveViewersBadge";
 import SocialProofToasts from "@/components/SocialProofToasts";
@@ -20,10 +19,10 @@ const packages = [
 export const Route = createFileRoute("/recharge2")({
   head: () => ({
     meta: [
-      { title: "Recargas Naruto — Diamantes Free Fire" },
-      { name: "description", content: "Elige tu recarga de diamantes con bono en la experiencia Free Fire × Naruto." },
-      { property: "og:title", content: "Recargas Naruto — Diamantes Free Fire" },
-      { property: "og:description", content: "Elige tu recarga de diamantes con bono en la experiencia Free Fire × Naruto." },
+      { title: "Recarga de Diamantes — Free Fire (Edición Halloween)" },
+      { name: "description", content: "Selecciona tu paquete de diamantes con bono especial desbloqueado en la edición especial de Halloween." },
+      { property: "og:title", content: "Recarga de Diamantes — Free Fire (Edición Halloween)" },
+      { property: "og:description", content: "Selecciona tu paquete de diamantes con bono especial desbloqueado en la edición especial de Halloween." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
     ],
@@ -59,7 +58,7 @@ function RechargeTwoPage() {
   useFunnelTracking("recharge");
 
   return (
-    <NarutoTheme continuation>
+    <div className="min-h-screen gamer-bg">
       <main className="container py-4 sm:py-6 md:py-10">
         <div className="max-w-lg mx-auto">
           <GarenaHeader />
@@ -129,6 +128,6 @@ function RechargeTwoPage() {
         </div>
       </main>
       <SocialProofToasts />
-    </NarutoTheme>
+    </div>
   );
 }
