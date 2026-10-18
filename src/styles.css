@@ -148,13 +148,16 @@
   --muted-foreground: 240 5% 76%;
   --border: 22 25% 24%;
   --ninja-shadow: 0 8px 28px hsl(var(--background) / 0.6), 0 0 0 1px hsl(var(--primary) / 0.23);
-  --seasonal-veil: linear-gradient(to bottom, hsl(var(--background) / 0.18), hsl(var(--background) / 0.68) 55%, hsl(var(--background)) 92%);
+  --seasonal-veil: linear-gradient(to bottom, hsl(var(--background) / 0.3), hsl(var(--background) / 0.72) 55%, hsl(var(--background)) 92%);
   background: hsl(var(--background));
   color: hsl(var(--foreground));
   position: relative;
 }
 .quiz-ninja-scenery { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: -1; }
-.quiz-ninja-scenery picture { position: absolute; top: 0; left: 0; display: block; width: 100%; height: 560px; }
+.quiz-ninja-scenery picture { position: absolute; top: 0; left: 0; display: block; width: 100%; height: 560px;
+  -webkit-mask-image: linear-gradient(to bottom, #000 0, #000 45%, transparent 96%);
+  mask-image: linear-gradient(to bottom, #000 0, #000 45%, transparent 96%);
+}
 .quiz-ninja-backdrop { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center 42%; }
 .quiz-ninja-veil { position: absolute; inset: 0; background: var(--seasonal-veil); }
 .quiz-ninja-content > .min-h-screen { min-height: auto; background: transparent; }
