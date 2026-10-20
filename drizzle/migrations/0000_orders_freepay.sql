@@ -1,2 +1,0 @@
-ALTER TABLE public.orders ADD COLUMN IF NOT EXISTS freepay_transaction_id text, ADD COLUMN IF NOT EXISTS pix_qr_code text, ADD COLUMN IF NOT EXISTS phone text;
-CREATE UNIQUE INDEX IF NOT EXISTS orders_freepay_tx_idx ON public.orders(freepay_transaction_id) WHERE freepay_transaction_id IS NOT NULL;
